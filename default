@@ -1,6 +1,6 @@
 server {
     listen 80;
-    root /usr/share/nginx/html/taskWeb;
+    root /usr/share/nginx/html/;
     index index.php index.html index.htm;
     try_files $uri $uri/  @rewrite;
     location / {
