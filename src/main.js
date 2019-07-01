@@ -6,12 +6,13 @@ import 'iview/dist/styles/iview.css';
 import HeaderLine from "@/components/HeaderLine";
 import './assets/style/widget-common.less';
 import * as filters from './filters/filters'
-
-
+import Vuetify from 'vuetify';
+import 'vuetify/dist/vuetify.min.css';
+import 'material-design-icons-iconfont';
 Vue.config.productionTip = false;
 
 Vue.use(iView);
-
+Vue.use(Vuetify);
 Vue.component('HeaderLine', HeaderLine);
 
 Object.keys(filters).forEach((key)=>{
