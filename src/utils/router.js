@@ -17,7 +17,7 @@ export default new Router({
         },
         {
             path: '/dash',
-            component: () => import('@/pages/dash-group/dash-root-page/dash-group.vue'),
+            component: () => import('@/pages/dash-root-page/dash-root-page.vue'),
             children:[
                 {
                     path: 'projects',

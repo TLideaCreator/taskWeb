@@ -3,7 +3,7 @@
         <v-toolbar app>
             <v-spacer></v-spacer>
             <v-avatar>
-                <img src="./assets/images/logo.png" style="width: 32px ; height: 32px"/>
+                <img src="../../assets/images/logo.png" style="width: 32px ; height: 32px"/>
             </v-avatar>
             <v-spacer></v-spacer>
         </v-toolbar>

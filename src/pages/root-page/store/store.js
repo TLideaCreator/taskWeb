@@ -5,6 +5,7 @@ import state from './state'
 import actions from './actions'
 import getters from './getters'
 
+
 Vue.use(Vuex);
 
 let debug = process.env.NODE_ENV !== 'production';
