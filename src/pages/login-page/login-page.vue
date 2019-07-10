@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-toolbar app>
+        <v-toolbar app :height="44">
             <v-spacer></v-spacer>
             <v-avatar>
                 <img src="../../assets/images/logo.png" style="width: 32px ; height: 32px"/>
