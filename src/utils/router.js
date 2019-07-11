@@ -17,7 +17,33 @@ export default new Router({
         },
         {
             path: '/dash',
-            component: () => import('@/pages/dash-root-page/dash-root-page.vue'),
+            component: () => import('@/pages/dash-root-page.vue'),
+            children:[
+                {
+                    path: '/admin',
+                    children:[
+                        {
+                            path: 'board',
+                            name: 'admin-board',
+                            component: () => import('@/pages/admin-board-page.vue')
+                        },
+                        {
+                            path: 'users',
+                            name: 'admin-user',
+                            component: () => import('@/pages/dash-group/dash-user-page/user-page.vue')
+                        },
+                    ]
+                },
+                {
+                    path: 'projects',
+                    name: 'project',
+                    component: () => import('@/pages/dash-group/dash-project-page/dash-project-page.vue')
+                },
+            ]
+        },
+        {
+            path: '/dash',
+            component: () => import('@/pages/dash-root-page.vue'),
             children:[
                 {
                     path: 'projects',
