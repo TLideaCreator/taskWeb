@@ -4,7 +4,7 @@
             <v-avatar :size="32">
                 <img :src="require('../assets/images/logo.png')" alt="avatar">
             </v-avatar>
-            <span style="font-size: 20px; font-weight: 900; padding-left: 10px" >有序</span>
+            <span style="font-size: 20px; font-weight: 900; padding-left: 10px" >优序</span>
             <v-text-field style="margin-left: 30px"></v-text-field>
             <v-spacer></v-spacer>
             <v-spacer></v-spacer>
