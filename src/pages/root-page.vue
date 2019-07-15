@@ -7,7 +7,7 @@
             </v-avatar>
             <v-spacer></v-spacer>
         </v-toolbar>
-        <v-toolbar app color="indigo" dark :height="44" v-else>
+        <v-toolbar app color="blue accent-2" dark :height="44" v-else>
             <v-avatar :size="32">
                 <img :src="require('../assets/images/logo.png')" alt="avatar">
             </v-avatar>
