@@ -1,5 +1,16 @@
 <template>
     <v-app>
+        <v-alert
+                v-model="alert"
+                dismissible
+                type="success"
+                style="z-index: 999; right: 0; top: 44px; margin: 0 0 0 50%"
+        >
+            This is a success alert that is closable.
+        </v-alert>
+        <v-snackbar right bottom>
+
+        </v-snackbar>
         <v-toolbar app :height="44" v-if="!isUserLogin">
             <v-spacer></v-spacer>
             <v-avatar>
@@ -62,19 +73,31 @@
     import {mapActions, mapGetters} from "vuex";
 
     export default {
+        data(){
+          return {
+              alert: true
+          }
+        },
         created() {
             this.init();
         },
         computed: {
             ...mapGetters([
+                'isAdmin',
                 'isUserLogin',
                 'avatarUrl'
             ])
         },
         methods:{
             ...mapActions([
-                'init'
-            ])
+                'init',
+            ]),
+            gotoAdminDash(){
+
+            },
+            logout(){
+
+            }
         }
     }
 </script>

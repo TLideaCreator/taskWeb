@@ -2,6 +2,9 @@ export default{
     isUserLogin(state) {
         return state.userInfo;
     },
+    isAdmin(state){
+        return state.userInfo.admin === 'Yes'
+    },
     avatarUrl(state) {
         let url = '';
         if (state.userInfo && state.userInfo.avatar) {

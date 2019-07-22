@@ -7,8 +7,6 @@ import consts from './constants';
 import date from './date';
 import loading from './loading';
 import toast from './toast';
-import notice from './notice';
-import modal from './modal';
 
 let storage = new Storage();
 let events = new Vue();
@@ -42,8 +40,6 @@ export {
     router,
     toast,
     loading,
-    notice,
-    modal,
     events,
     base64,
     http,
