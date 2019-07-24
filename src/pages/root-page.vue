@@ -8,13 +8,13 @@
                 v-model="loading.value"
                 :indeterminate="loading.query"
                 :query="loading.query"
-                style="position: absolute;z-index: 99; margin: 0; top: 44px"
+                class="progressStyle"
         ></v-progress-linear>
         <v-alert
                 v-model="alertFlag"
                 dismissible
                 :type="notice.type"
-                style="position:absolute;z-index: 999; right: 0; top: 44px; min-width: 40%"
+                class="noticeStyle"
         >
             {{ notice.msg }}
         </v-alert>
@@ -36,8 +36,8 @@
             <v-avatar :size="32">
                 <img :src="require('../assets/images/logo.png')" alt="avatar">
             </v-avatar>
-            <span style="font-size: 20px; font-weight: 900; padding-left: 10px">优序</span>
-            <v-text-field style="margin-left: 30px"></v-text-field>
+            <span class="titleStyle">优序</span>
+            <v-text-field class="ml-4"></v-text-field>
             <v-spacer></v-spacer>
             <v-spacer></v-spacer>
             <v-spacer></v-spacer>
@@ -140,5 +140,24 @@
 </script>
 
 <style lang="less" scoped>
+    .progressStyle {
+        position: absolute;
+        z-index: 99;
+        margin: 0;
+        top: 44px
+    }
 
+    .noticeStyle {
+        position: absolute;
+        z-index: 999;
+        right: 0;
+        top: 44px;
+        min-width: 40%
+    }
+
+    .titleStyle {
+        font-size: 20px;
+        font-weight: 900;
+        padding-left: 10px
+    }
 </style>

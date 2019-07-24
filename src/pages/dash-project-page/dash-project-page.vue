@@ -6,6 +6,9 @@
             </template>
         </v-breadcrumbs>
         <v-divider></v-divider>
+        <v-list>
+
+        </v-list>
     </v-layout>
 </template>
 
@@ -21,8 +24,15 @@
                         disabled: false,
                         href: '',
                     }
+                ],
+                projectList : [
+
                 ]
             }
+        },
+
+        methods: {
+
         }
     }
 </script>
