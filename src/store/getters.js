@@ -11,5 +11,14 @@ export default{
             url = require('../assets/images/avatar/' + state.userInfo.avatar + '.png')
         }
         return url;
+    },
+    notice(state){
+        return state.notice;
+    },
+    toast(state){
+        return state.toast;
+    },
+    loading(state){
+        return state.loading;
     }
 }

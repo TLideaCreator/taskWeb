@@ -1,8 +1,9 @@
-import {http, toast, consts} from '../utils';
+import {http, toast, consts, loading} from '../utils';
 
 
 export default {
     userLogin({acct, pwd}, callback) {
+        loading.start();
         http.postRequest('/api/guest/user/login',
             {
                 account: acct,
@@ -14,8 +15,10 @@ export default {
                 if (callback) {
                     callback(result.data);
                 }
+                loading.finish();
             }, () => {
                 toast.error('登录失败，请检查账号或密码');
+                loading.error();
             })
     },
 

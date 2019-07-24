@@ -1,7 +1,9 @@
 <template>
-    <v-layout>
-        <v-breadcrumbs>
-            <v-breadcrumbs-item>我的项目</v-breadcrumbs-item>
+    <v-layout column fill-height class="contentLayout">
+        <v-breadcrumbs :items="items">
+            <template v-slot:divider>
+                <v-icon>chevron_right</v-icon>
+            </template>
         </v-breadcrumbs>
         <v-divider></v-divider>
     </v-layout>
@@ -11,6 +13,17 @@
 
     export default {
         name: 'dash-project-page',
+        data() {
+            return {
+                items: [
+                    {
+                        text: '我的项目',
+                        disabled: false,
+                        href: '',
+                    }
+                ]
+            }
+        }
     }
 </script>
 

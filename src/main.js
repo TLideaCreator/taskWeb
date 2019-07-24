@@ -2,7 +2,6 @@ import Vue from 'vue';
 import App from './pages/root-page.vue';
 import {http,router} from './utils';
 import HeaderLine from "@/components/HeaderLine";
-import './assets/style/widget-common.less';
 import * as filters from './filters/filters'
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';

@@ -5,6 +5,7 @@ import http from './http-client';
 import Storage from './storage';
 import consts from './constants';
 import date from './date';
+import notice from './notice';
 import loading from './loading';
 import toast from './toast';
 
@@ -45,5 +46,6 @@ export {
     http,
     consts,
     date,
+    notice,
     stringIsEmpty
 }

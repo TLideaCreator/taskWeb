@@ -1,15 +1,29 @@
 <template>
     <v-app>
+        <v-progress-linear
+                :color="loading.color"
+                striped
+                :height="8"
+                v-show="loadingFlag"
+                v-model="loading.value"
+                :indeterminate="loading.query"
+                :query="loading.query"
+                style="position: absolute;z-index: 99; margin: 0; top: 44px"
+        ></v-progress-linear>
         <v-alert
-                v-model="alert"
+                v-model="alertFlag"
                 dismissible
-                type="success"
-                style="z-index: 999; right: 0; top: 44px; margin: 0 0 0 50%"
+                :type="notice.type"
+                style="position:absolute;z-index: 999; right: 0; top: 44px; min-width: 40%"
         >
-            This is a success alert that is closable.
+            {{ notice.msg }}
         </v-alert>
-        <v-snackbar right bottom>
-
+        <v-snackbar right bottom
+                    :color="toast.color"
+                    v-model="toastFlag"
+                    :timeout="3500"
+        >
+            {{toast.msg}}
         </v-snackbar>
         <v-toolbar app :height="44" v-if="!isUserLogin">
             <v-spacer></v-spacer>
@@ -58,7 +72,7 @@
         <v-content app>
             <router-view></router-view>
         </v-content>
-        <v-footer app v-show="!isUserLogin">
+        <v-footer app>
             <v-layout align-center justify-center row>
                 <v-flex text-xs-center xs12>
                     ©️Tommy Lee
@@ -73,29 +87,52 @@
     import {mapActions, mapGetters} from "vuex";
 
     export default {
-        data(){
-          return {
-              alert: true
-          }
-        },
         created() {
             this.init();
         },
         computed: {
+            alertFlag: {
+                set(val) {
+                    this.$store.commit('updateAlertFlag', val)
+                },
+                get() {
+                    return this.$store.state.alertFlag;
+                }
+            },
+
+            toastFlag: {
+                set(val) {
+                    this.$store.commit('updateToastFlag', val)
+                },
+                get() {
+                    return this.$store.state.toastFlag;
+                }
+            },
+            loadingFlag: {
+                set(val) {
+                    this.$store.commit('updateLoadingFlag', val)
+                },
+                get() {
+                    return this.$store.state.loadingFlag;
+                }
+            },
             ...mapGetters([
                 'isAdmin',
                 'isUserLogin',
-                'avatarUrl'
+                'avatarUrl',
+                'toast',
+                'notice',
+                'loading'
             ])
         },
-        methods:{
+        methods: {
             ...mapActions([
                 'init',
             ]),
-            gotoAdminDash(){
+            gotoAdminDash() {
 
             },
-            logout(){
+            logout() {
 
             }
         }

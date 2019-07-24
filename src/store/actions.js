@@ -1,5 +1,4 @@
-import {events,router} from '@/utils';
-import {storage} from "../utils";
+import {events,router,storage, notice,toast,loading} from '@/utils';
 export default{
     init({commit}) {
         commit('updateUserInfo', storage.get('userInfo'));
@@ -8,6 +7,24 @@ export default{
             router.replace({
                 name:'projects'
             })
+        });
+        loading.addLoadingListener(loading=>{
+            commit('updateLoading',loading);
+            if(loading.show){
+                commit('updateLoadingFlag',loading.show);
+            }else{
+                setTimeout(()=>{
+                    commit('updateLoadingFlag',loading.show);
+                }, 800)
+            }
+        });
+        notice.addNoticeListener(notice=>{
+           commit('updateAlertFlag', true);
+           commit('updateNotice', notice);
+        });
+        toast.addNoticeListener(notice=>{
+            commit('updateToastFlag', true);
+            commit('updateToast', notice);
         });
     }
 }
