@@ -20,30 +20,30 @@
         </v-alert>
         <v-snackbar right bottom
                     :color="toast.color"
-                    v-model="toastFlag"
+                    v-model="toastFlag" 4
                     :timeout="3500"
         >
             {{toast.msg}}
         </v-snackbar>
-        <v-toolbar app :height="44" v-if="!isUserLogin">
+        <v-app-bar app v-if="!isUserLogin">
             <v-spacer></v-spacer>
             <v-avatar>
                 <img src="../assets/images/logo.png" style="width: 32px ; height: 32px"/>
             </v-avatar>
             <v-spacer></v-spacer>
-        </v-toolbar>
-        <v-toolbar app color="blue accent-2" dark :height="44" v-else>
+        </v-app-bar>
+        <v-app-bar app dark color="blue accent-2" v-else>
             <v-avatar :size="32">
                 <img :src="require('../assets/images/logo.png')" alt="avatar">
             </v-avatar>
             <span class="titleStyle">优序</span>
-            <v-text-field class="ml-4"></v-text-field>
+            <v-text-field class="ml-4 mt-3"></v-text-field>
             <v-spacer></v-spacer>
             <v-spacer></v-spacer>
             <v-spacer></v-spacer>
             <v-tooltip bottom>
                 <template v-slot:activator="{on}">
-                    <v-btn flat icon v-on="on"
+                    <v-btn text icon v-on="on"
                            @click="gotoAdminDash"
                            v-show="isAdmin">
                         <v-icon>view_comfy</v-icon>
@@ -68,15 +68,13 @@
                     </v-list-tile>
                 </v-card>
             </v-menu>
-        </v-toolbar>
+        </v-app-bar>
         <v-content app>
             <router-view></router-view>
         </v-content>
         <v-footer app>
-            <v-layout align-center justify-center row>
-                <v-flex text-xs-center xs12>
+            <v-layout align-center justify-center row text-xs-center>
                     ©️Tommy Lee
-                </v-flex>
             </v-layout>
         </v-footer>
     </v-app>
@@ -144,14 +142,14 @@
         position: absolute;
         z-index: 99;
         margin: 0;
-        top: 44px
+        top: 56px
     }
 
     .noticeStyle {
         position: absolute;
         z-index: 999;
         right: 0;
-        top: 44px;
+        top: 64px;
         min-width: 40%
     }
 

@@ -19,6 +19,6 @@ export default new Router({
             path: '/projects',
             name: 'projects',
             component: () => import('@/pages/dash-project-page/dash-project-page.vue')
-        }
+        },
     ]
 })

@@ -7,6 +7,7 @@ import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
 import 'material-design-icons-iconfont';
 import store from './store/store'
+import vuetify from './plugins/vuetify';
 
 Vue.config.productionTip = false;
 
@@ -22,5 +23,6 @@ http.apiHost = process.env.VUE_APP_API_HOST;
 new Vue({
   router,
   store,
+  vuetify,
   render: h => h(App)
 }).$mount('#app');
