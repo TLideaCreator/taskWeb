@@ -20,7 +20,7 @@
         </v-alert>
         <v-snackbar right bottom
                     :color="toast.color"
-                    v-model="toastFlag" 4
+                    v-model="toastFlag"
                     :timeout="3500"
         >
             {{toast.msg}}
@@ -37,7 +37,14 @@
                 <img :src="require('../assets/images/logo.png')" alt="avatar">
             </v-avatar>
             <span class="titleStyle">优序</span>
+            <v-btn text small
+                   class="ml-4"
+                   :replace="true"
+                   :to="{name: 'projectsList'}"
+            >我的项目
+            </v-btn>
             <v-text-field class="ml-4 mt-3"></v-text-field>
+            <v-spacer></v-spacer>
             <v-spacer></v-spacer>
             <v-spacer></v-spacer>
             <v-spacer></v-spacer>
@@ -59,24 +66,35 @@
                         <img :src="avatarUrl"/>
                     </v-avatar>
                 </template>
-                <v-card>
-                    <v-list-tile>
-                        <v-list-tile-content>个人设置</v-list-tile-content>
-                    </v-list-tile>
-                    <v-list-tile @click="logout()">
-                        <v-list-tile-content>退出登录</v-list-tile-content>
-                    </v-list-tile>
-                </v-card>
+                <v-list>
+                    <v-list-item>
+                        <v-list-item-content>个人设置</v-list-item-content>
+                    </v-list-item>
+                    <v-list-item @click="logoutDialog = true">
+                        <v-list-item-content>退出登录</v-list-item-content>
+                    </v-list-item>
+                </v-list>
             </v-menu>
         </v-app-bar>
         <v-content app>
             <router-view></router-view>
         </v-content>
-        <v-footer app>
+        <v-footer app v-show="!isUserLogin">
             <v-layout align-center justify-center row text-xs-center>
-                    ©️Tommy Lee
+                ©️Tommy Lee
             </v-layout>
         </v-footer>
+        <v-dialog v-model="logoutDialog" persistent max-width="290">
+            <v-card>
+                <v-card-title>提示</v-card-title>
+                <v-card-text>点击确认退出登录</v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn text color="grey darken-1" @click="logoutDialog = false">取消</v-btn>
+                    <v-btn text color="primary" @click="logout">确认</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-app>
 
 </template>
@@ -87,6 +105,11 @@
     export default {
         created() {
             this.init();
+        },
+        data(){
+            return {
+                logoutDialog: false
+            }
         },
         computed: {
             alertFlag: {

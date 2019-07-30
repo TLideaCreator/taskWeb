@@ -5,7 +5,7 @@ export default{
         events.$on('userLogin', userInfo=>{
             commit('updateUserInfo', userInfo);
             router.replace({
-                name:'projects'
+                name:'projectsList'
             })
         });
         loading.addLoadingListener(loading=>{

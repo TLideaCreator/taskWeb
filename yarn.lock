@@ -702,6 +702,11 @@
     cssnano-preset-default "^4.0.0"
     postcss "^7.0.0"
 
+"@mdi/font@^3.8.95":
+  version "3.8.95"
+  resolved "https://registry.npm.taobao.org/@mdi/font/download/@mdi/font-3.8.95.tgz#772094ed7046b126457b1f3b8c82e26b209e71e8"
+  integrity sha1-dyCU7XBGsSZFex87jILiayCeceg=
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.npm.taobao.org/@mrmlnc/readdir-enhanced/download/@mrmlnc/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -8422,10 +8427,10 @@ vuetify-loader@^1.2.2:
   dependencies:
     loader-utils "^1.1.0"
 
-vuetify@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npm.taobao.org/vuetify/download/vuetify-2.0.0.tgz#58c72247251412b5e804c8c38a0e12bcb736d949"
-  integrity sha1-WMciRyUUErXoBMjDig4SvLc22Uk=
+vuetify@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.npm.taobao.org/vuetify/download/vuetify-2.0.1.tgz#27b2ea314f5eba7eff9993d4d97110d5563a4b57"
+  integrity sha1-J7LqMU9eun7/mZPU2XEQ1VY6S1c=
 
 vuex@^3.0.1:
   version "3.1.1"

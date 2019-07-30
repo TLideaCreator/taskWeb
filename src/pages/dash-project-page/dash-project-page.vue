@@ -9,7 +9,7 @@
         <v-content style="margin: 0; padding: 0">
             <v-list style="background: transparent">
                 <template
-                        v-for="project in projectList"
+                        v-for="(project,index) in projectList"
                 >
                     <v-list-item
                             :key="project.id"
@@ -32,7 +32,7 @@
                         </v-list-item-avatar>
                     </v-list-item>
                     <v-divider
-                            :key="project.id"
+                            :key="index"
                     ></v-divider>
                 </template>
 
@@ -95,7 +95,7 @@
                 }
             },
             goToProject(projectId){
-                router.replace()
+                router.push({name: 'projectBlock', params:{projectId:projectId}})
             }
         }
     }

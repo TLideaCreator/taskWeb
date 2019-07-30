@@ -1,12 +1,9 @@
 <template>
-   <Layout :style="fullHeight" style="background: white">
-       <Row type="flex" justify="center" align="middle" style="height: 100%">
-           <Col :span="10" style="margin-bottom: 200px">
-               <img src="./assets/image/404.jpg" style="width: 100%; height: 100% "/>
-               <h1 style="text-align: center">你找的页面不存在，{{second}}跳转到首页</h1>
-           </Col>
-       </Row>
-   </Layout>
+   <v-layout align-center justify-center fill-height column style="background: white">
+       <img src="./assets/image/404.jpg" style="width: 775px; height: 350px "/>
+       <h4></h4>
+       <h1 style="text-align: center">你找的页面不存在，{{second}}跳转到首页</h1>
+   </v-layout>
 </template>
 
 <script>

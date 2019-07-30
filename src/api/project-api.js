@@ -1,5 +1,11 @@
 import {http, toast} from '@/utils';
 
+let error={
+    404: '项目不存在',
+    403: '无法查看此项目',
+    500: '网络错误，请稍后重试'
+};
+
 export default {
     getProjectList(data, callback) {
         http.getRequest('/api/projects', data,
@@ -8,7 +14,7 @@ export default {
                     callback(result.data, result.meta)
                 }
             }, () => {
-                toast.error('创建项目失败');
+                toast.error('获取项目失败');
             })
     },
 
@@ -18,20 +24,7 @@ export default {
                 callback(result.data);
             }
         }, (code) => {
-            if (callback) {
-                callback();
-            }
-            let msg = '';
-            switch (code) {
-                case 404:
-                    msg = '项目不存在';
-                    break;
-                case 403:
-                    msg = '无法查看此项目';
-                    break;
-            }
-            toast.error(msg);
-
+            toast.error(error[code]);
         });
     },
     createProject(projectItem, callback) {
@@ -59,13 +52,7 @@ export default {
                     callback(result.data);
                 }
             }, code => {
-                let msg = '';
-                switch (code) {
-                    case 404: msg='项目不存在'; break;
-                    case 403: msg='没有修改权限'; break;
-                    default: msg='网络错误，请稍后重试'; break;
-                }
-                toast.error(msg);
+                toast.error(error[code]);
             });
     }
 

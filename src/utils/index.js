@@ -8,6 +8,7 @@ import date from './date';
 import notice from './notice';
 import loading from './loading';
 import toast from './toast';
+import menus from './menus';
 
 let storage = new Storage();
 let events = new Vue();
@@ -18,7 +19,7 @@ consts.init();
 router.beforeEach((to, from , next)=>{
     if(to.name === 'login'){
         if(consts.isUserLogin()) {
-            next({name: 'projects'})
+            next({name: 'projectsList'})
         }else{
             next();
         }
@@ -47,5 +48,6 @@ export {
     consts,
     date,
     notice,
+    menus,
     stringIsEmpty
 }

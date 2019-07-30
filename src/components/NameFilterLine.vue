@@ -1,12 +1,12 @@
 <template>
-    <Row type="flex" justify="start" align="middle">
-        <Button v-for="(member,index) in memberList" :key="member.id"
+    <v-flex style="height:120px">
+        <v-btn v-for="(member,index) in memberList" :key="member.id"
                 type="text"
                 style="margin-right: 5px"
                 :style="getBtnStyle(member, index)"
                 @click="updateMemberChecked(member.id)">{{member|name}}
-        </Button>
-    </Row>
+        </v-btn>
+    </v-flex>
 </template>
 
 <script>
