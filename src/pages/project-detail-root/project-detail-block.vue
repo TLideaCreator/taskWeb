@@ -14,7 +14,6 @@
                        </v-list-item-title>
                    </v-list-item-content>
                </template>
-
                 <v-list-item
                     v-for="task in sprint.tasks.data"
                     :key="task.id"
