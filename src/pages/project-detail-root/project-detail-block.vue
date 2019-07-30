@@ -1,12 +1,31 @@
 <template>
     <v-layout column fill-height class="contentLayout">
         <NameFilterLine></NameFilterLine>
-        <v-flex xs12
-                v-for="sprint in sprints"
-                :key="sprint.id"
-        >
-            冲刺-S{{sprint.name}}
-        </v-flex>
+        <v-list>
+            <v-list-item-group
+                    v-for="sprint in sprints"
+                    :key="sprint.id"
+                    :value="true"
+            >
+               <template v-slot:activator>
+                   <v-list-item-content>
+                       <v-list-item-title>
+                           冲刺-S{{sprint.name}}
+                       </v-list-item-title>
+                   </v-list-item-content>
+               </template>
+                <v-list-item
+                    v-for="task in sprint.tasks.data"
+                    :key="task.id"
+                >
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            {{task.title}}
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-list-item-group>
+        </v-list>
     </v-layout>
 </template>
 
