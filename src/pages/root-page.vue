@@ -51,7 +51,10 @@
             <v-tooltip bottom>
                 <template v-slot:activator="{on}">
                     <v-btn text icon v-on="on"
-                           @click="gotoAdminDash"
+                           :replace="true"
+                           small
+                           class="mr-4"
+                           :to="{name: 'adminDash'}"
                            v-show="isAdmin">
                         <v-icon>view_comfy</v-icon>
                     </v-btn>

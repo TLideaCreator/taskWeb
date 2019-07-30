@@ -57,9 +57,8 @@
         },
         methods: {
             getProjectSprintList() {
-                api.sprint.getSprintList(this.projectId, null, (sprints, meta) => {
+                api.sprint.getSprintList(this.projectId, null, (sprints) => {
                     this.sprints = sprints;
-                    console.log('sprints ', sprints);
                 })
             }
         }

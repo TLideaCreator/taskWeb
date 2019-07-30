@@ -1,5 +1,5 @@
 <template>
-
+    <v-layout column fill-height class="contentLayout"></v-layout>
 </template>
 
 <script>
@@ -14,6 +14,7 @@
     }
 </script>
 
-<style scoped>
-
+<style scoped lang="less">
+    @import "~@/assets/style/constants.less";
+    @import "~@/assets/style/common.less";
 </style>

@@ -21,10 +21,30 @@ export default new Router({
             component: () => import('@/pages/dash-project-page/dash-project-page.vue')
         },
         {
+            path: '/dash',
+            name: 'adminDash',
+            component: () => import('@/pages/admin-dash-root/admin-board-page.vue'),
+        },
+        {
+            path: '/dash/users',
+            name: 'dashUsers',
+            component: () => import('@/pages/admin-dash-root/admin-board-page.vue'),
+        },
+        {
+            path: '/dash/projects',
+            name: 'dashProjects',
+            component: () => import('@/pages/admin-dash-root/admin-board-page.vue'),
+        },
+        {
+            path: '/dash/templates',
+            name: 'dashTemps',
+            component: () => import('@/pages/admin-dash-root/admin-board-page.vue'),
+        },
+        {
             path: '/project/:projectId',
             component: () => import('@/pages/project-detail-root/project-detail-root.vue'),
             props: true,
-            children:[
+            children: [
                 {
                     path: 'block',
                     name: 'projectBlock',
