@@ -16,7 +16,7 @@
                  :src="require('../../assets/images/project/'+index+'.png')"/>
         </v-flex>
         <v-flex md4>
-            <h3>创建项目</h3>
+            <h3 style="text-align: center">创建项目</h3>
             <v-layout justify-space-around align-cneter>
                 <v-flex md4 align-self-center>
                     <v-img class="projectImg"
@@ -83,7 +83,7 @@
             }
         },
         beforeCreate() {
-            api.system.getDefaultProjectTemplate(result => {
+            api.system.getProjectTemplate(result => {
                 this.tempList = result;
                 this.tempId = result[0].id
             })
@@ -92,8 +92,9 @@
             resetVar() {
                 this.projectName = '';
                 this.projectDesc = '';
-                this.projectIcon = '';
-                this.tempId = '';
+                this.projectIcon = '1';
+                this.showMore = false;
+                this.tempId = this.tempList[0].id;
             },
             changeProjectIcon(index) {
                 this.showAvatarPop = false;

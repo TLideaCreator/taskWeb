@@ -1,7 +1,7 @@
 import {http, toast, loading} from '@/utils';
 
 export default {
-    getDefaultProjectTemplate(callback) {
+    getProjectTemplate(callback) {
         http.getRequest('/api/system/template', {},
             result => {
                 if(callback){

@@ -38,7 +38,44 @@ export default new Router({
         {
             path: '/dash/templates',
             name: 'dashTemps',
-            component: () => import('@/pages/admin-dash-root/admin-board-page.vue'),
+            component: () => import('@/pages/admin-dash-root/admin-board-template.vue'),
+        },
+        {
+            path: '/dash/template/:templateId',
+            component: () => import('@/pages/admin-template-root/admin-template-root.vue'),
+            props:true,
+            children:[
+                {
+                    path: 'detail',
+                    name: 'templateDetail',
+                    component: () => import('@/pages/admin-template-root/admin-template-detail.vue'),
+                    props:true,
+                },
+                {
+                    path: 'priorities',
+                    name: 'templatePriorities',
+                    component: () => import('@/pages/admin-template-root/admin-template-priorities.vue'),
+                    props:true,
+                },
+                {
+                    path: 'types',
+                    name: 'templateTypes',
+                    component: () => import('@/pages/admin-template-root/admin-template-types.vue'),
+                    props:true,
+                },
+                {
+                    path: 'status',
+                    name: 'templateStatus',
+                    component: () => import('@/pages/admin-template-root/admin-template-status.vue'),
+                    props:true,
+                },
+                {
+                    path: 'roles',
+                    name: 'templateRoles',
+                    component: () => import('@/pages/admin-template-root/admin-template-roles.vue'),
+                    props:true,
+                }
+            ]
         },
         {
             path: '/project/:projectId',

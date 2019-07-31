@@ -83,6 +83,35 @@ export default {
     get menus() {
         return consts.objectCopy(menus);
     },
+    get templateMenu(){
+        return [
+            {
+                icon: 'layers',
+                title: '模板详情',
+                path: 'templateDetail'
+            },
+            {
+                icon: 'person',
+                title: '任务角色',
+                path: 'templateRoles'
+            },
+            {
+                icon: 'insert_chart_outlined',
+                title: '任务状态',
+                path: 'templateStatus'
+            },
+            {
+                icon: 'storage',
+                title: '任务类型',
+                path: 'templateTypes'
+            },
+            {
+                icon: 'format_line_spacing',
+                title: '任务优先级',
+                path: 'templatePriorities'
+            }
+        ]
+    },
     get projectSettingMenu(){
         return consts.objectCopy(projectSettingMenu)
     },
