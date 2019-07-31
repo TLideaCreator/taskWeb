@@ -1,5 +1,7 @@
 <template>
-    <v-layout column fill-height class="contentLayout"></v-layout>
+    <v-layout column fill-height class="contentLayout">
+
+    </v-layout>
 </template>
 
 <script>

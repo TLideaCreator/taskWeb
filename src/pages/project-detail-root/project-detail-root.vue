@@ -32,7 +32,14 @@
                 </v-btn>
             </template>
         </v-navigation-drawer>
-        <router-view></router-view>
+        <v-content class="contentLayout">
+            <v-breadcrumbs :items="items">
+                <template v-slot:divider>
+                    <v-icon>chevron_right</v-icon>
+                </template>
+            </v-breadcrumbs>
+            <router-view></router-view>
+        </v-content>
     </v-layout>
 </template>
 
@@ -59,6 +66,22 @@
         },
         created() {
             this.loadProjectDetail()
+        },
+        computed:{
+            items(){
+                return [
+                    {
+                        text: '我的项目',
+                        disabled: false,
+                        href: '/projects',
+                    },
+                    {
+                        text: this.projectInfo.name,
+                        disabled: true,
+                        href: '',
+                    }
+                ]
+            }
         },
         methods: {
             loadProjectDetail() {

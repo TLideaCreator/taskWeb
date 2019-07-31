@@ -1,50 +1,144 @@
 <template>
-    <Layout style="height: 100%;background: transparent">
-        <Row type="flex" justify="center" align="middle" style="height: 100%">
-            <CreateProjectStep1
-                    ref="step1"
-                    v-show="stepIndex === 'inputProjectName'"
-                    @create-success="nextStep"
-            ></CreateProjectStep1>
-            <CreateProjectStep2
-                    ref="step2"
-                    v-show="stepIndex === 'selectMember'"
-                    :pid="projectInfo.id"
-                    @finish="cancelEvent"
-            ></CreateProjectStep2>
-        </Row>
-        <Button style="position: fixed; top:30px;left:30px" shape="circle" icon="md-close"  size="large" @click="cancelEvent"></Button>
-    </Layout>
+    <v-layout class="createProjectStep1Style" justify-space-around align-center>
+        <v-flex md5 v-show="!showAvatarPop">
+            <h2 class="textCenter">欢迎使用任务看板</h2>
+            <h3 class="textCenter" style="margin-top: 20px">
+                由此您将创建一个新的项目
+            </h3>
+            <v-layout justify-center align-center>
+                <img :src="require('./assets/images/board.jpeg')" class="imgStyle"/>
+            </v-layout>
+        </v-flex>
+        <v-flex md5 v-show="showAvatarPop">
+            <img v-for="index in 30" :key="index"
+                 class="projectImg"
+                 @click="changeProjectIcon(index)"
+                 :src="require('../../assets/images/project/'+index+'.png')"/>
+        </v-flex>
+        <v-flex md4>
+            <h3>创建项目</h3>
+            <v-layout justify-space-around align-cneter>
+                <v-flex md4 align-self-center>
+                    <v-img class="projectImg"
+                           @click="showAvatarPop = !showAvatarPop"
+                           :src="require('../../assets/images/project/'+projectIcon+'.png')"></v-img>
+                </v-flex>
+                <v-flex md8>
+                    <v-text-field
+                            v-model="projectName"
+                            placeholder="请输入项目名称"></v-text-field>
+                    <v-select v-model="tempId" :items="tempList"
+                              item-text="name"
+                              placeholder="请选择项目模板"
+                              item-value="id"
+                    >
+                    </v-select>
+                </v-flex>
+            </v-layout>
+            <v-layout>
+                <v-spacer></v-spacer>
+                <v-btn
+                        text
+                        small
+                        @click="showMore = !showMore"
+                >
+                    <u>更多</u>
+                    <v-icon>
+                        {{showMore?'expand_more':'expand_less'}}
+                    </v-icon>
+                </v-btn>
+            </v-layout>
+            <v-layout v-show="showMore">
+                <v-textarea
+                        v-model="projectDesc"
+                        style="margin-bottom: 20px"
+                        placeholder="请输入项目描述"
+                ></v-textarea>
+            </v-layout>
 
+            <v-layout>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" @click="createProject">创建</v-btn>
+                <v-spacer></v-spacer>
+            </v-layout>
+        </v-flex>
+    </v-layout>
 </template>
 
 <script>
-    import CreateProjectStep1 from "./create-project-step1";
-    import CreateProjectStep2 from "./create-project-step2";
+    import api from "@/api";
+    import {consts, toast} from "@/utils";
+
     export default {
         name: "project-create-page",
-        components: {CreateProjectStep1, CreateProjectStep2},
-        data(){
+        data() {
             return {
-                stepIndex: 'inputProjectName',
-                projectInfo: {}
+                showMore: false,
+                projectName: '',
+                projectDesc: '',
+                projectIcon: '1',
+                tempId: '',
+                showAvatarPop: false,
+                tempList: []
             }
         },
+        beforeCreate() {
+            api.system.getDefaultProjectTemplate(result => {
+                this.tempList = result;
+                this.tempId = result[0].id
+            })
+        },
         methods: {
-            nextStep(projectInfo) {
-                this.stepIndex = 'selectMember';
-                this.projectInfo = projectInfo;
+            resetVar() {
+                this.projectName = '';
+                this.projectDesc = '';
+                this.projectIcon = '';
+                this.tempId = '';
             },
-            cancelEvent(){
-                this.$refs.step1.resetVar();
-                this.$refs.step2.resetVar();
-                this.stepIndex = 'inputProjectName';
-                this.$emit('closeModal',this.projectInfo.id);
+            changeProjectIcon(index) {
+                this.showAvatarPop = false;
+                this.projectIcon = '' + index;
+            },
+            createProject() {
+                if (consts.stringIsEmptyWithTrim(this.projectName)) {
+                    toast.error('请输入项目名称');
+                    return;
+                }
+                let data = {
+                    name: this.projectName,
+                    desc: this.projectDesc,
+                    icon: this.projectIcon,
+                    temp: this.tempId
+                };
+                api.project.createProject(data, (project) => {
+                    this.$emit('create-success', project);
+                    this.resetVar();
+                });
             }
         }
     }
 </script>
 
 <style scoped>
+    .createProjectStep1Style {
+        width: 900px !important;
+        height: 500px;
+        display: flex;
+    }
 
+    .imgStyle {
+        margin: 10px 88px;
+        width: 200px;
+        height: 120px;
+    }
+
+    .textCenter {
+        text-align: center
+    }
+
+    .projectImg {
+        width: 40px;
+        height: 40px;
+        margin: 10px;
+    }
 </style>
