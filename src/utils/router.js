@@ -22,61 +22,70 @@ export default new Router({
         },
         {
             path: '/dash',
-            name: 'adminDash',
-            component: () => import('@/pages/admin-dash-root/admin-board-page.vue'),
-        },
-        {
-            path: '/dash/users',
-            name: 'dashUsers',
-            component: () => import('@/pages/admin-dash-root/admin-board-page.vue'),
-        },
-        {
-            path: '/dash/projects',
-            name: 'dashProjects',
-            component: () => import('@/pages/admin-dash-root/admin-board-page.vue'),
-        },
-        {
-            path: '/dash/templates',
-            name: 'dashTemps',
-            component: () => import('@/pages/admin-dash-root/admin-board-template.vue'),
+            redirect: '/dash/board',
+            component: () => import('@/pages/admin-dash-root/admin-dash-root.vue'),
+            children: [
+                {
+                    path: 'board',
+                    name: 'adminDash',
+                    component: () => import('@/pages/admin-dash-root/admin-board-page.vue'),
+                },
+                {
+                    path: 'users',
+                    name: 'dashUsers',
+                    component: () => import('@/pages/admin-dash-root/admin-board-users.vue'),
+                },
+                {
+                    path: 'projects',
+                    name: 'dashProjects',
+                    component: () => import('@/pages/admin-dash-root/admin-board-project.vue'),
+                },
+                {
+                    path: '/dash/templates',
+                    name: 'dashTemps',
+                    component: () => import('@/pages/admin-dash-root/admin-board-template.vue'),
+                },
+            ]
         },
         {
             path: '/dash/template/:templateId',
+            redirect: '/dash/template/:templateId/detail',
             component: () => import('@/pages/admin-template-root/admin-template-root.vue'),
-            props:true,
-            children:[
+            props: true,
+            children: [
                 {
                     path: 'detail',
                     name: 'templateDetail',
                     component: () => import('@/pages/admin-template-root/admin-template-detail.vue'),
-                    props:true,
+                    props: true,
                 },
                 {
                     path: 'priorities',
                     name: 'templatePriorities',
                     component: () => import('@/pages/admin-template-root/admin-template-priorities.vue'),
-                    props:true,
+                    props: true,
                 },
                 {
                     path: 'types',
                     name: 'templateTypes',
                     component: () => import('@/pages/admin-template-root/admin-template-types.vue'),
-                    props:true,
+                    props: true,
                 },
                 {
                     path: 'status',
                     name: 'templateStatus',
                     component: () => import('@/pages/admin-template-root/admin-template-status.vue'),
-                    props:true,
+                    props: true,
                 },
                 {
                     path: 'roles',
                     name: 'templateRoles',
                     component: () => import('@/pages/admin-template-root/admin-template-roles.vue'),
-                    props:true,
+                    props: true,
                 }
             ]
         },
+
         {
             path: '/project/:projectId',
             component: () => import('@/pages/project-detail-root/project-detail-root.vue'),

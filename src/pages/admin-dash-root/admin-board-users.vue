@@ -81,9 +81,9 @@
           items(){
               return [
                   {
-                      text: '项目模板',
+                      text: '用户列表',
                       disabled: true,
-                      href: '/dash/templates',
+                      href: '/dash/users',
                   },
               ]
           }

@@ -86,6 +86,11 @@ export default {
     get templateMenu(){
         return [
             {
+                icon: 'arrow_back',
+                title: '模板列表',
+                path: 'dashTemps'
+            },
+            {
                 icon: 'layers',
                 title: '模板详情',
                 path: 'templateDetail'
@@ -115,6 +120,32 @@ export default {
     get projectSettingMenu(){
         return consts.objectCopy(projectSettingMenu)
     },
+
+    get dashboardMenu(){
+        return [
+            {
+                icon: 'assignment',
+                title: '总述',
+                path: 'adminDash'
+            },
+            {
+                icon: 'view_day',
+                title: '项目列表',
+                path: 'dashProjects'
+            },
+            {
+                icon: 'contacts',
+                title: '人员列表',
+                path: 'dashUsers'
+            },
+            {
+                icon: 'style',
+                title: '项目模板',
+                path: 'dashTemps'
+            },
+        ];
+    },
+
     pMenuMgr,
     getProjectMenu(projectMgr, userInfo) {
         let projectMenu = consts.objectCopy(menus);
