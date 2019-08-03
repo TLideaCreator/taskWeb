@@ -1,11 +1,5 @@
 <template>
     <v-layout column fill-height class="contentLayout">
-        <v-breadcrumbs :items="items">
-            <template v-slot:divider>
-                <v-icon>chevron_right</v-icon>
-            </template>
-        </v-breadcrumbs>
-        <v-divider></v-divider>
         <v-layout row justify-space-between align-center class="ml-5 mr-5">
             <v-text-field
                 placeholder="请输入项目名称"
@@ -28,20 +22,18 @@
                     ></ProjectCreatePage>
                 </v-layout>
             </v-dialog>
-            <v-spacer></v-spacer>
-            <v-spacer></v-spacer>
-            <v-spacer></v-spacer>
-            <v-spacer></v-spacer>
-            <v-pagination
-                    v-show="pageLength>1"
-                    v-model="currentPage"
-                    circle
-                    :total-visible="4"
-                    :length="pageLength"
-                    @input="getMyProjectList"
-                    @next="getMyProjectList"
-                    @previous="getMyProjectList"
-            ></v-pagination>
+            <v-flex md5>
+                <v-pagination
+                        v-show="pageLength>1"
+                        v-model="currentPage"
+                        circle
+                        :total-visible="4"
+                        :length="pageLength"
+                        @input="getMyProjectList"
+                        @next="getMyProjectList"
+                        @previous="getMyProjectList"
+                ></v-pagination>
+            </v-flex>
         </v-layout>
         <v-divider></v-divider>
         <v-layout fill-height column class="projectListLayout" ref="contentLayout">
@@ -110,7 +102,7 @@
         },
 
         mounted() {
-            let count = Math.floor((this.$refs.contentLayout.clientHeight  - 64) / 56);
+            let count = Math.floor((this.$refs.contentLayout.clientHeight  - 44) / 56);
             this.pageCount = count > 8 ? count : 8;
             this.getMyProjectList();
         },
@@ -154,7 +146,7 @@
                 }
             },
             goToProject(projectId) {
-                router.push({name: 'projectBlock', params: {projectId: projectId}})
+                router.push({name: 'projectDetailBlockPage', params: {projectId: projectId}})
             }
         }
     }

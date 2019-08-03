@@ -3,27 +3,27 @@ import {consts} from './index'
 let menus = [
     {
         title: '任务库',
-        path: 'projectBlock',
+        path: 'projectDetailBlockPage',
         icon: 'inbox'
     },
     {
         title: '进行中',
-        path: 'projectSprint',
+        path: 'projectDetailSprintPage',
         icon: 'all_inbox'
     },
     {
         title: '项目报告',
-        path: 'projectReport',
+        path: 'projectDetailReportPage',
         icon: 'import_contacts'
     },
     {
         title: '部署计划',
-        path: 'projectDeploy',
+        path: 'projectDetailDeployPage',
         icon: 'web_asset'
     },
     {
         title: '项目文档',
-        path: 'projectDoc',
+        path: 'projectDetailDocPage',
         icon: 'local_library'
     },
 
@@ -40,46 +40,49 @@ let projectSettingMenu = [
     {
         icon: 'arrow_back',
         title: '返回',
-        path: 'projectBlock'
+        path: 'projectDetailBlockPage'
     },
     {
         icon: 'book',
         title: '项目详情',
-        path: 'projectSettingsDetail'
+        path: 'projectSettingsDetailPage'
     },
     {
         icon: 'people',
         title: '项目成员',
-        path: 'projectSettingsMembers'
+        path: 'projectSettingsMembersPage'
     },
     {
         icon: 'link',
         title: '集成',
-        path: 'projectSettingsWebHook'
+        path: 'projectSettingsWebHookPage'
     },
     {
         icon: 'style',
         title: '任务类型',
-        path: 'projectSettingsTypes'
+        path: 'projectSettingsTypePage'
     },
     {
         icon: 'portrait',
         title: '任务角色',
-        path: 'projectSettingsRoles'
+        path: 'projectSettingsRolePage'
     },
     {
         icon: 'poll',
         title: '任务优先级',
-        path: 'projectSettingsPriorities'
+        path: 'projectSettingsPriorityPage'
     },
     {
         icon: 'beenhere',
         title: '任务状态',
-        path: 'projectSettingsStatus'
+        path: 'projectSettingsStatusPage'
     },
 ];
 
 export default {
+
+
+
     get menus() {
         return consts.objectCopy(menus);
     },
@@ -88,17 +91,17 @@ export default {
             {
                 icon: 'arrow_back',
                 title: '模板列表',
-                path: 'dashTemps'
+                path: 'adminBoardTemplatePage'
             },
             {
                 icon: 'layers',
                 title: '模板详情',
-                path: 'templateDetail'
+                path: 'systemTempDetailPage'
             },
             {
                 icon: 'person',
                 title: '任务角色',
-                path: 'templateRoles'
+                path: 'systemTempRolePage'
             },
             {
                 icon: 'insert_chart_outlined',
@@ -108,12 +111,12 @@ export default {
             {
                 icon: 'storage',
                 title: '任务类型',
-                path: 'templateTypes'
+                path: 'systemTempTypePage'
             },
             {
                 icon: 'format_line_spacing',
                 title: '任务优先级',
-                path: 'templatePriorities'
+                path: 'systemTempPriorityPage'
             }
         ]
     },
@@ -126,22 +129,22 @@ export default {
             {
                 icon: 'assignment',
                 title: '总述',
-                path: 'adminDash'
+                path: 'adminBoardPage'
             },
             {
                 icon: 'view_day',
                 title: '项目列表',
-                path: 'dashProjects'
+                path: 'adminBoardProjectsPage'
             },
             {
                 icon: 'contacts',
                 title: '人员列表',
-                path: 'dashUsers'
+                path: 'adminBoardUsersPage'
             },
             {
                 icon: 'style',
                 title: '项目模板',
-                path: 'dashTemps'
+                path: 'adminBoardTemplatePage'
             },
         ];
     },
@@ -153,5 +156,16 @@ export default {
             projectMenu.push(pMenuMgr);
         }
         return projectMenu;
+    },
+    getDrawerMenuList(routerName){
+        if(routerName.startsWith('projectDetail')) {
+            return this.menus;
+        }else if(routerName.startsWith('projectSettings')){
+            return this.projectSettingMenu;
+        }else if(routerName.startsWith('adminBoard')){
+            return this.dashboardMenu;
+        }else {
+            return [];
+        }
     }
 }

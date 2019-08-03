@@ -12,37 +12,36 @@ export default new Router({
         },
         {
             path: '/',
-            name: 'login',
+            name: 'userLoginPage',
             component: () => import('@/pages/login-page/login-page.vue')
         },
         {
             path: '/projects',
-            name: 'projectsList',
+            name: 'userProjectPage',
             component: () => import('@/pages/dash-project-page/dash-project-page.vue')
         },
         {
             path: '/dash',
             redirect: '/dash/board',
-            component: () => import('@/pages/admin-dash-root/admin-dash-root.vue'),
             children: [
                 {
                     path: 'board',
-                    name: 'adminDash',
+                    name: 'adminBoardPage',
                     component: () => import('@/pages/admin-dash-root/admin-board-page.vue'),
                 },
                 {
                     path: 'users',
-                    name: 'dashUsers',
+                    name: 'adminBoardUsersPage',
                     component: () => import('@/pages/admin-dash-root/admin-board-users.vue'),
                 },
                 {
                     path: 'projects',
-                    name: 'dashProjects',
+                    name: 'adminBoardProjectsPage',
                     component: () => import('@/pages/admin-dash-root/admin-board-project.vue'),
                 },
                 {
                     path: '/dash/templates',
-                    name: 'dashTemps',
+                    name: 'adminBoardTemplatePage',
                     component: () => import('@/pages/admin-dash-root/admin-board-template.vue'),
                 },
             ]
@@ -50,24 +49,22 @@ export default new Router({
         {
             path: '/dash/template/:templateId',
             redirect: '/dash/template/:templateId/detail',
-            component: () => import('@/pages/admin-template-root/admin-template-root.vue'),
-            props: true,
             children: [
                 {
                     path: 'detail',
-                    name: 'templateDetail',
+                    name: 'systemTempDetailPage',
                     component: () => import('@/pages/admin-template-root/admin-template-detail.vue'),
                     props: true,
                 },
                 {
                     path: 'priorities',
-                    name: 'templatePriorities',
+                    name: 'systemTempPriorityPage',
                     component: () => import('@/pages/admin-template-root/admin-template-priorities.vue'),
                     props: true,
                 },
                 {
                     path: 'types',
-                    name: 'templateTypes',
+                    name: 'systemTempTypePage',
                     component: () => import('@/pages/admin-template-root/admin-template-types.vue'),
                     props: true,
                 },
@@ -79,7 +76,7 @@ export default new Router({
                 },
                 {
                     path: 'roles',
-                    name: 'templateRoles',
+                    name: 'systemTempRolePage',
                     component: () => import('@/pages/admin-template-root/admin-template-roles.vue'),
                     props: true,
                 }
@@ -88,42 +85,41 @@ export default new Router({
 
         {
             path: '/project/:projectId',
-            component: () => import('@/pages/project-detail-root/project-detail-root.vue'),
-            props: true,
+            redirect: '/project/:projectId/block',
             children: [
                 {
                     path: 'block',
-                    name: 'projectBlock',
+                    name: 'projectDetailBlockPage',
                     component: () => import('@/pages/project-detail-root/project-detail-block.vue'),
                     props: true,
                 },
                 {
                     path: 'deploy',
-                    name: 'projectDeploy',
+                    name: 'projectDetailDeployPage',
                     component: () => import('@/pages/project-detail-root/project-detail-deploy.vue'),
                     props: true,
                 },
                 {
                     path: 'doc',
-                    name: 'projectDoc',
+                    name: 'projectDetailDocPage',
                     component: () => import('@/pages/project-detail-root/project-detail-doc.vue'),
                     props: true,
                 },
                 {
                     path: 'report',
-                    name: 'projectReport',
+                    name: 'projectDetailReportPage',
                     component: () => import('@/pages/project-detail-root/project-detail-report.vue'),
                     props: true,
                 },
                 {
                     path: 'sprint',
-                    name: 'projectSprint',
+                    name: 'projectDetailSprintPage',
                     component: () => import('@/pages/project-detail-root/project-detail-sprint.vue'),
                     props: true,
                 },
                 {
                     path: 'tasks',
-                    name: 'projectTasks',
+                    name: 'projectDetailTaskPage',
                     component: () => import('@/pages/project-detail-root/project-detail-root.vue'),
                     props: true,
                 }
@@ -131,49 +127,47 @@ export default new Router({
         },
         {
             path: '/project/:projectId/settings',
-            name: 'projectSettings',
-            component: () => import('@/pages/project-settings-root/project-settings-root.vue'),
-            props: true,
+            redirect: '/project/:projectId/settings/detail',
             children: [
                 {
                     path: 'detail',
-                    name: 'projectSettingsDetail',
+                    name: 'projectSettingsDetailPage',
                     component: () => import('@/pages/project-settings-root/project-setting-detail.vue'),
                     props: true,
                 },
                 {
                     path: 'members',
-                    name: 'projectSettingsMembers',
+                    name: 'projectSettingsMembersPage',
                     component: () => import('@/pages/project-settings-root/project-setting-members.vue'),
                     props: true,
                 },
                 {
                     path: 'webhook',
-                    name: 'projectSettingsWebHook',
+                    name: 'projectSettingsWebHookPage',
                     component: () => import('@/pages/project-settings-root/project-setting-web-hook.vue'),
                     props: true,
                 },
                 {
                     path: 'priorities',
-                    name: 'projectSettingsPriorities',
+                    name: 'projectSettingsPriorityPage',
                     component: () => import('@/pages/project-settings-root/project-setting-priorities.vue'),
                     props: true,
                 },
                 {
                     path: 'roles',
-                    name: 'projectSettingsRoles',
+                    name: 'projectSettingsRolePage',
                     component: () => import('@/pages/project-settings-root/project-setting-roles.vue'),
                     props: true,
                 },
                 {
                     path: 'status',
-                    name: 'projectSettingsStatus',
+                    name: 'projectSettingsStatusPage',
                     component: () => import('@/pages/project-settings-root/project-setting-status.vue'),
                     props: true,
                 },
                 {
                     path: 'types',
-                    name: 'projectSettingsTypes',
+                    name: 'projectSettingsTypePage',
                     component: () => import('@/pages/project-settings-root/project-setting-types.vue'),
                     props: true,
                 }

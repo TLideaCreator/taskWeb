@@ -1,5 +1,5 @@
 <template>
-    <v-layout fill-height wrap justify-space-between style="margin: 10px 0">
+    <v-layout wrap justify-space-between style="margin: 10px 0">
         <v-flex sm12 md6>
             <v-card class="mr-4">
                 <v-img :src="templateInfo.img" height="200px">
@@ -114,12 +114,12 @@
                     {
                         title: '模板角色',
                         key: 'role_count',
-                        path: 'templateRoles'
+                        path: 'systemTempRolePage'
                     },
                     {
                         title: '模板类型',
                         key: 'type_count',
-                        path: 'templateTypes'
+                        path: 'systemTempTypePage'
                     },
                     {
                         title: '模板状态',
@@ -129,7 +129,7 @@
                     {
                         title: '模板优先级',
                         key: 'priority_count',
-                        path: 'templatePriorities'
+                        path: 'systemTempPriorityPage'
                     }
                 ]
             }

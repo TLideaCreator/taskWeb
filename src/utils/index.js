@@ -17,15 +17,15 @@ let base64 = require('js-base64').Base64;
 consts.init();
 
 router.beforeEach((to, from , next)=>{
-    if(to.name === 'login'){
+    if(to.name === 'userLoginPage'){
         if(consts.isUserLogin()) {
-            next({name: 'projectsList'})
+            next({name: 'userProjectPage'})
         }else{
             next();
         }
     }else {
         if(consts.isUserLogout()){
-            next({name: 'login'})
+            next({name: 'userLoginPage'})
         }else{
             next();
         }

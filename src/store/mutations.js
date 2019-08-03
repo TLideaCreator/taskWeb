@@ -22,5 +22,8 @@ export default{
     },
     updateLoading(state, loading){
         state.loading = loading
+    },
+    updateRouterName(state, routerName){
+        state.routerName = routerName;
     }
 }

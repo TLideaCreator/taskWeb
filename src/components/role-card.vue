@@ -1,5 +1,4 @@
 <template>
-    <v-flex xs12 sm6 md4 lg3>
         <v-card class="ma-2">
             <v-card-title>{{roleItem.name}} <v-icon>{{roleItem.logo}}</v-icon></v-card-title>
             <v-divider></v-divider>
@@ -35,7 +34,6 @@
                 </v-layout>
             </v-card-text>
         </v-card>
-    </v-flex>
 </template>
 
 <script>

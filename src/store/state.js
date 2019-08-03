@@ -3,6 +3,7 @@ export default {
     alertFlag: false,
     alertType: '',
     alertMsg: '',
+    routerName: '',
     notice: {
         type: 'success',
         msg: ''

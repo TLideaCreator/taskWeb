@@ -1,3 +1,4 @@
+import {menus} from '@/utils';
 export default{
     isUserLogin(state) {
         return state.userInfo;
@@ -20,5 +21,9 @@ export default{
     },
     loading(state){
         return state.loading;
+    },
+    getMenuList(state){
+        let menuItems = menus.getDrawerMenuList(state.routerName);
+        return menuItems;
     }
 }

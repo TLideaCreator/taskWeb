@@ -81,14 +81,14 @@
                     }
                 ];
                 switch (this.routerName) {
-                    case 'templateDetail':
+                    case 'systemTempDetailPage':
                         items.push({
                             text: '详情',
                             disabled: true,
                             href: '',
                         });
                         break;
-                    case 'templateRoles':
+                    case 'systemTempRolePage':
                         items.push({
                             text: '角色',
                             disabled: true,
@@ -102,14 +102,14 @@
                             href: '',
                         });
                         break;
-                    case 'templateTypes':
+                    case 'systemTempTypePage':
                         items.push({
                             text: '类型',
                             disabled: true,
                             href: '',
                         });
                         break;
-                    case 'templatePriorities':
+                    case 'systemTempPriorityPage':
                         items.push({
                             text: '优先级',
                             disabled: true,

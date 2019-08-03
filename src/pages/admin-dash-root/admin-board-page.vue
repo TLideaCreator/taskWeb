@@ -1,8 +1,8 @@
 <template>
-    <v-layout align-center justify-space-around row fill-height wrap>
+    <v-layout align-center justify-space-around row fill-height wrap style="background: aqua">
         <v-flex md3>
             <v-card
-                @click="goToPage('dashProjects')"
+                @click="goToPage('adminBoardProjectsPage')"
             >
                 <v-card-title>
                     <v-spacer></v-spacer>
@@ -37,7 +37,7 @@
         </v-flex>
         <v-flex md3>
             <v-card
-                    :to="{name: 'dashUsers'}"
+                    :to="{name: 'adminBoardUsersPage'}"
             >
                 <v-card-title>
                     <v-spacer></v-spacer>
@@ -58,7 +58,7 @@
 
         <v-flex md3>
             <v-card
-                    :to="{name: 'dashTemps'}"
+                    :to="{name: 'adminBoardTemplatePage'}"
             >
                 <v-card-title>
                     <v-spacer></v-spacer>

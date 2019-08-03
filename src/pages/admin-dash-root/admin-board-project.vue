@@ -12,7 +12,7 @@
                         :key="template.id"
                         class="mt-5"
                 >
-                    <v-card :to="{name:'templateDetail', params:{templateId:template.id}}">
+                    <v-card :to="{name:'systemTempDetailPage', params:{templateId:template.id}}">
                         <v-img
                                 :src="template.img"
                                 height="200px"

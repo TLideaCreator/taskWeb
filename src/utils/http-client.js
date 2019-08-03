@@ -34,7 +34,7 @@ function checkResult(request, success, error) {
             consts.cleanLoginUserInfo();
             toast.error('登录过期,请重新登录');
             events.$emit('user-logout');
-            router.replace({name: 'login'});
+            router.replace({name: 'userLoginPage'});
         }
         if(error){
             error(request.status);

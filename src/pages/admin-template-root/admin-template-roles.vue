@@ -1,20 +1,22 @@
 <template>
-    <v-layout wrap>
-        <role-card
-            v-for="role in roleList"
-            :key="role.id"
-            :role="role"
-        ></role-card>
-        <v-btn absolute
-               dark
-               fab
-               bottom
-               right
-               class="mb-12"
-               color="pink">
+    <v-container wrap style="padding: 0 ; margin: 0">
+        <v-flex xs12 sm6 md4 lg3
+                v-for="role in 8"
+                :key="role"
+        >
+            <role-card
+                    :role="roleList[role%4]"
+            ></role-card>
+        </v-flex>
+        <v-btn
+                dark
+                fab
+                color="pink"
+                style="position: absolute; bottom: 20px; right:20px"
+        >
             <v-icon>add</v-icon>
         </v-btn>
-    </v-layout>
+    </v-container>
 </template>
 
 <script>

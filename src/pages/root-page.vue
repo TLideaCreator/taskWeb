@@ -32,7 +32,7 @@
             </v-avatar>
             <v-spacer></v-spacer>
         </v-app-bar>
-        <v-app-bar app dark color="blue accent-2" v-else>
+        <v-app-bar app dark clipped-left color="blue accent-2" v-else>
             <v-avatar :size="32">
                 <img :src="require('../assets/images/logo.png')" alt="avatar">
             </v-avatar>
@@ -40,7 +40,7 @@
             <v-btn text small
                    class="ml-4"
                    :replace="true"
-                   :to="{name: 'projectsList'}"
+                   :to="{name: 'userProjectPage'}"
             >我的项目
             </v-btn>
             <v-text-field class="ml-4 mt-3"></v-text-field>
@@ -54,7 +54,7 @@
                            :replace="true"
                            small
                            class="mr-4"
-                           :to="{name: 'adminDash'}"
+                           :to="{name: 'adminBoardPage'}"
                            v-show="isAdmin">
                         <v-icon>view_comfy</v-icon>
                     </v-btn>
@@ -79,8 +79,47 @@
                 </v-list>
             </v-menu>
         </v-app-bar>
-        <v-content app>
-            <router-view></router-view>
+        <v-navigation-drawer
+            app
+            clipped
+            :mini-variant="mini"
+            v-model="drawer"
+        >
+            <v-list shaped>
+                <v-list-item
+                        v-for="(menu, index) in menus"
+                        :key="index"
+                        :replace="true"
+                        :to="{name:menu.path, param:menu.params}"
+                >
+                    <v-list-item-icon>
+                        <v-icon>{{menu.icon}}</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            {{menu.title}}
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-list>
+            <template v-slot:append>
+                <v-btn style="width: 100%" text @click="mini = !mini">
+                    <v-icon>{{mini? 'keyboard_arrow_left': 'keyboard_arrow_right'}}</v-icon>
+                    {{mini ? '': '收起'}}
+                </v-btn>
+            </template>
+        </v-navigation-drawer>
+        <v-content>
+            <v-container
+                    fluid
+                    fill-height
+            >
+                <v-layout column>
+                    <v-breadcrumbs></v-breadcrumbs>
+                    <v-divider></v-divider>
+                    <router-view></router-view>
+                </v-layout>
+            </v-container>
         </v-content>
         <v-footer app v-show="!isUserLogin">
             <v-layout align-center justify-center row text-xs-center>
@@ -111,10 +150,19 @@
         },
         data(){
             return {
-                logoutDialog: false
+                logoutDialog: false,
+                mini: false,
             }
         },
         computed: {
+            drawer:{
+                get(){
+                    return this.menus.length > 0;
+                }
+            },
+            menus(){
+                return this.$store.getters['getMenuList'];
+            },
             alertFlag: {
                 set(val) {
                     this.$store.commit('updateAlertFlag', val)

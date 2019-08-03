@@ -19,7 +19,7 @@
         mounted(){
             let time = setInterval(()=>{
                 if(this.second === 0){
-                    router.replace({name: 'login'});
+                    router.replace({name: 'userLoginPage'});
                     window.clearInterval(time);
                     return;
                 }
