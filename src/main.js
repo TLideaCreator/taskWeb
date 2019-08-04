@@ -8,10 +8,12 @@ import 'vuetify/dist/vuetify.min.css';
 import 'material-design-icons-iconfont';
 import store from './store/store'
 import vuetify from './plugins/vuetify';
+import VueDragDrop from 'vue-drag-drop';
 
 Vue.config.productionTip = false;
 
 Vue.use(Vuetify);
+Vue.use(VueDragDrop);
 Vue.component('HeaderLine', HeaderLine);
 
 Object.keys(filters).forEach((key)=>{
