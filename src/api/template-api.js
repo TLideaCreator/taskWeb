@@ -40,17 +40,76 @@ export default {
                 loading.error();
             })
     },
-    getTemplateStatus(tempId, callback) {
+
+    getSystemTemplateTypes(tempId, callback){
         loading.start();
-        http.getRequest('/api/system/template/'+tempId+'/status', {},
+        http.getRequest('/api/system/template/' + tempId + '/types', {},
             result => {
-                if(callback){
+                if (callback) {
                     callback(result.data);
                 }
                 loading.finish();
             },
             () => {
                 toast.error('获取状态列表失败');
+                loading.error();
+            })
+    },
+
+
+    getTemplateStatus(tempId, callback) {
+        loading.start();
+        http.getRequest('/api/system/template/' + tempId + '/status', {},
+            result => {
+                if (callback) {
+                    callback(result.data);
+                }
+                loading.finish();
+            },
+            () => {
+                toast.error('获取状态列表失败');
+                loading.error();
+            })
+    },
+    createTemplateStatus(tempId, status, callback) {
+        loading.start();
+        http.postRequest('/api/system/template/' + tempId + '/status', status,
+            result => {
+                if (callback) {
+                    callback(result.data);
+                }
+                loading.finish();
+            },
+            () => {
+                toast.error('保存修改失败');
+                loading.error();
+            })
+    },
+    updateTemplateStatus(status, callback) {
+        loading.start();
+        http.patchRequest('/api/system/template/' + status.temp_id + '/status/' + status.id, status,
+            result => {
+                if (callback) {
+                    callback(result.data);
+                }
+                loading.finish();
+            },
+            () => {
+                toast.error('保存修改失败');
+                loading.error();
+            })
+    },
+    deleteTemplateStatus(status, callback) {
+        loading.start();
+        http.deleteRequest('/api/system/template/' + status.temp_id + '/status/' + status.id, {},
+            result => {
+                if (callback) {
+                    callback(result.data);
+                }
+                loading.finish();
+            },
+            () => {
+                toast.error('保存修改失败');
                 loading.error();
             })
     }
