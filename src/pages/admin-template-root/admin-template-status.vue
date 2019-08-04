@@ -2,12 +2,13 @@
     <v-container fluid>
         <v-list style="background: transparent">
             <template v-for="(status, index) in statusList">
-                <drop @drop="dropItem({$event,index})">
+                <drop
+                        :key="status.id"
+                        @drop="dropItem({$event,index})">
                     <drag
                             :transfer-data="{status, index}"
                     >
                         <v-list-item
-                                :key="status.id"
                         >
                             <v-list-item-icon>
                                 <v-icon>
@@ -18,13 +19,13 @@
                                 <v-list-item-title>{{status.name}}</v-list-item-title>
                             </v-list-item-content>
                             <v-list-item-avatar
-                                :style="{background: status.color}"
+                                    :style="{background: status.color}"
                             ></v-list-item-avatar>
                             <v-spacer></v-spacer>
                             <v-list-item-action>
                                 <v-btn icon text
                                        color="primary" small
-                                    @click="editStatusItem(status)"
+                                       @click="editStatusItem(status)"
                                 >
                                     <v-icon>edit</v-icon>
                                 </v-btn>
@@ -51,7 +52,7 @@
                 <v-card-text>
                     <v-text-field v-model="editStatus.name"></v-text-field>
                     <v-color-picker v-model="editStatus.color"
-                        mode="hexa" hide-mode-switch
+                                    mode="hexa" hide-mode-switch
                     ></v-color-picker>
                 </v-card-text>
                 <v-card-actions>
@@ -125,6 +126,7 @@
 <script>
     import api from '@/api';
     import {consts} from '@/utils';
+
     export default {
         name: "admin-template-status",
         props: {
@@ -157,47 +159,47 @@
         created() {
             this.getTemplateStatusList();
         },
-        filters:{
-            statusMoveIcon(index, listLength){
-                if(listLength === 0){
+        filters: {
+            statusMoveIcon(index, listLength) {
+                if (listLength === 0) {
                     return '';
-                }else{
-                    if(index === 0){
+                } else {
+                    if (index === 0) {
                         return 'expand_more';
-                    }else if(index === (listLength-1)){
+                    } else if (index === (listLength - 1)) {
                         return 'expand_less';
-                    }else {
+                    } else {
                         return 'unfold_more';
                     }
                 }
             }
         },
         methods: {
-            dropItem(event){
+            dropItem(event) {
                 let fromIndex = event.$event.index;
                 let toIndex = event.index;
 
-                if(fromIndex === toIndex){
+                if (fromIndex === toIndex) {
                     return;
                 }
                 let status = event.$event.status;
 
-                if(fromIndex < toIndex){
-                    this.statusList.splice((toIndex+1),0,status);
-                    this.statusList.splice(fromIndex,1);
-                }else{
-                    this.statusList.splice(toIndex,0,status);
-                    this.statusList.splice((fromIndex+1),1);
+                if (fromIndex < toIndex) {
+                    this.statusList.splice((toIndex + 1), 0, status);
+                    this.statusList.splice(fromIndex, 1);
+                } else {
+                    this.statusList.splice(toIndex, 0, status);
+                    this.statusList.splice((fromIndex + 1), 1);
                 }
             },
-            addNewStatusItem(){
+            addNewStatusItem() {
                 this.newStatusDialog = true
             },
-            editStatusItem(status){
+            editStatusItem(status) {
                 this.editStatus = consts.objectCopy(status);
                 this.editStatusDialog = true;
             },
-            deleteStatusItem(status){
+            deleteStatusItem(status) {
                 this.delStatus = status;
                 this.delStatusDialog = true;
             },
@@ -208,15 +210,15 @@
                     });
                 })
             },
-            createTemplateStatus(){
-                api.template.createTemplateStatus(this.templateId, this.newStatus, list=>{
+            createTemplateStatus() {
+                api.template.createTemplateStatus(this.templateId, this.newStatus, list => {
                     this.newStatusDialog = false;
                     this.statusList = [...list].sort((a, b) => {
                         return a.indexes - b.indexes
                     });
-                }) ;
+                });
             },
-            deleteTemplateStatus(){
+            deleteTemplateStatus() {
                 api.template.deleteTemplateStatus(this.delStatus, list => {
                     this.delStatusDialog = false;
                     this.statusList = [...list].sort((a, b) => {
