@@ -23,6 +23,7 @@ export default new Router({
         {
             path: '/dash',
             redirect: '/dash/board',
+            component: () => import('@/pages/admin-dash-root/admin-dash-root.vue'),
             children: [
                 {
                     path: 'board',
@@ -40,7 +41,7 @@ export default new Router({
                     component: () => import('@/pages/admin-dash-root/admin-board-project.vue'),
                 },
                 {
-                    path: '/dash/templates',
+                    path: 'templates',
                     name: 'adminBoardTemplatePage',
                     component: () => import('@/pages/admin-dash-root/admin-board-template.vue'),
                 },
@@ -49,6 +50,8 @@ export default new Router({
         {
             path: '/dash/template/:templateId',
             redirect: '/dash/template/:templateId/detail',
+            component: () => import('@/pages/admin-template-root/admin-template-root.vue'),
+            props: true,
             children: [
                 {
                     path: 'detail',
@@ -70,7 +73,7 @@ export default new Router({
                 },
                 {
                     path: 'status',
-                    name: 'templateStatus',
+                    name: 'systemTempStatusPage',
                     component: () => import('@/pages/admin-template-root/admin-template-status.vue'),
                     props: true,
                 },

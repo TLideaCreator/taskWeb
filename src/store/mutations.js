@@ -25,5 +25,8 @@ export default{
     },
     updateRouterName(state, routerName){
         state.routerName = routerName;
+    },
+    updatePathItems(state, items){
+        state.pathItems = items;
     }
 }

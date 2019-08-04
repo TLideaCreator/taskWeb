@@ -90,7 +90,7 @@
                         v-for="(menu, index) in menus"
                         :key="index"
                         :replace="true"
-                        :to="{name:menu.path, param:menu.params}"
+                        :to="{name:menu.path}"
                 >
                     <v-list-item-icon>
                         <v-icon>{{menu.icon}}</v-icon>
@@ -115,7 +115,11 @@
                     fill-height
             >
                 <v-layout column>
-                    <v-breadcrumbs></v-breadcrumbs>
+                    <v-breadcrumbs :items="pathItems">
+                        <template v-slot:divider>
+                            <v-icon>chevron_right</v-icon>
+                        </template>
+                    </v-breadcrumbs>
                     <v-divider></v-divider>
                     <router-view></router-view>
                 </v-layout>
@@ -158,6 +162,8 @@
             drawer:{
                 get(){
                     return this.menus.length > 0;
+                },
+                set(){
                 }
             },
             menus(){
@@ -194,7 +200,8 @@
                 'avatarUrl',
                 'toast',
                 'notice',
-                'loading'
+                'loading',
+                'pathItems'
             ])
         },
         methods: {

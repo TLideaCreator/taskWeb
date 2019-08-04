@@ -1,44 +1,5 @@
 <template>
-    <v-layout fill-height>
-        <v-navigation-drawer
-                v-model="drawer"
-                :mini-variant.sync="mini"
-                permanent
-        >
-            <v-list shaped>
-                <v-list-item
-                        v-for="(menu, index) in menus"
-                        :key="index"
-                        :replace="true"
-                        :to="{name:menu.path, params:{templateId:templateId}}"
-                >
-                    <v-list-item-icon>
-                        <v-icon>{{menu.icon}}</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-content>
-                        <v-list-item-title>
-                            {{menu.title}}
-                        </v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-            </v-list>
-            <template v-slot:append>
-                <v-btn style="width: 100%" text @click="mini = !mini">
-                    <v-icon>{{mini? 'keyboard_arrow_left': 'keyboard_arrow_right'}}</v-icon>
-                    {{mini ? '': '收起'}}
-                </v-btn>
-            </template>
-        </v-navigation-drawer>
-        <v-content class="contentLayout">
-            <v-breadcrumbs :items="items">
-                <template v-slot:divider>
-                    <v-icon>chevron_right</v-icon>
-                </template>
-            </v-breadcrumbs>
-            <v-divider></v-divider>
-            <router-view></router-view>
-        </v-content>
-    </v-layout>
+    <router-view></router-view>
 </template>
 
 <script>
@@ -59,15 +20,15 @@
                 mini: false,
                 templateInfo: {},
                 menus: menus.templateMenu,
-                routerName: router.currentRoute.name
+                routerName:''
             }
         },
-        beforeRouteUpdate(to, _, next){
+        beforeRouteUpdate(to, _, next) {
             this.routerName = to.name;
             next()
         },
-        computed: {
-            items() {
+        watch:{
+            routerName(val){
                 let items = [
                     {
                         text: '项目模板',
@@ -80,7 +41,7 @@
                         href: '',
                     }
                 ];
-                switch (this.routerName) {
+                switch (val) {
                     case 'systemTempDetailPage':
                         items.push({
                             text: '详情',
@@ -95,7 +56,7 @@
                             href: '',
                         });
                         break;
-                    case 'templateStatus':
+                    case 'systemTempStatusPage':
                         items.push({
                             text: '状态',
                             disabled: true,
@@ -117,7 +78,7 @@
                         });
                         break;
                 }
-                return items;
+                this.$store.commit('updatePathItems', items);
             }
         },
         created() {
@@ -125,8 +86,10 @@
         },
         methods: {
             loadTemplateDetail() {
+                this.$store.commit('updatePathItems', []);
                 api.template.getTemplateDetail(this.templateId, template => {
                     this.templateInfo = template;
+                    this.routerName =  router.currentRoute.name;
                 })
             }
         }

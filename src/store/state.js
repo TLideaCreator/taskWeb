@@ -18,5 +18,6 @@ export default {
         query: false,
         color: '',
         value: 0
-    }
+    },
+    pathItems: []
 }

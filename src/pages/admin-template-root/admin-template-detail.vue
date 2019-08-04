@@ -124,7 +124,7 @@
                     {
                         title: '模板状态',
                         key: 'status_count',
-                        path: 'templateStatus'
+                        path: 'systemTempStatusPage'
                     },
                     {
                         title: '模板优先级',

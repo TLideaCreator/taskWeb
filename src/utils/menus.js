@@ -106,7 +106,7 @@ export default {
             {
                 icon: 'insert_chart_outlined',
                 title: '任务状态',
-                path: 'templateStatus'
+                path: 'systemTempStatusPage'
             },
             {
                 icon: 'storage',
@@ -164,6 +164,8 @@ export default {
             return this.projectSettingMenu;
         }else if(routerName.startsWith('adminBoard')){
             return this.dashboardMenu;
+        }else if(routerName.startsWith('systemTemp')){
+            return this.templateMenu;
         }else {
             return [];
         }

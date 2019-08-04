@@ -1,5 +1,5 @@
 <template>
-    <v-layout align-center justify-space-around row fill-height wrap style="background: aqua">
+    <v-layout align-center justify-space-around row fill-height wrap>
         <v-flex md3>
             <v-card
                 @click="goToPage('adminBoardProjectsPage')"

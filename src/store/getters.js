@@ -23,7 +23,11 @@ export default{
         return state.loading;
     },
     getMenuList(state){
-        let menuItems = menus.getDrawerMenuList(state.routerName);
-        return menuItems;
+        return menus.getDrawerMenuList(state.routerName);
+    },
+
+    pathItems(state){
+        return state.pathItems;
     }
+
 }

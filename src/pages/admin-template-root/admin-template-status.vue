@@ -1,5 +1,16 @@
 <template>
-    <v-layout fill-height></v-layout>
+    <v-container fluid>
+        <v-layout wrap></v-layout>
+        <v-btn
+            absolute
+            dark
+            color="success"
+            right
+            top
+        >
+            <v-icon>add</v-icon>新状态
+        </v-btn>
+    </v-container>
 </template>
 
 <script>

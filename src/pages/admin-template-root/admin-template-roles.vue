@@ -1,27 +1,30 @@
 <template>
-    <v-container wrap style="padding: 0 ; margin: 0">
-        <v-flex xs12 sm6 md4 lg3
-                v-for="role in 8"
-                :key="role"
-        >
-            <role-card
-                    :role="roleList[role%4]"
-            ></role-card>
-        </v-flex>
+    <v-container fluid>
+        <v-layout wrap fill-height>
+            <v-flex xs12 sm6 md4 lg3
+                    v-for="role in roleList"
+                    :key="role.id"
+            >
+                <role-card
+                        :role="role"
+                ></role-card>
+            </v-flex>
+        </v-layout>
         <v-btn
                 dark
-                fab
-                color="pink"
-                style="position: absolute; bottom: 20px; right:20px"
+                color="success"
+                absolute
+                top
+                right
         >
-            <v-icon>add</v-icon>
+            <v-icon>add</v-icon>新角色
         </v-btn>
     </v-container>
 </template>
 
 <script>
     import api from '@/api';
-    import RoleCard from "../../components/role-card";
+    import RoleCard from "../../components/RoleCard.vue";
 
     export default {
         name: "admin-template-roles",
