@@ -206,14 +206,14 @@
                 this.delStatusDialog = true;
             },
             getTemplateStatusList() {
-                api.template.getTemplateStatus(this.templateId, list => {
+                api.template.status.getList(this.templateId, list => {
                     this.statusList = [...list].sort((a, b) => {
                         return a.indexes - b.indexes
                     });
                 })
             },
             createTemplateStatus() {
-                api.template.createTemplateStatus(this.templateId, this.newStatus, list => {
+                api.template.status.create(this.templateId, this.newStatus, list => {
                     this.newStatusDialog = false;
                     this.statusList = [...list].sort((a, b) => {
                         return a.indexes - b.indexes
@@ -221,7 +221,7 @@
                 });
             },
             deleteTemplateStatus() {
-                api.template.deleteTemplateStatus(this.delStatus, list => {
+                api.template.status.delete(this.delStatus, list => {
                     this.delStatusDialog = false;
                     this.statusList = [...list].sort((a, b) => {
                         return a.indexes - b.indexes
@@ -229,7 +229,7 @@
                 });
             },
             updateTemplateStatusList() {
-                api.template.updateTemplateStatus(this.editStatus, list => {
+                api.template.status.update(this.editStatus, list => {
                     this.editStatusDialog = false;
                     this.statusList = [...list].sort((a, b) => {
                         return a.indexes - b.indexes

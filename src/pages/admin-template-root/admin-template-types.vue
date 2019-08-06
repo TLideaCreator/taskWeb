@@ -66,7 +66,7 @@
         methods:{
             createNewType(){},
             getTemplateTypeList(){
-                api.template.getSystemTemplateTypes(this.templateId, list=>{
+                api.template.type.getList(this.templateId, list=>{
                     this.typeList = [...list];
                 });
             }

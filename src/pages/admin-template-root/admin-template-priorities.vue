@@ -160,7 +160,7 @@
         },
         methods: {
             getSystemTemplatePriorityList() {
-                api.template.getSystemTemplatePriorityList(this.templateId, list => {
+                api.template.priority.getList(this.templateId, list => {
                     this.prioritiesList = list;
                 })
             },
@@ -169,7 +169,7 @@
                 this.editPriorityDialog = true;
             },
             savePriorityChange() {
-                api.template.updateSystemTemplatePriority(this.editPriority, list => {
+                api.template.priority.update(this.editPriority, list => {
                     this.prioritiesList = list;
                     this.editPriorityDialog = false;
                 })
@@ -179,13 +179,13 @@
                 this.delPriorityDialog = true;
             },
             deletePriorityItem(){
-                api.template.deleteSystemTemplatePriority(this.delPriority, list=>{
+                api.template.priority.delete(this.delPriority, list=>{
                     this.prioritiesList = list;
                     this.delPriorityDialog = false;
                 })
             },
             createNewPriority(){
-                api.template.createSystemTemplatePriority(this.templateId, this.newPriority, list=>{
+                api.template.priority.create(this.templateId, this.newPriority, list=>{
                     this.prioritiesList = list ;
                     this.newPriority = {
                         name: '',

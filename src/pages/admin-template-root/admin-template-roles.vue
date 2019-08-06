@@ -45,7 +45,7 @@
         },
         methods: {
             getTemplateRoles() {
-                api.template.getTemplateRoleList(this.templateId, roleList => {
+                api.template.role.getList(this.templateId, roleList => {
                     this.roleList = roleList;
                 })
             }

@@ -136,14 +136,14 @@
         },
         methods: {
             loadTemplateDetail() {
-                api.template.getTemplateDetail(this.templateId, (template, meta) => {
+                api.template.getDetail(this.templateId, (template, meta) => {
                     this.template = template;
                     this.templateInfo = consts.objectCopy(template);
                     this.templateStatus = meta;
                 })
             },
             updateTemplate(){
-                api.template.updateTemplate(this.templateId,this.templateInfo, template=>{
+                api.template.update(this.templateId,this.templateInfo, template=>{
                     this.template = template;
                     this.editable = false;
                 });

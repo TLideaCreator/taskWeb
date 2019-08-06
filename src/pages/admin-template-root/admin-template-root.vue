@@ -87,7 +87,7 @@
         methods: {
             loadTemplateDetail() {
                 this.$store.commit('updatePathItems', []);
-                api.template.getTemplateDetail(this.templateId, template => {
+                api.template.getDetail(this.templateId, template => {
                     this.templateInfo = template;
                     this.routerName =  router.currentRoute.name;
                 })
