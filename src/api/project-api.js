@@ -19,7 +19,7 @@ export default {
     },
 
     getProjectDetailApi(projId, callback) {
-        http.getRequest('/api/projects/' + projId, {}, result => {
+        http.getRequest(`/api/projects/${projId}`, {}, result => {
             if (callback) {
                 callback(result.data);
             }
@@ -45,8 +45,8 @@ export default {
         });
     },
     updateProject(projectInfo, callback) {
-        let url = '/api/projects/' + projectInfo.id;
-        http.patchRequest(url, projectInfo,
+        http.patchRequest(`/api/projects/${projectInfo.id}`,
+            projectInfo,
             result => {
                 if(callback){
                     callback(result.data);

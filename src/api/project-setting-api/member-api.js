@@ -1,8 +1,8 @@
-import {http, toast} from '../utils';
+import {http, toast} from '@/utils';
 
 export default {
-    getProjectMemberList(projectId, callback) {
-        http.getRequest('/api/projects/' + projectId + '/members', {},
+    getList(projectId, callback) {
+        http.getRequest(`/api/projects/${projectId}/members`, {},
             result => {
                 if (callback) {
                     callback(result.data, result.meta.roles);
@@ -12,8 +12,8 @@ export default {
             })
     },
 
-    updateProjectMemberRole(projectId, userId, roleId, callback) {
-        let url = '/api/projects/' + projectId + '/members/' + userId + '/roles/' + roleId;
+    updateMemberRole(projectId, userId, roleId, callback) {
+        let url = `/api/projects/${projectId}/members/${userId}/roles/${roleId}`;
         http.postRequest(url, {},
             result => {
                 if (callback) {
@@ -23,8 +23,8 @@ export default {
                 toast.error('添加失败')
             });
     },
-    deleteProjectMember(projectId, userId, callback) {
-        let url = '/api/projects/' + projectId + '/members/' + userId;
+    delete(projectId, userId, callback) {
+        let url = `/api/projects/${projectId}/members/${userId}`;
         http.deleteRequest(url, {},
             result => {
                 if (callback) {

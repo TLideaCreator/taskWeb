@@ -1,7 +1,7 @@
 import {http, toast} from '@/utils';
 export default {
     createSprint(projectId, callback) {
-        http.postRequest('/api/projects/' + projectId + '/sprints', {},
+        http.postRequest(`/api/projects/${projectId}/sprints`, {},
             result => {
                 if (callback) {
                     callback(result.data);
@@ -18,8 +18,7 @@ export default {
     },
 
     makeSprintActive(projectId, sprintId, callback) {
-        let url = '/api/projects/sprints/' + sprintId + '/implementation';
-        http.postRequest(url, {},
+        http.postRequest(`/api/projects/sprints/${sprintId}/implementation`, {},
             () => {
                 if (callback) {
                     callback();
@@ -37,7 +36,7 @@ export default {
     },
 
     getSprintList(projectId, type, callback) {
-        http.getRequest('/api/projects/' + projectId + '/sprints',
+        http.getRequest(`/api/projects/${projectId}/sprints`,
             {
                 type: type
             },
@@ -57,9 +56,9 @@ export default {
     },
 
     sprintFinish(sprint, callback){
-        let url = '/api/projects/sprints/' +sprint.id;
         sprint.status = 2;
-        http.patchRequest(url, sprint, ()=>{
+        http.patchRequest(
+            `/api/projects/sprints/${sprint.id}`, sprint, ()=>{
             if(callback){
                 callback();
             }

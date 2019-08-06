@@ -2,7 +2,7 @@ import {http, toast} from '@/utils';
 
 export default {
     moveTaskToSprint(taskId, sprintId, callback) {
-        let url = "/api/projects/sprints/tasks/" + taskId + "/movement/sprints/" + sprintId;
+        let url = `/api/projects/sprints/tasks/${taskId}/movement/sprints/${sprintId}`;
         http.patchRequest(url, {},
             result => {
                 if(callback){
@@ -11,7 +11,7 @@ export default {
             })
     },
     createTask(sprintId, data, callback) {
-        let url = '/api/projects/sprints/' + sprintId + '/tasks';
+        let url = `/api/projects/sprints/${sprintId}/tasks`;
         http.postRequest(url, data,
             result => {
                 if (callback) {
@@ -39,7 +39,7 @@ export default {
     },
 
     getTaskDetail(taskId, callback){
-        let url = '/api/projects/sprints/tasks/' + taskId;
+        let url = `/api/projects/sprints/tasks/${taskId}`;
         http.getRequest(url, {}, result => {
             if(callback){
                 callback(result.data, result.meta);
@@ -50,7 +50,7 @@ export default {
     },
 
     updateTaskInfo(task , callback) {
-        let url = '/api/projects/sprints/tasks/' + task.id;
+        let url = `/api/projects/sprints/tasks/${task.id}`;
         http.patchRequest(url, task,
             result => {
                 if(callback){
