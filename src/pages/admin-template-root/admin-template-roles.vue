@@ -24,7 +24,7 @@
 
 <script>
     import api from '@/api';
-    import RoleCard from "../../components/RoleCard.vue";
+    import RoleCard from "@/components/RoleCard.vue";
 
     export default {
         name: "admin-template-roles",

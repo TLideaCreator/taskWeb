@@ -45,6 +45,7 @@
         </v-list>
         <v-dialog v-model="editStatusDialog"
                   :max-width="dialogMaxWidth"
+                  persistent
         >
             <v-card
             >
@@ -68,6 +69,7 @@
         </v-dialog>
         <v-dialog v-model="newStatusDialog"
                   :max-width="dialogMaxWidth"
+                  persistent
         >
             <v-card>
                 <v-card-title>新建状态</v-card-title>
