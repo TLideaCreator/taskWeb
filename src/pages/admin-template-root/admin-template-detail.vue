@@ -22,6 +22,7 @@
                     ></v-textarea>
                     <v-file-input
                             v-show="editable"
+                            prepend-icon="mdi-camera"
                             label="请选择需要上传的封面图片">
                     </v-file-input>
                 </v-card-text>

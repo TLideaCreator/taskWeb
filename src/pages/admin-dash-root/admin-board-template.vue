@@ -26,7 +26,11 @@
                 </v-card>
             </v-flex>
         </v-layout>
-        <v-dialog v-model="createNewTemp" fullscreen>
+        <v-dialog
+                v-model="newTempDialog"
+                max-width="450"
+                persistent
+        >
             <template v-slot:activator="{on}">
                 <v-btn
                         absolute
@@ -39,41 +43,96 @@
                     <v-icon>add</v-icon>新模板
                 </v-btn>
             </template>
-            <v-layout fill-height column style="background-color: white; padding:20px">
-                <v-btn
-                        fab
-                        small
-                        @click="createNewTemp=false"
+            <v-card>
+                <v-card-title>创建模板</v-card-title>
+                <v-img
+                        v-show="showTempTitle(newTemp)"
+                        :src="newTemp.img"
+                        height="200px"
+                        gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                 >
-                    <v-icon>close</v-icon>
-                </v-btn>
-                <v-layout fill-height>
+                    <v-card-title>{{newTemp.name}}</v-card-title>
+                </v-img>
+                <v-card-text>
+                    <v-form
+                        ref="form"
+                        v-model="createValid"
+                    >
+                        <v-text-field
+                                v-model="newTemp.name"
+                                :rules="notEmptyRules"
+                                label="模板名称"
+                        ></v-text-field>
+                        <v-textarea
+                                v-model="newTemp.desc"
+                                label="模板描述"
+                        ></v-textarea>
+                        <v-file-input
+                                accept="image/*"
+                                prepend-icon="mdi-camera"
+                                @change="fileChanged"
+                                label="请选择需要上传的封面图片">
+                        </v-file-input>
+                    </v-form>
 
-                </v-layout>
-            </v-layout>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn text color="success" :disabled="!createValid" @click="createSystemTemplate">创建</v-btn>
+                    <v-btn text @click="newTempDialog=false">取消</v-btn>
+                </v-card-actions>
+            </v-card>
         </v-dialog>
     </v-container>
 </template>
 
 <script>
     import api from '@/api';
-
+    import {consts, valid, router} from '@/utils';
     export default {
         name: "admin-board-template",
         data() {
             return {
                 templateList: [],
-                createNewTemp: false
+                newTempDialog: false,
+                newTemp: {
+                    name: '',
+                    img: '',
+                    desc: ''
+                },
+                createValid: false
             }
         },
         created() {
             this.getTemplateList();
         },
+        computed:{
+            notEmptyRules(){
+                return valid.notEmptyRule('请输入模板名称')
+            }
+        },
         methods: {
+            showTempTitle(temp){
+                return !consts.stringIsEmptyWithTrim(temp.name) && !consts.stringIsEmptyWithTrim(temp.img)
+            },
             getTemplateList() {
-                api.system.getProjectTemplate(templates => {
+                api.template.getList(templates => {
                     this.templateList = templates;
                 })
+            },
+            createSystemTemplate(){
+                api.template.create(this.newTemp, temp => {
+                    this.newTemp = {
+                        name: '',
+                        img: '',
+                        desc: ''
+                    };
+                    this.newTempDialog = false;
+                    router.replace({name: 'systemTempDetailPage', params:{templateId: temp.id}});
+                });
+            },
+            fileChanged(files){
+                this.newTemp.img = files[0];
             }
         }
     }

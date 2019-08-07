@@ -18,7 +18,7 @@ export default {
     },
 
     stringIsEmptyWithTrim(str) {
-        return !str || str === null || str.trim() === '';
+        return str === undefined || str === null || str.trim() === '';
     },
 
     objectCopy(obj) {

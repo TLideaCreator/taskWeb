@@ -5,6 +5,7 @@ import http from './http-client';
 import Storage from './storage';
 import consts from './constants';
 import date from './date';
+import valid from './validation';
 import notice from './notice';
 import loading from './loading';
 import toast from './toast';
@@ -51,5 +52,6 @@ export {
     notice,
     menus,
     modal,
+    valid,
     stringIsEmpty
 }

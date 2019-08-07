@@ -19,7 +19,46 @@ function getDetail(templateId, callback) {
 }
 function update(tempId, template, callback) {
     loading.start();
-    http.patchRequest('/api/system/template/' + tempId, template, result => {
+    http.patchRequest(`/api/system/template/${tempId}`, template, result => {
+        if (callback) {
+            callback(result.data);
+        }
+        loading.finish();
+    }, () => {
+        toast.error('修改模板失败');
+        loading.error();
+    })
+}
+
+function getList(callback) {
+    loading.start();
+    http.getRequest(`/api/system/template`, {}, result => {
+        if (callback) {
+            callback(result.data);
+        }
+        loading.finish();
+    }, () => {
+        toast.error('修改模板失败');
+        loading.error();
+    })
+}
+
+function create(temp, callback) {
+    loading.start();
+    http.postRequest(`/api/system/template`, temp, result => {
+        if (callback) {
+            callback(result.data);
+        }
+        loading.finish();
+    }, () => {
+        toast.error('修改模板失败');
+        loading.error();
+    })
+}
+
+function delTemp(tempId, callback){
+    loading.start();
+    http.patchRequest(`/api/system/template/${tempId}`, {}, result => {
         if (callback) {
             callback(result.data);
         }
@@ -36,6 +75,8 @@ export default {
     type,
     role,
     getDetail,
-    update
-
+    getList,
+    create,
+    update,
+    delTemp
 }
