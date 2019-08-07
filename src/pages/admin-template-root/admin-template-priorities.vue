@@ -103,34 +103,12 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-dialog
-                v-model="delPriorityDialog"
-                max-width="350"
-                persistent
-        >
-            <v-card>
-                <v-card-title>删除优先级</v-card-title>
-                <v-card-text>
-                    是否删除优先级：{{delPriority.name}}
-                    <span v-show="delPriority.is_default">(此优先级是默认优先级)</span>?
-                </v-card-text>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn text color="error" @click="deletePriorityItem">
-                        删除
-                    </v-btn>
-                    <v-btn text @click="delPriorityDialog=false">
-                        取消
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
     </v-container>
 </template>
 
 <script>
     import api from '@/api';
-    import {consts} from "@/utils";
+    import {consts,modal} from "@/utils";
 
     export default {
         name: "admin-template-status",
@@ -151,8 +129,6 @@
                     is_default: 0,
                 },
                 newPriorityDialog: false,
-                delPriority: {},
-                delPriorityDialog: false,
             }
         },
         created() {
@@ -175,14 +151,23 @@
                 })
             },
             showDelPriorityDialog(priority) {
-                this.delPriority = priority;
-                this.delPriorityDialog = true;
+                let content = `是否删除优先级：${priority.name}`;
+                if(priority.is_default){
+                    content = content + '(此优先级是默认优先级)'
+                }
+                content = content + '?';
+                modal.confirm({
+                    content: content,
+                    callback: ()=>{
+                        api.template.priority.delete(priority, list=>{
+                            this.prioritiesList = list;
+                            modal.dismiss();
+                        })
+                    }
+                })
             },
             deletePriorityItem(){
-                api.template.priority.delete(this.delPriority, list=>{
-                    this.prioritiesList = list;
-                    this.delPriorityDialog = false;
-                })
+
             },
             createNewPriority(){
                 api.template.priority.create(this.templateId, this.newPriority, list=>{

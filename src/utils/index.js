@@ -9,6 +9,7 @@ import notice from './notice';
 import loading from './loading';
 import toast from './toast';
 import menus from './menus';
+import modal from './modal';
 
 let storage = new Storage();
 let events = new Vue();
@@ -49,5 +50,6 @@ export {
     date,
     notice,
     menus,
+    modal,
     stringIsEmpty
 }

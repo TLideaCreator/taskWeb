@@ -28,5 +28,11 @@ export default{
     },
     updatePathItems(state, items){
         state.pathItems = items;
+    },
+    updateModalFlag(state, flags){
+        state.modalFlag = flags
+    },
+    updateModal(state, modal){
+        state.modal = modal
     }
 }

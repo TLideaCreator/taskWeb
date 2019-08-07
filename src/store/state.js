@@ -19,5 +19,13 @@ export default {
         color: '',
         value: 0
     },
-    pathItems: []
+    pathItems: [],
+    modalFlag: false,
+    modal: {
+        title: '',
+        content: '',
+        ok:{},
+        cancel:{},
+        callback: ()=>{}
+    },
 }

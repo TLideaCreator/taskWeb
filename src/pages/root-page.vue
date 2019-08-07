@@ -72,9 +72,20 @@
                 <v-list>
                     <v-list-item>
                         <v-list-item-content>个人设置</v-list-item-content>
+                        <v-list-item-icon>
+                            <v-icon>
+                                person
+                            </v-icon>
+                        </v-list-item-icon>
                     </v-list-item>
-                    <v-list-item @click="logoutDialog = true">
+                    <v-divider></v-divider>
+                    <v-list-item @click="logout">
                         <v-list-item-content>退出登录</v-list-item-content>
+                        <v-list-item-icon>
+                            <v-icon>
+                                exit_to_app
+                            </v-icon>
+                        </v-list-item-icon>
                     </v-list-item>
                 </v-list>
             </v-menu>
@@ -130,23 +141,33 @@
                 ©️Tommy Lee
             </v-layout>
         </v-footer>
-        <v-dialog v-model="logoutDialog" persistent max-width="290">
+        <v-dialog v-model="modalFlag"
+            max-width="350"
+        >
             <v-card>
-                <v-card-title>提示</v-card-title>
-                <v-card-text>点击确认退出登录</v-card-text>
+                <v-card-title>
+                    {{modal.title|modalTitle}}
+                </v-card-title>
+                <v-card-text>
+                    {{modal.content}}
+                </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn text color="grey darken-1" @click="logoutDialog = false">取消</v-btn>
-                    <v-btn text color="primary" @click="logout">确认</v-btn>
+                    <v-btn text :color="actionBtnColor" @click="modalClick">
+                        {{modal|actionBtnText}}
+                    </v-btn>
+                    <v-btn text @click="modalFlag = false">
+                        {{modal|cancelBtnText}}
+                    </v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
     </v-app>
-
 </template>
 
 <script>
     import {mapActions, mapGetters} from "vuex";
+    import {consts,modal} from "@/utils";
 
     export default {
         created() {
@@ -154,7 +175,6 @@
         },
         data(){
             return {
-                logoutDialog: false,
                 mini: false,
             }
         },
@@ -177,7 +197,14 @@
                     return this.$store.state.alertFlag;
                 }
             },
-
+            modalFlag: {
+                set(val) {
+                    this.$store.commit('updateModalFlag', val)
+                },
+                get() {
+                    return this.$store.state.modalFlag;
+                }
+            },
             toastFlag: {
                 set(val) {
                     this.$store.commit('updateToastFlag', val)
@@ -194,6 +221,12 @@
                     return this.$store.state.loadingFlag;
                 }
             },
+            actionBtnColor(){
+                if(!this.modal || !this.modal.ok || !this.modal.ok.color){
+                    return 'info'
+                }
+                return this.modal.ok.color
+            },
             ...mapGetters([
                 'isAdmin',
                 'isUserLogin',
@@ -201,8 +234,30 @@
                 'toast',
                 'notice',
                 'loading',
+                'modal',
                 'pathItems'
             ])
+        },
+        filters: {
+            modalTitle(title){
+                if(consts.stringIsEmptyWithTrim(title)){
+                    return '提示';
+                }
+                return title;
+            },
+
+            actionBtnText(modal){
+                if(!modal || !modal.ok || consts.stringIsEmptyWithTrim(modal.ok.text)){
+                    return '确定'
+                }
+                return modal.ok.text
+            },
+            cancelBtnText(modal){
+                if(!modal || !modal.cancel || consts.stringIsEmptyWithTrim(modal.cancel.text)){
+                    return '取消'
+                }
+                return modal.cancel.text
+            }
         },
         methods: {
             ...mapActions([
@@ -212,7 +267,21 @@
 
             },
             logout() {
-
+                modal.confirm({
+                    content:'确认退出?',
+                    ok:{
+                        text: '退出',
+                        color: 'error'
+                    },
+                    callback: ()=>{
+                        modal.dismiss();
+                    }
+                })
+            },
+            modalClick(){
+                if(this.modal.callback){
+                    this.modal.callback();
+                }
             }
         }
     }

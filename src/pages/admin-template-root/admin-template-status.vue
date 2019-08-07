@@ -90,27 +90,6 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-dialog v-model="delStatusDialog"
-                  :max-width="dialogMaxWidth"
-        >
-            <v-card>
-                <v-card-title>
-                    提示
-                </v-card-title>
-                <v-card-text>
-                    确认删除{{delStatus.name}}吗？
-                </v-card-text>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn text color="error" @click="deleteTemplateStatus">
-                        删除
-                    </v-btn>
-                    <v-btn text @click="delStatusDialog = false">
-                        取消
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
         <v-btn
                 absolute
                 dark
@@ -127,7 +106,7 @@
 
 <script>
     import api from '@/api';
-    import {consts} from '@/utils';
+    import {consts, modal} from '@/utils';
 
     export default {
         name: "admin-template-status",
@@ -202,6 +181,18 @@
                 this.editStatusDialog = true;
             },
             deleteStatusItem(status) {
+                modal.confirm({
+                   content: `确认删除${status.name}吗?`,
+                   callback: ()=>{
+                       api.template.status.delete(status, list => {
+                           this.delStatusDialog = false;
+                           this.statusList = [...list].sort((a, b) => {
+                               return a.indexes - b.indexes
+                           });
+                           modal.dismiss();
+                       });
+                   }
+                });
                 this.delStatus = status;
                 this.delStatusDialog = true;
             },
@@ -215,14 +206,6 @@
             createTemplateStatus() {
                 api.template.status.create(this.templateId, this.newStatus, list => {
                     this.newStatusDialog = false;
-                    this.statusList = [...list].sort((a, b) => {
-                        return a.indexes - b.indexes
-                    });
-                });
-            },
-            deleteTemplateStatus() {
-                api.template.status.delete(this.delStatus, list => {
-                    this.delStatusDialog = false;
                     this.statusList = [...list].sort((a, b) => {
                         return a.indexes - b.indexes
                     });

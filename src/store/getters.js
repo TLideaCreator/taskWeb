@@ -28,6 +28,9 @@ export default{
 
     pathItems(state){
         return state.pathItems;
-    }
+    },
 
+    modal(state){
+        return state.modal
+    }
 }
