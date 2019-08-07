@@ -4,7 +4,7 @@ import sprint from './sprint-api';
 import project from './project-api';
 import template from './template-api/index';
 import projectSetting from './project-setting-api/index';
-import system from './system-api';
+import system from './system-api/index';
 
 export default {
     user,

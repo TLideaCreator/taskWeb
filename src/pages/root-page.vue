@@ -231,6 +231,7 @@
                 'isAdmin',
                 'isUserLogin',
                 'avatarUrl',
+                'userInfo',
                 'toast',
                 'notice',
                 'loading',

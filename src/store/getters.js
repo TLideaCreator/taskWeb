@@ -6,9 +6,9 @@ export default{
     isAdmin(state){
         return state.userInfo.admin === 'Yes'
     },
-    avatarUrl(state) {
+    avatarUrl : (state) => (userInfo)=>{
         let url = '';
-        if (state.userInfo && state.userInfo.avatar) {
+        if (userInfo && userInfo.avatar) {
             url = require('../assets/images/avatar/' + state.userInfo.avatar + '.png')
         }
         return url;

@@ -1,32 +1,18 @@
 <template>
     <v-container fluid>
-        <v-layout wrap>
-            <v-flex xs12 sm6 md4 lg3
-                    v-for="template in templateList"
-                    :key="template.id"
-            >
-                <v-card class="mt-5"
-                        :to="{name:'systemTempDetailPage', params:{templateId:template.id}}">
-                    <v-img
-                            :src="template.img"
-                            height="200px"
-                            class="white--text"
-                            gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                    >
-                        <v-card-title
-                                class="fill-height align-end"
-                                style="color:white">
-                            {{template.name}}
-                        </v-card-title>
-                    </v-img>
-
-                    <v-card-text>
-                        {{template.desc}}
-                    </v-card-text>
-                </v-card>
-            </v-flex>
-        </v-layout>
-        <v-dialog v-model="createNewTemp" fullscreen>
+        <v-list>
+            <template v-for="(user, index) in userList">
+                <v-list-item :key="user.id">
+                    <v-list-item-avatar>
+                        <v-avatar >
+                            <v-img></v-img>
+                        </v-avatar>
+                    </v-list-item-avatar>
+                </v-list-item>
+                <v-divider :key="index"></v-divider>
+            </template>
+        </v-list>
+        <v-dialog v-model="createNewUser" fullscreen>
             <template v-slot:activator="{on}">
                 <v-btn
                         absolute
@@ -43,7 +29,7 @@
                 <v-btn
                         fab
                         small
-                        @click="createNewTemp=false"
+                        @click="createNewUser=false"
                 >
                     <v-icon>close</v-icon>
                 </v-btn>
@@ -62,17 +48,17 @@
         name: "admin-board-user",
         data() {
             return {
-                templateList: [],
-                createNewTemp: false
+                userList: [],
+                createNewUser: false
             }
         },
         created() {
-            this.getTemplateList();
+            this.getUserList();
         },
         methods: {
-            getTemplateList() {
-                api.system.getProjectTemplate(templates => {
-                    this.templateList = templates;
+            getUserList() {
+                api.system.users.getList(null,userList => {
+                    this.userList = userList;
                 })
             }
         }
