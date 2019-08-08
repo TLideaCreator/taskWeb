@@ -1,4 +1,4 @@
-import {http, toast} from '@/utils';
+import {http, toast, loading} from '@/utils';
 
 let error={
     404: '项目不存在',
@@ -19,12 +19,18 @@ export default {
     },
 
     getProjectDetailApi(projId, callback) {
+        loading.start();
         http.getRequest(`/api/projects/${projId}`, {}, result => {
             if (callback) {
                 callback(result.data);
             }
+            loading.finish();
         }, (code) => {
+            if (callback) {
+                callback();
+            }
             toast.error(error[code]);
+            loading.error();
         });
     },
     createProject(projectItem, callback) {

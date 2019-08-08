@@ -25,6 +25,7 @@ export default {
     pathItems: [],
     drawerMenuList:[],
     modalFlag: false,
+    contentFullHeight: 0,
     modal: {
         title: '',
         content: '',

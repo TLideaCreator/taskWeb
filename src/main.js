@@ -28,8 +28,8 @@ new Vue({
   vuetify,
   render: h => h(App),
   watch:{
-    '$route.name': (routerName)=>{
-        store.commit('updateRouterName', routerName);
+    '$route.name': ()=>{
+        store.commit('updateRouterName', router.currentRoute.meta.root);
     }
   }
 }).$mount('#app');

@@ -31,7 +31,7 @@ let menus = [
 
 let pMenuMgr = {
     title: '项目设置',
-    path: 'projectSettings',
+    path: 'projectSettingsDetailPage',
     icon: 'tune',
     type: 'more'
 };

@@ -122,6 +122,7 @@
                     fluid
                     fill-height
                     align-start
+                    ref="contentLayout"
             >
                 <v-layout column style="height:64px">
                     <v-layout>
@@ -178,6 +179,9 @@
     export default {
         created() {
             this.init();
+        },
+        mounted(){
+            this.$store.commit('updateContentFullHeight', this.$refs.contentLayout.clientHeight)
         },
         computed: {
             showMenuBlock: {

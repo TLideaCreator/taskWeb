@@ -61,6 +61,9 @@
             loadProjectDetail() {
                 api.project.getProjectDetailApi(this.projectId, project => {
                     this.projectInfo = project;
+                    if (project.mgr.data.id !== this.$store.state.userInfo.id) {
+                        router.replace({name: 'systemTempDetailPage'})
+                    }
                 })
             }
         }

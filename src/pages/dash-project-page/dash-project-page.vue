@@ -1,88 +1,75 @@
 <template>
-    <v-layout column fill-height class="contentLayout">
-        <v-layout row justify-space-between align-center class="ml-5 mr-5">
-            <v-text-field
-                placeholder="请输入项目名称"
+    <v-container fluid ref="contentLayout">
+        <InputPage
                 v-model="searchKey"
-                append-outer-icon="search"
-                @click:append-outer="keyDown"
-                @keydown="keyDown"
-            ></v-text-field>
-            <v-dialog v-model="showCreateProject" fullscreen hide-overlay transition="dialog-bottom-transition">
-                <template v-slot:activator="{on}">
-                    <v-btn color="success" class="ml-4" v-on="on">
-                        <v-icon>add</v-icon>
-                        新项目
-                    </v-btn>
-                </template>
-                <v-layout fill-height column style="background-color:white; padding:20px">
-                    <v-btn icon @click="showCreateProject = false" text>
-                        <v-icon>close</v-icon>
-                    </v-btn>
-                    <ProjectCreatePage
-                            @create-success="closeCreateProject"
-                    ></ProjectCreatePage>
-                </v-layout>
-            </v-dialog>
-            <v-flex md5>
-                <v-pagination
-                        v-show="pageLength>1"
-                        v-model="currentPage"
-                        circle
-                        :total-visible="4"
-                        :length="pageLength"
-                        @input="getMyProjectList"
-                        @next="getMyProjectList"
-                        @previous="getMyProjectList"
-                ></v-pagination>
-            </v-flex>
-        </v-layout>
+                createTitle="新项目"
+                :total="totalCount"
+                :itemHeight="62"
+                placeholder="请输入项目名称"
+                @createNew="showCreateProject=true"
+                @search="getMyProjectList"
+                @page-changed="getMyProjectList"
+        ></InputPage>
         <v-divider></v-divider>
-        <v-layout fill-height column class="projectListLayout" ref="contentLayout">
-            <v-flex md12 max-height="300">
-                <v-list class="bgTrans" max-height="300">
-                    <template
-                            v-for="(project,index) in projectList"
-                    >
-                        <v-list-item
-                                :key="project.id"
-                                class="bgTrans"
-                                @click="goToProject(project.id)"
-                        >
-                            <v-list-item-avatar>
-                                <v-img :src="getProjectIcon(project)"></v-img>
-                            </v-list-item-avatar>
-                            <v-list-item-content>
-                                <v-list-item-title>
-                                    {{project.name}}
-                                </v-list-item-title>
-                                <v-list-item-subtitle>
-                                    {{project.desc}}
-                                </v-list-item-subtitle>
-                            </v-list-item-content>
-                            <v-list-item-avatar>
-                                <v-img :src="getProjectMgrIcon(project.mgr.data)"></v-img>
-                            </v-list-item-avatar>
-                        </v-list-item>
-                        <v-divider
-                                :key="index"
-                        ></v-divider>
-                    </template>
-                </v-list>
-            </v-flex>
-        </v-layout>
-
-    </v-layout>
+        <v-list class="bgTrans">
+            <template
+                    v-for="(project,index) in projectList"
+            >
+                <v-list-item
+                        :key="project.id"
+                        class="bgTrans"
+                        @click="goToProject(project.id)"
+                >
+                    <v-list-item-avatar>
+                        <v-img :src="getProjectIcon(project)"></v-img>
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            {{project.name}}
+                        </v-list-item-title>
+                        <v-list-item-subtitle>
+                            {{project.desc}}
+                        </v-list-item-subtitle>
+                    </v-list-item-content>
+                    <v-list-item-action-text>
+                        {{project.mgr.data.name}}
+                    </v-list-item-action-text>
+                    <v-list-item-avatar>
+                        <v-img :src="getProjectMgrIcon(project.mgr.data)"></v-img>
+                    </v-list-item-avatar>
+                </v-list-item>
+                <v-divider
+                        :key="index"
+                ></v-divider>
+            </template>
+        </v-list>
+        <v-dialog
+            v-model="showCreateProject"
+            fullscreen
+            hide-overlay
+            transition="dialog-bottom-transition"
+        >
+            <v-layout fill-height column style="background-color:white; padding:20px">
+                <v-btn icon @click="showCreateProject = false" text>
+                    <v-icon>close</v-icon>
+                </v-btn>
+                <ProjectCreatePage
+                        @create-success="closeCreateProject"
+                ></ProjectCreatePage>
+            </v-layout>
+        </v-dialog>
+    </v-container>
 </template>
 
 <script>
     import api from '@/api';
     import {router} from '@/utils';
     import ProjectCreatePage from "../../components/CreateProject/create-project";
+    import InputPage from "../../components/InputPage";
 
     export default {
         name: 'dash-project-page',
-        components: {ProjectCreatePage},
+        components: {ProjectCreatePage, InputPage},
         data() {
             return {
                 items: [
@@ -102,13 +89,6 @@
                 showCreateProject: false
             }
         },
-
-        mounted() {
-            let count = Math.floor((this.$refs.contentLayout.clientHeight  - 44) / 56);
-            this.pageCount = count > 8 ? count : 8;
-            this.getMyProjectList();
-        },
-
         methods: {
             closeCreateProject(projectId) {
                 this.showCreateProject = false;
@@ -116,16 +96,7 @@
                     this.getMyProjectList();
                 }
             },
-            keyDown(){
-               this.currentPage = 1;
-               this.getMyProjectList();
-            },
-            getMyProjectList() {
-                let data = {
-                    searchKey: this.searchKey,
-                    page: this.currentPage,
-                    per_page: this.pageCount
-                };
+            getMyProjectList(data) {
                 api.project.getProjectList(data, (projectList, meta) => {
                     this.projectList = projectList;
                     this.totalCount = meta.total;

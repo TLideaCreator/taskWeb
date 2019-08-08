@@ -1,22 +1,42 @@
 <template>
-    <Row class="widgetCss" type="flex" justify="space-between" align="middle">
-        <Input :value="searchKey" style="width: 200px" :placeholder="placeholder"
-               @on-enter="resetPageSearch" @on-change="$emit('change',$event.target.value)">
-            <Icon type="ios-search" slot="suffix" @click.native="resetPageSearch"></Icon>
-        </Input>
-        <Page v-show="totalCount>pageCount"
-              :total="totalCount"
-              :page-size="pageCount"
-              @on-change="changePage"
-              size="small"></Page>
-    </Row>
+    <v-layout row justify-space-between align-center class="ml-5 mr-5">
+        <v-text-field
+                :placeholder="placeholder"
+                :value="searchKey"
+                @input="inputChanged"
+                clearable
+                append-outer-icon="search"
+                @click:append-outer="resetPageSearch"
+        ></v-text-field>
+        <v-btn color="success" class="ml-4" @click="$emit('createNew')">
+            <v-icon>add</v-icon>
+            {{createTitle}}
+        </v-btn>
+        <v-flex md5>
+            <v-pagination
+                    v-show="pageLength>1"
+                    v-model="currentPage"
+                    circle
+                    :total-visible="4"
+                    :length="pageLength"
+                    @input="changePage"
+                    @next="changePage"
+                    @previous="changePage"
+            ></v-pagination>
+        </v-flex>
+    </v-layout>
+
 </template>
 
 <script>
     export default {
         name: "InputPage",
-        props:{
+        props: {
             searchKey: {
+                type: String,
+                default: ''
+            },
+            createTitle: {
                 type: String,
                 default: ''
             },
@@ -24,46 +44,70 @@
                 type: Number,
                 default: 0
             },
-            perPage: {
-                type: Number,
-                default: 0
-            },
-            placeholder:{
-                type:String,
+            placeholder: {
+                type: String,
                 default: ''
+            },
+            itemHeight:{
+                type: Number,
+                default: 1
             }
         },
-        data(){
-          return {
-              totalCount: this.total,
-              pageCount: this.perPage,
-          }
+        data() {
+            return {
+                totalCount: this.total,
+                pageCount: this.perPage,
+                currentPage: 1
+            }
         },
-        watch:{
-            total(val){
+        watch: {
+            total(val) {
                 this.totalCount = val;
             },
-            perPage(val){
+            perPage(val) {
                 this.pageCount = val;
             }
         },
-        model:{
-            prop:'searchKey',
-            event:'change',
+        model: {
+            prop: 'searchKey',
+            event: 'change',
         },
-        methods:{
-            resetPageSearch(){
-                this.$emit('search');
+        computed: {
+            pageLength() {
+                return Math.ceil(this.totalCount / this.pageCount)
+            }
+        },
+        mounted(){
+            let height = this.$store.state.contentFullHeight;
+            let count = Math.floor((height - 168) / this.itemHeight);
+            this.pageCount = count > 8 ? count : 8;
+            this.changePage();
+        },
+        methods: {
+            inputChanged(val){
+                this.$emit('change',val);
             },
-            changePage(page){
-                this.$emit('page-changed',page);
+            resetPageSearch() {
+                this.currentPage = 1;
+                this.$emit('search', {
+                    searchKey: this.searchKey,
+                    page: this.currentPage,
+                    per_page: this.pageCount
+                });
+            },
+            changePage() {
+                this.$emit('page-changed', {
+                    searchKey: this.searchKey,
+                    page: this.currentPage,
+                    per_page: this.pageCount
+                });
             }
         }
     }
 </script>
 
 <style scoped>
-    .widgetCss{
+    .widgetCss {
         margin: 20px 0
     }
 </style>

@@ -26,12 +26,18 @@ export default {
         state.loading = loading
     },
     updateRouterName(state, routerName) {
-        state.routerName = routerName;
-        state.drawerMenuList = menus.getDrawerMenuList(state.routerName);
-        state.showDrawerMenu = state.drawerMenuList.length > 0;
+        if(state.routerName !== routerName){
+            state.routerName = routerName;
+            state.drawerMenuList = menus.getDrawerMenuList(state.routerName);
+            state.showDrawerMenu = state.drawerMenuList.length > 0;
+        }
+    },
+    updateDrawerMenuList(state, menus){
+        state.drawerMenuList = menus;
     },
     updatePathItems(state, items) {
         state.pathItems = items;
+
     },
     updateModalFlag(state, flags) {
         state.modalFlag = flags
@@ -47,5 +53,8 @@ export default {
     },
     updateShowDrawerMenu(state, flag) {
         state.showDrawerMenu = flag;
+    },
+    updateContentFullHeight(state, height){
+        state.contentFullHeight = height;
     }
 }
