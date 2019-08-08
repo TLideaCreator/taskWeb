@@ -4,6 +4,8 @@
             <v-text-field
                 placeholder="请输入项目名称"
                 v-model="searchKey"
+                append-outer-icon="search"
+                @click:append-outer="keyDown"
                 @keydown="keyDown"
             ></v-text-field>
             <v-dialog v-model="showCreateProject" fullscreen hide-overlay transition="dialog-bottom-transition">
@@ -114,10 +116,9 @@
                     this.getMyProjectList();
                 }
             },
-            keyDown(event){
-                if(event.key === 'Enter'){
-                    this.getMyProjectList();
-                }
+            keyDown(){
+               this.currentPage = 1;
+               this.getMyProjectList();
             },
             getMyProjectList() {
                 let data = {

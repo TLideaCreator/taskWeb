@@ -83,7 +83,7 @@
             }
         },
         beforeCreate() {
-            api.system.getProjectTemplate(result => {
+            api.template.getList(result => {
                 this.tempList = result;
                 this.tempId = result[0].id
             })

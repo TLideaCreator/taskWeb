@@ -19,7 +19,11 @@ export default {
         color: '',
         value: 0
     },
+    menuMini: false,
+    drawerMenuState: true,
+    showDrawerMenu: false,
     pathItems: [],
+    drawerMenuList:[],
     modalFlag: false,
     modal: {
         title: '',

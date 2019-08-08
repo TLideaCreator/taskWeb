@@ -1,4 +1,3 @@
-import {menus} from '@/utils';
 export default{
     isUserLogin(state) {
         return state.userInfo;
@@ -23,7 +22,7 @@ export default{
         return state.loading;
     },
     getMenuList(state){
-        return menus.getDrawerMenuList(state.routerName);
+        return state.drawerMenuList;
     },
 
     pathItems(state){
@@ -32,5 +31,12 @@ export default{
 
     modal(state){
         return state.modal
+    },
+    drawerMenuState(state){
+        return state.drawerMenuState
+    },
+
+    showDrawerMenu(state){
+        return state.showDrawerMenu;
     }
 }

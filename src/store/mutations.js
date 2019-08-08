@@ -1,38 +1,51 @@
-export default{
+import {menus} from '@/utils';
+
+export default {
     updateUserInfo(state, userInfo) {
         state.userInfo = userInfo;
     },
-    updateAlertFlag(state, type){
+    updateAlertFlag(state, type) {
         state.alertFlag = type
     },
 
-    updateNotice(state, notice){
+    updateNotice(state, notice) {
         state.notice = notice
     },
 
-    updateToastFlag(state, type){
+    updateToastFlag(state, type) {
         state.toastFlag = type
     },
 
-    updateToast(state, toast){
+    updateToast(state, toast) {
         state.toast = toast
     },
-    updateLoadingFlag(state, loadingFlag){
+    updateLoadingFlag(state, loadingFlag) {
         state.loadingFlag = loadingFlag
     },
-    updateLoading(state, loading){
+    updateLoading(state, loading) {
         state.loading = loading
     },
-    updateRouterName(state, routerName){
+    updateRouterName(state, routerName) {
         state.routerName = routerName;
+        state.drawerMenuList = menus.getDrawerMenuList(state.routerName);
+        state.showDrawerMenu = state.drawerMenuList.length > 0;
     },
-    updatePathItems(state, items){
+    updatePathItems(state, items) {
         state.pathItems = items;
     },
-    updateModalFlag(state, flags){
+    updateModalFlag(state, flags) {
         state.modalFlag = flags
     },
-    updateModal(state, modal){
+    updateModal(state, modal) {
         state.modal = modal
+    },
+    updateMenuMini(state, flag) {
+        state.menuMini = flag
+    },
+    updateDrawerMenuState(state, flag) {
+        state.drawerMenuState = flag;
+    },
+    updateShowDrawerMenu(state, flag) {
+        state.showDrawerMenu = flag;
     }
 }

@@ -66,7 +66,7 @@
                     <v-avatar :size="36"
                               v-on="on"
                     >
-                        <img :src="avatarUrl"/>
+                        <img :src="avatarUrl(userInfo)"/>
                     </v-avatar>
                 </template>
                 <v-list>
@@ -91,10 +91,13 @@
             </v-menu>
         </v-app-bar>
         <v-navigation-drawer
-            app
-            clipped
-            :mini-variant="mini"
-            v-model="drawer"
+                :app="menus.length > 0"
+                clipped
+                :mini-variant="mini"
+                v-model="showMenuBlock"
+                v-show="menus.length > 0"
+                expand-on-hover
+                @input="updateDraw"
         >
             <v-list shaped>
                 <v-list-item
@@ -113,24 +116,27 @@
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
-            <template v-slot:append>
-                <v-btn style="width: 100%" text @click="mini = !mini">
-                    <v-icon>{{mini? 'keyboard_arrow_left': 'keyboard_arrow_right'}}</v-icon>
-                    {{mini ? '': '收起'}}
-                </v-btn>
-            </template>
         </v-navigation-drawer>
         <v-content>
             <v-container
                     fluid
                     fill-height
+                    align-start
             >
-                <v-layout column>
-                    <v-breadcrumbs :items="pathItems">
-                        <template v-slot:divider>
-                            <v-icon>chevron_right</v-icon>
-                        </template>
-                    </v-breadcrumbs>
+                <v-layout column style="height:64px">
+                    <v-layout>
+                        <v-btn
+                                text icon
+                                @click="showMenuBlock = !showMenuBlock"
+                                v-show="!miniMenuBlock && menus.length>0">
+                            <v-icon>menu</v-icon>
+                        </v-btn>
+                        <v-breadcrumbs :items="pathItems">
+                            <template v-slot:divider>
+                                <v-icon>chevron_right</v-icon>
+                            </template>
+                        </v-breadcrumbs>
+                    </v-layout>
                     <v-divider></v-divider>
                     <router-view></router-view>
                 </v-layout>
@@ -142,7 +148,7 @@
             </v-layout>
         </v-footer>
         <v-dialog v-model="modalFlag"
-            max-width="350"
+                  max-width="350"
         >
             <v-card>
                 <v-card-title>
@@ -166,27 +172,39 @@
 </template>
 
 <script>
-    import {mapActions, mapGetters} from "vuex";
-    import {consts,modal} from "@/utils";
+    import {mapActions, mapGetters, mapState} from "vuex";
+    import {consts, modal} from "@/utils";
 
     export default {
         created() {
             this.init();
         },
-        data(){
-            return {
-                mini: false,
-            }
-        },
         computed: {
-            drawer:{
-                get(){
-                    return this.menus.length > 0;
+            showMenuBlock: {
+                get() {
+                    return this.$store.getters['showDrawerMenu'];
                 },
-                set(){
+                set(val) {
+                    this.$store.commit('updateShowDrawerMenu', val)
                 }
             },
-            menus(){
+            miniMenuBlock: {
+                get() {
+                    return this.$store.getters['drawerMenuState'];
+                },
+                set(val) {
+                    this.$store.commit('updateDrawerMenuState', val)
+                }
+            },
+            mini: {
+                get() {
+                    return this.$store.state.menuMini;
+                },
+                set(val) {
+                    return this.$store.commit('updateMenuMini', val);
+                }
+            },
+            menus() {
                 return this.$store.getters['getMenuList'];
             },
             alertFlag: {
@@ -221,8 +239,8 @@
                     return this.$store.state.loadingFlag;
                 }
             },
-            actionBtnColor(){
-                if(!this.modal || !this.modal.ok || !this.modal.ok.color){
+            actionBtnColor() {
+                if (!this.modal || !this.modal.ok || !this.modal.ok.color) {
                     return 'info'
                 }
                 return this.modal.ok.color
@@ -231,30 +249,32 @@
                 'isAdmin',
                 'isUserLogin',
                 'avatarUrl',
-                'userInfo',
                 'toast',
                 'notice',
                 'loading',
                 'modal',
                 'pathItems'
+            ]),
+            ...mapState([
+                'userInfo'
             ])
         },
         filters: {
-            modalTitle(title){
-                if(consts.stringIsEmptyWithTrim(title)){
+            modalTitle(title) {
+                if (consts.stringIsEmptyWithTrim(title)) {
                     return '提示';
                 }
                 return title;
             },
 
-            actionBtnText(modal){
-                if(!modal || !modal.ok || consts.stringIsEmptyWithTrim(modal.ok.text)){
+            actionBtnText(modal) {
+                if (!modal || !modal.ok || consts.stringIsEmptyWithTrim(modal.ok.text)) {
                     return '确定'
                 }
                 return modal.ok.text
             },
-            cancelBtnText(modal){
-                if(!modal || !modal.cancel || consts.stringIsEmptyWithTrim(modal.cancel.text)){
+            cancelBtnText(modal) {
+                if (!modal || !modal.cancel || consts.stringIsEmptyWithTrim(modal.cancel.text)) {
                     return '取消'
                 }
                 return modal.cancel.text
@@ -264,23 +284,26 @@
             ...mapActions([
                 'init',
             ]),
+            updateDraw(trans) {
+                this.miniMenuBlock = trans;
+            },
             gotoAdminDash() {
 
             },
             logout() {
                 modal.confirm({
-                    content:'确认退出?',
-                    ok:{
+                    content: '确认退出?',
+                    ok: {
                         text: '退出',
                         color: 'error'
                     },
-                    callback: ()=>{
+                    callback: () => {
                         modal.dismiss();
                     }
                 })
             },
-            modalClick(){
-                if(this.modal.callback){
+            modalClick() {
+                if (this.modal.callback) {
                     this.modal.callback();
                 }
             }

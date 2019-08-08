@@ -71,7 +71,7 @@
         },
         methods: {
             getTemplateList() {
-                api.system.getProjectTemplate(templates => {
+                api.template.getList(templates => {
                     this.templateList = templates;
                 })
             }

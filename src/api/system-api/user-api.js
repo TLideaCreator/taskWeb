@@ -6,7 +6,7 @@ export default {
         http.getRequest('/api/system/users', params,
             result => {
                 if (callback) {
-                    callback(result.data)
+                    callback(result.data, result.meta)
                 }
                 loading.finish();
             }, () => {
