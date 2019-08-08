@@ -1,10 +1,12 @@
 <template>
-    <v-layout column fill-height class="contentLayout"></v-layout>
+    <DevelopWidget></DevelopWidget>
 </template>
 
 <script>
+    import DevelopWidget from "../../components/DevelopWidget/DevelopWidget";
     export default {
         name: "project-detail-block.vue",
+        components: {DevelopWidget},
         props: {
             projectId: {
                 type: String,

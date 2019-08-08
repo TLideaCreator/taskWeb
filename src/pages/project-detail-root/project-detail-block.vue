@@ -1,41 +1,37 @@
 <template>
-    <v-layout column fill-height class="contentLayout">
+    <v-container fluid>
         <NameFilterLine></NameFilterLine>
-        <v-list>
-            <v-list-item-group
-                    v-for="sprint in sprints"
-                    :key="sprint.id"
-                    :value="true"
-            >
-               <template v-slot:activator>
-                   <v-list-item-content>
-                       <v-list-item-title>
-                           冲刺-S{{sprint.name}}
-                       </v-list-item-title>
-                   </v-list-item-content>
-               </template>
-                <v-list-item
-                    v-for="task in sprint.tasks.data"
-                    :key="task.id"
-                >
-                    <v-list-item-content>
-                        <v-list-item-title>
-                            {{task.title}}
-                        </v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-            </v-list-item-group>
-        </v-list>
-    </v-layout>
+
+        <SprintItem
+                v-for="sprint in sprints"
+                :key="sprint.id"
+                :sprint="sprint"
+                :taskTypes="taskTypes"
+        >
+        </SprintItem>
+        <v-btn
+                absolute
+                dark
+                right
+                top
+            color="success"
+        >
+            <v-icon>
+                add
+            </v-icon>
+            创建新冲刺
+        </v-btn>
+    </v-container>
 </template>
 
 <script>
     import api from '@/api';
     import NameFilterLine from '@/components/NameFilterLine';
+    import SprintItem from "../../components/SprintItem";
 
     export default {
         name: "project-detail-block.vue",
-        components: {NameFilterLine},
+        components: {SprintItem, NameFilterLine},
         props: {
             projectId: {
                 type: String,
@@ -44,7 +40,8 @@
         },
         data() {
             return {
-                sprints: []
+                sprints: [],
+                taskTypes: []
             }
         },
         created() {
@@ -57,8 +54,9 @@
         },
         methods: {
             getProjectSprintList() {
-                api.sprint.getSprintList(this.projectId, null, (sprints) => {
+                api.sprint.getSprintList(this.projectId, null, (sprints , meta) => {
                     this.sprints = sprints;
+                    this.taskTypes = meta.types;
                 })
             }
         }
