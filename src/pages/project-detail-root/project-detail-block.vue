@@ -5,8 +5,11 @@
         <SprintItem
                 v-for="sprint in sprints"
                 :key="sprint.id"
-                :sprint="sprint"
+                :tasks="sprint.tasks.data"
+                :members="members"
                 :taskTypes="taskTypes"
+                :sprint="sprint"
+                @taskActions="updateSprintList"
         >
         </SprintItem>
         <v-btn
@@ -28,7 +31,7 @@
     import api from '@/api';
     import NameFilterLine from '@/components/NameFilterLine';
     import SprintItem from "../../components/SprintItem";
-
+    import {consts} from '@/utils';
     export default {
         name: "project-detail-block.vue",
         components: {SprintItem, NameFilterLine},
@@ -41,22 +44,46 @@
         data() {
             return {
                 sprints: [],
-                taskTypes: []
+                taskTypes: [],
+                members: [],
+                taskList: []
             }
         },
         created() {
             this.getProjectSprintList();
         },
         computed: {
-            members() {
-                return []
-            }
+
         },
         methods: {
             getProjectSprintList() {
                 api.sprint.getSprintList(this.projectId, null, (sprints , meta) => {
                     this.sprints = sprints;
+                    this.taskList = [];
                     this.taskTypes = meta.types;
+                })
+            },
+            updateSprintList(task){
+                this.sprints.forEach(sprint=>{
+                    if(!consts.stringIsEmptyWithTrim(task.from)){
+                        if(sprint.id === task.from){
+                            let index = -1;
+                            for(let i=0; i< sprint.tasks.data.length; i++){
+                                if(sprint.tasks.data[i].id === task.task.id){
+                                    index = i;
+                                    break;
+                                }
+                            }
+                            if(index > -1){
+                                sprint.tasks.data.splice(index,1);
+                            }
+                        }
+                    }
+                    if(!consts.stringIsEmptyWithTrim(task.to)){
+                        if(sprint.id === task.to){
+                            sprint.tasks.data.push(task.task)
+                        }
+                    }
                 })
             }
         }

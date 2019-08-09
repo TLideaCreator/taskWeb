@@ -74,6 +74,9 @@
         },
         computed: {
             pageLength() {
+                if(!this.pageCount ||this.pageCount === 0){
+                    return 1
+                }
                 return Math.ceil(this.totalCount / this.pageCount)
             }
         },

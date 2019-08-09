@@ -80,6 +80,7 @@ export default {
         axios.get(url).then(request => {
             checkResult(request, success, error);
         }).catch((fault) => {
+            console.log('fault is ', fault);
             errorResult(fault, error)
         })
     },
