@@ -5,6 +5,7 @@ import state from './state'
 import actions from './actions'
 import getters from './getters'
 import projectSprint from './modules/project-detail-sprint'
+import projectBlock from './modules/project-detail-block'
 
 Vue.use(Vuex);
 
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     actions,
     getters,
     modules:{
-        sprint: projectSprint
+        sprint: projectSprint,
+        block: projectBlock
     }
 })

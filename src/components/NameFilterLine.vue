@@ -3,7 +3,7 @@
         <v-btn v-for="(member,index) in memberList" :key="member.id"
                 type="text"
                 style="margin-right: 5px"
-                :style="getBtnStyle(member, index)"
+                :color="member.checked ? colors[index]:''"
                 @click="updateMemberChecked(member.id)">{{member|name}}
         </v-btn>
     </v-layout>
@@ -63,10 +63,7 @@
         },
         methods:{
             getBtnStyle(member, index){
-                return {
-                    background: member.checked ? this.colors[index]:'transparent',
-                    color: member.checked ? 'white': 'black'
-                }
+                return member.checked ? this.colors[index]:'';
             },
             updateMemberChecked(memberId){
                 this.$emit('updateChecked', memberId);

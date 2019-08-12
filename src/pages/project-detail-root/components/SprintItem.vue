@@ -14,6 +14,14 @@
                         </v-btn>
                     </v-list-item-action>
                 </template>
+                <v-divider v-show="taskList.length === 0"></v-divider>
+                <v-list-item v-show="taskList.length === 0">
+                    <v-list-item-content>
+                        <v-list-item-subtitle>
+                            点击下方加号添加任务，您也可以将其他冲刺的任务拖动到当前冲刺中。
+                        </v-list-item-subtitle>
+                    </v-list-item-content>
+                </v-list-item>
                 <template
                         v-for="(task, tindex) in taskList"
                 >
@@ -25,7 +33,7 @@
                                 :key="task.id"
                         >
                             <v-list-item-icon>
-                                <v-icon>{{loadTypeIcon(task.type)}}</v-icon>
+                                <v-icon :color="loadPriority(task.priority)">{{loadTypeIcon(task.type)}}</v-icon>
                             </v-list-item-icon>
                             <v-list-item-content>
                                 <v-list-item-title>
@@ -105,6 +113,12 @@
                     return []
                 }
             },
+            taskPriorities: {
+                type: Array,
+                default: () => {
+                    return []
+                }
+            },
             defaultPriorityId: {
                 type: String,
                 default: ''
@@ -119,7 +133,7 @@
                     return []
                 }
             },
-            active:{
+            active: {
                 type: Boolean,
                 default: false
             }
@@ -136,12 +150,12 @@
             }
         },
         watch: {
-            active(val){
+            active(val) {
                 this.startSprint = val
             },
             sprintItem(val) {
                 this.sprint = val;
-                this.title = val.name
+                this.title = val.name;
             },
             tasks(val) {
                 this.taskList = val;
@@ -153,13 +167,14 @@
                 if (task.executor && task.executor.data && task.executor.data.name) {
                     return task.executor.data.name;
                 } else {
-                    return '未分配'
+                    return '未指派'
                 }
             },
         },
         computed: {
             sprintName() {
                 if (!this.title || this.title + '' === '0') {
+
                     return '未分配'
                 } else {
                     return `冲刺-S${this.title}`
@@ -176,6 +191,15 @@
             }
         },
         methods: {
+            loadPriority(priorityId){
+                let priority = this.taskPriorities.filter(item=>{
+                    return item.id === priorityId
+                });
+                if(priority && priority.length > 0){
+                    return priority[0].color;
+                }
+                return '';
+            },
             loadTypeIcon(typeId) {
                 let type = this.taskTypes.filter(item => {
                     return item.id === typeId

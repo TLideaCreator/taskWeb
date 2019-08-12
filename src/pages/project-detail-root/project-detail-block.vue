@@ -1,16 +1,31 @@
 <template>
     <v-container fluid>
-        <NameFilterLine></NameFilterLine>
+        <v-layout wrap height="64" justify-space-between align-center>
+            <v-flex xs12 md4>
+                <v-text-field
+                        v-model="searchKey"
+                    prepend-icon="search"
+                        placeholder="输入任务标题或任务描述"
+                ></v-text-field>
+            </v-flex>
+            <v-flex xs12 md4>
+                <NameFilterLine
+                        :members="members"
+                        @updateChecked="updateSelectedMembers"
+                ></NameFilterLine>
+            </v-flex>
+        </v-layout>
+        <v-divider></v-divider>
 
         <SprintItem
                 v-for="sprint in sprints"
                 :key="sprint.id"
-                :tasks="sprint.tasks.data"
-                :members="members"
+                :tasks="sprintTasks(sprint.id)"
                 :taskTypes="taskTypes"
+                :taskPriorities="taskPriorities"
                 :sprintItem="sprint"
                 :active="activeSprint"
-                @taskActions="updateSprintList"
+                @taskActions="updateTaskChanged"
         >
         </SprintItem>
         <v-btn
@@ -18,7 +33,7 @@
                 dark
                 right
                 top
-            color="success"
+                color="success"
                 @click="createNewSprint"
         >
             <v-icon>
@@ -33,7 +48,7 @@
     import api from '@/api';
     import NameFilterLine from '@/components/NameFilterLine';
     import SprintItem from "./components/SprintItem";
-    import {consts} from '@/utils';
+    import {mapGetters, mapActions, mapMutations} from 'vuex';
     export default {
         name: "project-detail-block.vue",
         components: {SprintItem, NameFilterLine},
@@ -43,72 +58,40 @@
                 default: ''
             }
         },
-        data() {
-            return {
-                sprints: [],
-                taskTypes: [],
-                members: [],
-                taskList: [],
-                activeSprint: false
-            }
-        },
         created() {
-            this.getProjectSprintList();
+            this.getProjectSprintList(this.projectId);
         },
-        computed: {
-
+        computed:{
+            searchKey:{
+                get(){
+                    return this.$store.state.block.searchKey
+                },
+                set(val){
+                    this.$store.commit('updateSearchKey',val);
+                }
+            },
+            ...mapGetters({
+                'sprintTasks': 'getSprintTaskList',
+                'members': 'getMemberList',
+                'sprints': 'getSprintList',
+                'activeSprint': 'getActiveSprint',
+                'taskTypes': 'getTaskTypes',
+                'taskPriorities': 'getTaskPriorities',
+            })
         },
         methods: {
+            ...mapActions([
+                'getProjectSprintList'
+            ]),
+            ...mapMutations([
+                'updateTaskChanged',
+                'updateSelectedMembers'
+            ]),
             createNewSprint(){
                 api.sprint.createSprint(this.projectId,item=>{
-                    if(this.sprints.length >1 && this.sprints[0].status === 1){
-                        let sprintList = consts.objectCopy(this.sprints);
-                        sprintList.splice(1,0,item);
-                        this.sprints = sprintList;
-                    }else{
-                        this.sprints = [
-                            item,
-                            ...this.sprints
-                        ];
-                    }
+                    this.$store.commit('addSprintItem',item)
                 })
             },
-            getProjectSprintList() {
-                api.sprint.getSprintList(this.projectId, null, (sprints , meta) => {
-                    this.sprints = sprints;
-                    this.taskList = [];
-                    this.taskTypes = meta.types;
-                    for (let i = 0; i < sprints.length; i++) {
-                        if(sprints[i].status === 1){
-                            this.activeSprint = true;
-                            break;
-                        }
-                    }
-                })
-            },
-            updateSprintList(task){
-                this.sprints.forEach(sprint=>{
-                    if(!consts.stringIsEmptyWithTrim(task.from)){
-                        if(sprint.id === task.from){
-                            let index = -1;
-                            for(let i=0; i< sprint.tasks.data.length; i++){
-                                if(sprint.tasks.data[i].id === task.task.id){
-                                    index = i;
-                                    break;
-                                }
-                            }
-                            if(index > -1){
-                                sprint.tasks.data.splice(index,1);
-                            }
-                        }
-                    }
-                    if(!consts.stringIsEmptyWithTrim(task.to)){
-                        if(sprint.id === task.to){
-                            sprint.tasks.data.push(task.task)
-                        }
-                    }
-                })
-            }
         }
     }
 </script>

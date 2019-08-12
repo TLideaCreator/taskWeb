@@ -1,9 +1,14 @@
 export default {
     state:{
-        taskList:[]
+        taskList:[],
+
     },
     actions:{},
-    mutations:{},
+    mutations:{
+        updateStatusTaskList(state,tasks){
+            state.taskList = tasks;
+        }
+    },
     getters:{
         getStatusTaskList:(state)=>(statusId)=>{
             return state.taskList.filter(item => {
