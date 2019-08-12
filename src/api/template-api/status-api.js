@@ -57,4 +57,17 @@ export default {
                 loading.error();
             })
     },
+    updateIndex(tempId, params, callback) {
+        http.patchRequest(`/api/system/template/${tempId}/status/sequence`, params,
+            result => {
+                if(callback){
+                    callback(result.data);
+                }
+            }, () => {
+                if(callback){
+                    callback();
+                }
+                toast.error('顺序修改失败，请稍后重试')
+            })
+    }
 }

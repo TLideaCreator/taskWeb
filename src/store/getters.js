@@ -1,4 +1,9 @@
 export default{
+    fullHeight(state){
+        return {
+            height: state.contentFullHeight + 'px'
+        }
+    },
     isUserLogin(state) {
         return state.userInfo;
     },

@@ -149,6 +149,8 @@ export default new Router({
         {
             path: '/project/:projectId/settings',
             redirect: '/project/:projectId/settings/detail',
+            component: () => import('@/pages/project-settings-root/project-settings-root.vue'),
+            props:true,
             children: [
                 {
                     path: 'detail',

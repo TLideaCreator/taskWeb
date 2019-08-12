@@ -124,14 +124,20 @@
                     align-start
                     ref="contentLayout"
             >
-                <v-layout column style="height:64px">
-                    <v-layout>
+                <v-layout column >
+                    <v-layout ref="breadLine" style="max-height: 54px">
                         <v-btn
                                 text icon
                                 @click="showMenuBlock = !showMenuBlock"
                                 v-show="!miniMenuBlock && menus.length>0">
                             <v-icon>menu</v-icon>
                         </v-btn>
+                        <v-divider
+                                class="mx-4"
+                                style="height: 80px;"
+                                vertical
+                                v-show="!miniMenuBlock && menus.length>0">
+                        ></v-divider>
                         <v-breadcrumbs :items="pathItems">
                             <template v-slot:divider>
                                 <v-icon>chevron_right</v-icon>
@@ -181,7 +187,14 @@
             this.init();
         },
         mounted(){
-            this.$store.commit('updateContentFullHeight', this.$refs.contentLayout.clientHeight)
+            let contentHeight = this.$refs.contentLayout.clientHeight -
+                    80 -24;
+            this.$store.commit('updateContentFullHeight', contentHeight);
+            window.addEventListener('resize',()=>{
+                let contentHeight = this.$refs.contentLayout.clientHeight -
+                    80 -24;
+                this.$store.commit('updateContentFullHeight', contentHeight);
+            })
         },
         computed: {
             showMenuBlock: {

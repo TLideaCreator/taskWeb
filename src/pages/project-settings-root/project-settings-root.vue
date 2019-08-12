@@ -1,36 +1,5 @@
 <template>
-    <v-layout fill-height>
-        <v-navigation-drawer
-                v-model="drawer"
-                :mini-variant.sync="mini"
-                permanent
-        >
-            <v-list shaped>
-                <v-list-item
-                        v-for="(menu, index) in menus"
-                        :key="index"
-                        :replace="true"
-                        :to="{name:menu.path, param:projectId}"
-                >
-                    <v-list-item-icon>
-                        <v-icon>{{menu.icon}}</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-content>
-                        <v-list-item-title>
-                            {{menu.title}}
-                        </v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-            </v-list>
-            <template v-slot:append>
-                <v-btn style="width: 100%" text @click="mini = !mini">
-                    <v-icon>{{mini? 'keyboard_arrow_left': 'keyboard_arrow_right'}}</v-icon>
-                    {{mini ? '': '收起'}}
-                </v-btn>
-            </template>
-        </v-navigation-drawer>
-        <router-view></router-view>
-    </v-layout>
+    <router-view></router-view>
 </template>
 
 <script>
@@ -38,7 +7,7 @@
     import {menus, router} from '@/utils';
 
     export default {
-        name: "project-settings-root.vue",
+        name: "admin-template-root.vue",
         props: {
             projectId: {
                 type: String,
@@ -50,20 +19,77 @@
                 drawer: false,
                 mini: false,
                 projectInfo: {},
-                menus: menus.projectSettingMenu,
-                routerName: router.currentRoute.name
+                menus: menus.templateMenu,
+                routerName:''
+            }
+        },
+        beforeRouteUpdate(to, _, next) {
+            this.routerName = to.name;
+            next()
+        },
+        watch:{
+            routerName(val){
+                let items = [
+                    {
+                        text: '项目设置',
+                        disabled: false,
+                        href: '/project/:projectId/settings/detail',
+                    },
+                    {
+                        text: this.projectInfo.name,
+                        disabled: true,
+                        href: '',
+                    }
+                ];
+                switch (val) {
+                    case 'systemTempDetailPage':
+                        items.push({
+                            text: '详情',
+                            disabled: true,
+                            href: '',
+                        });
+                        break;
+                    case 'systemTempRolePage':
+                        items.push({
+                            text: '角色',
+                            disabled: true,
+                            href: '',
+                        });
+                        break;
+                    case 'systemTempStatusPage':
+                        items.push({
+                            text: '状态',
+                            disabled: true,
+                            href: '',
+                        });
+                        break;
+                    case 'systemTempTypePage':
+                        items.push({
+                            text: '类型',
+                            disabled: true,
+                            href: '',
+                        });
+                        break;
+                    case 'systemTempPriorityPage':
+                        items.push({
+                            text: '优先级',
+                            disabled: true,
+                            href: '',
+                        });
+                        break;
+                }
+                this.$store.commit('updatePathItems', items);
             }
         },
         created() {
-            this.loadProjectDetail()
+            this.loadTemplateDetail();
         },
         methods: {
-            loadProjectDetail() {
+            loadTemplateDetail() {
+                this.$store.commit('updatePathItems', []);
                 api.project.getProjectDetailApi(this.projectId, project => {
                     this.projectInfo = project;
-                    if (project.mgr.data.id !== this.$store.state.userInfo.id) {
-                        router.replace({name: 'systemTempDetailPage'})
-                    }
+                    this.routerName =  router.currentRoute.name;
                 })
             }
         }

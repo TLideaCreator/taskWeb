@@ -4,6 +4,7 @@ import mutations from './mutations'
 import state from './state'
 import actions from './actions'
 import getters from './getters'
+import projectSprint from './modules/project-detail-sprint'
 
 Vue.use(Vuex);
 
@@ -14,5 +15,6 @@ export default new Vuex.Store({
     actions,
     getters,
     modules:{
+        sprint: projectSprint
     }
 })

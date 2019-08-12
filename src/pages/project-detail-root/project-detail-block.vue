@@ -8,7 +8,8 @@
                 :tasks="sprint.tasks.data"
                 :members="members"
                 :taskTypes="taskTypes"
-                :sprint="sprint"
+                :sprintItem="sprint"
+                :active="activeSprint"
                 @taskActions="updateSprintList"
         >
         </SprintItem>
@@ -18,6 +19,7 @@
                 right
                 top
             color="success"
+                @click="createNewSprint"
         >
             <v-icon>
                 add
@@ -30,7 +32,7 @@
 <script>
     import api from '@/api';
     import NameFilterLine from '@/components/NameFilterLine';
-    import SprintItem from "../../components/SprintItem";
+    import SprintItem from "./components/SprintItem";
     import {consts} from '@/utils';
     export default {
         name: "project-detail-block.vue",
@@ -46,7 +48,8 @@
                 sprints: [],
                 taskTypes: [],
                 members: [],
-                taskList: []
+                taskList: [],
+                activeSprint: false
             }
         },
         created() {
@@ -56,11 +59,31 @@
 
         },
         methods: {
+            createNewSprint(){
+                api.sprint.createSprint(this.projectId,item=>{
+                    if(this.sprints.length >1 && this.sprints[0].status === 1){
+                        let sprintList = consts.objectCopy(this.sprints);
+                        sprintList.splice(1,0,item);
+                        this.sprints = sprintList;
+                    }else{
+                        this.sprints = [
+                            item,
+                            ...this.sprints
+                        ];
+                    }
+                })
+            },
             getProjectSprintList() {
                 api.sprint.getSprintList(this.projectId, null, (sprints , meta) => {
                     this.sprints = sprints;
                     this.taskList = [];
                     this.taskTypes = meta.types;
+                    for (let i = 0; i < sprints.length; i++) {
+                        if(sprints[i].status === 1){
+                            this.activeSprint = true;
+                            break;
+                        }
+                    }
                 })
             },
             updateSprintList(task){

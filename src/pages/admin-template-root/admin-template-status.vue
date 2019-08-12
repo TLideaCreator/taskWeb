@@ -1,11 +1,13 @@
 <template>
     <v-container fluid>
         <v-list style="background: transparent">
+            <v-divider></v-divider>
             <template v-for="(status, index) in statusList">
                 <drop
                         :key="status.id"
                         @drop="dropItem({$event,index})">
                     <drag
+                            :draggable="draggable"
                             :transfer-data="{status, index}"
                     >
                         <v-list-item
@@ -134,7 +136,8 @@
                 delStatus: {
                     name: '',
                     color: ''
-                }
+                },
+                draggable: true
             }
         },
         created() {
@@ -157,21 +160,23 @@
         },
         methods: {
             dropItem(event) {
-                let fromIndex = event.$event.index;
-                let toIndex = event.index;
+                this.draggable = false;
+                let fromIndex = event.$event.index+1;
+                let toIndex = event.index+1;
 
                 if (fromIndex === toIndex) {
+                    this.draggable = true;
                     return;
                 }
-                let status = event.$event.status;
 
-                if (fromIndex < toIndex) {
-                    this.statusList.splice((toIndex + 1), 0, status);
-                    this.statusList.splice(fromIndex, 1);
-                } else {
-                    this.statusList.splice(toIndex, 0, status);
-                    this.statusList.splice((fromIndex + 1), 1);
-                }
+                api.template.status.updateIndex(this.templateId, {from: fromIndex, to: toIndex}, list => {
+                    if (list) {
+                        this.statusList = [...list].sort((a, b) => {
+                            return a.indexes - b.indexes
+                        });
+                    }
+                    this.draggable = true;
+                })
             },
             addNewStatusItem() {
                 this.newStatusDialog = true
@@ -182,16 +187,16 @@
             },
             deleteStatusItem(status) {
                 modal.confirm({
-                   content: `确认删除${status.name}吗?`,
-                   callback: ()=>{
-                       api.template.status.delete(status, list => {
-                           this.delStatusDialog = false;
-                           this.statusList = [...list].sort((a, b) => {
-                               return a.indexes - b.indexes
-                           });
-                           modal.dismiss();
-                       });
-                   }
+                    content: `确认删除${status.name}吗?`,
+                    callback: () => {
+                        api.template.status.delete(status, list => {
+                            this.delStatusDialog = false;
+                            this.statusList = [...list].sort((a, b) => {
+                                return a.indexes - b.indexes
+                            });
+                            modal.dismiss();
+                        });
+                    }
                 });
                 this.delStatus = status;
                 this.delStatusDialog = true;
