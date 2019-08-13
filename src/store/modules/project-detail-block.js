@@ -112,14 +112,12 @@ export default {
     },
     getters: {
         getSprintTaskList: (state) => (sprintId) => {
-            return [
-                ...state.taskList.filter(item => {
-                    let exeid = item.executor && item.executor.data && item.executor.data.id ? item.executor.data.id :'';
-                    let memberFilter = state.selectedMembers.length === 0 ? true: state.selectedMembers.indexOf(exeid)>=0;
-                    let searchFilter = consts.stringIsEmptyWithTrim(state.searchKey) ? true: item.title.indexOf(state.searchKey)>=0 || item.desc.indexOf(state.searchKey) >=0;
-                    return memberFilter && searchFilter && item.sprint_id === sprintId
-                })
-            ];
+            return [...state.taskList.filter(item => {
+                let exeid = item.executor && item.executor.data && item.executor.data.id ? item.executor.data.id :'';
+                let memberFilter = state.selectedMembers.length === 0 ? true: state.selectedMembers.indexOf(exeid)>=0;
+                let searchFilter = consts.stringIsEmptyWithTrim(state.searchKey) ? true: item.title.indexOf(state.searchKey)>=0 || item.desc.indexOf(state.searchKey) >=0;
+                return memberFilter && searchFilter && item.sprint_id === sprintId
+            })];
         },
         getSprintList(state) {
             return state.sprintList.sort((a, b) => {

@@ -8,7 +8,7 @@
                     </v-list-item-title>
                     <v-list-item-action>
                         <v-btn class="smallerFont"
-                               v-show="!startSprint"
+                               v-show="startSprint"
                                text @click="$emit('startSprint',sprint.id)">
                             开始冲刺
                         </v-btn>
@@ -140,7 +140,6 @@
         },
         data() {
             return {
-                startSprint: this.active,
                 showCreateTask: false,
                 taskTypeId: '',
                 taskTitle: '',
@@ -162,7 +161,6 @@
             }
         },
         filters: {
-
             exeName(task) {
                 if (task.executor && task.executor.data && task.executor.data.name) {
                     return task.executor.data.name;
@@ -172,9 +170,11 @@
             },
         },
         computed: {
+            startSprint() {
+                return !this.active && this.sprint.name + '' !== '0'
+            },
             sprintName() {
                 if (!this.title || this.title + '' === '0') {
-
                     return '未分配'
                 } else {
                     return `冲刺-S${this.title}`
@@ -191,11 +191,11 @@
             }
         },
         methods: {
-            loadPriority(priorityId){
-                let priority = this.taskPriorities.filter(item=>{
+            loadPriority(priorityId) {
+                let priority = this.taskPriorities.filter(item => {
                     return item.id === priorityId
                 });
-                if(priority && priority.length > 0){
+                if (priority && priority.length > 0) {
                     return priority[0].color;
                 }
                 return '';
@@ -211,7 +211,7 @@
             },
             dropItem(item) {
                 api.task.moveTaskToSprint(item.task.id, item.sprintId, task => {
-                    this.$emit('taskActions', ({from: item.task.sprint_id, to: item.sprintId, task}))
+                    this.$emit('taskActions', task)
                 })
             },
             showNewTaskCreateLine() {
@@ -232,7 +232,7 @@
                         },
                         task => {
                             this.taskTitle = '';
-                            this.$emit('taskActions', ({from: '', to: this.sprint.id, task}))
+                            this.$emit('taskActions', task)
                         })
                 }
             }

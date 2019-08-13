@@ -3,7 +3,7 @@
         <v-layout column>
             <v-layout row justify-space-between align-center class="ml-5 mr-5">
                 <v-text-field
-                        placeholder="请输入项目名称"
+                        placeholder="姓名/手机/Email"
                         v-model="searchKey"
                         append-outer-icon="search"
                         @click:append-outer="searchAction"
