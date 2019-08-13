@@ -57,6 +57,12 @@ export default {
                 commit('updateSprintTaskList', taskList);
                 commit('updateMembers', reloadMembers(taskList, rootState.userInfo.id))
             });
+        },
+        startSprint({commit},{projectId,sprintId}){
+            api.sprint.makeSprintActive(projectId,sprintId,()=>{
+                commit('updateActiveSprint', true);
+                commit('updateSprintListStatus',sprintId)
+            })
         }
     },
     mutations: {
@@ -68,6 +74,14 @@ export default {
         },
         updateSprintList(state, sprints) {
             state.sprintList = sprints;
+        },
+        updateSprintListStatus(state, sprintId){
+            for (let i = 0; i < state.sprintList.length; i++) {
+                if(state.sprintList[i].id === sprintId){
+                    state.sprintList[i].status= 1;
+                    break;
+                }
+            }
         },
         updateActiveSprint(state, flag) {
             state.activeSprint = flag;

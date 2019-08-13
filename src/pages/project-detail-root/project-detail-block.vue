@@ -18,13 +18,15 @@
         <v-divider></v-divider>
 
         <SprintItem
-                v-for="sprint in sprints"
+                v-for="(sprint,index) in sprints"
                 :key="sprint.id"
                 :tasks="sprintTasks(sprint.id)"
                 :taskTypes="taskTypes"
                 :taskPriorities="taskPriorities"
                 :sprintItem="sprint"
                 :active="activeSprint"
+                :class="{'inSprintAction':activeSprint && index === 0}"
+                @startSprint="startSprint"
                 @taskActions="updateTaskChanged"
         >
         </SprintItem>
@@ -81,12 +83,15 @@
         },
         methods: {
             ...mapActions([
-                'getProjectSprintList'
+                'getProjectSprintList',
             ]),
             ...mapMutations([
                 'updateTaskChanged',
                 'updateSelectedMembers'
             ]),
+            startSprint(sprintId){
+                this.$store.dispatch('startSprint', {projectId: this.projectId, sprintId: sprintId})
+            },
             createNewSprint(){
                 api.sprint.createSprint(this.projectId,item=>{
                     this.$store.commit('addSprintItem',item)
@@ -96,6 +101,8 @@
     }
 </script>
 
-<style scoped>
-
+<style scoped lang="less">
+    .inSprintAction{
+        background: lightgoldenrodyellow;
+    }
 </style>

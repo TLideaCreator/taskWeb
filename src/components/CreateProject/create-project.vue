@@ -1,6 +1,6 @@
 <template>
-    <v-layout class="createProjectStep1Style" justify-space-around align-center>
-        <v-flex md5 v-show="!showAvatarPop">
+    <v-layout class="createProjectStep1Style" justify-center align-center>
+        <v-flex md4 v-show="!showAvatarPop">
             <h2 class="textCenter">欢迎使用任务看板</h2>
             <h3 class="textCenter" style="margin-top: 20px">
                 由此您将创建一个新的项目
@@ -9,16 +9,16 @@
                 <img :src="require('./assets/images/board.jpeg')" class="imgStyle"/>
             </v-layout>
         </v-flex>
-        <v-flex md5 v-show="showAvatarPop">
+        <v-flex md4 v-show="showAvatarPop">
             <img v-for="index in 30" :key="index"
                  class="projectImg"
                  @click="changeProjectIcon(index)"
                  :src="require('../../assets/images/project/'+index+'.png')"/>
         </v-flex>
-        <v-flex md4>
+        <v-flex md3>
             <h3 style="text-align: center">创建项目</h3>
-            <v-layout justify-space-around align-cneter>
-                <v-flex md4 align-self-center>
+            <v-layout justify-center align-cneter>
+                <v-flex md2 align-self-center>
                     <v-img class="projectImg"
                            @click="showAvatarPop = !showAvatarPop"
                            :src="require('../../assets/images/project/'+projectIcon+'.png')"></v-img>
@@ -122,7 +122,7 @@
 
 <style scoped>
     .createProjectStep1Style {
-        width: 900px !important;
+        width: 100%;
         height: 500px;
         display: flex;
     }

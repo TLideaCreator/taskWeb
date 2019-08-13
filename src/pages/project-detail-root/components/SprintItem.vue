@@ -9,7 +9,7 @@
                     <v-list-item-action>
                         <v-btn class="smallerFont"
                                v-show="startSprint"
-                               text @click="$emit('startSprint',sprint.id)">
+                               text @click.stop="$emit('startSprint',sprint.id)">
                             开始冲刺
                         </v-btn>
                     </v-list-item-action>
