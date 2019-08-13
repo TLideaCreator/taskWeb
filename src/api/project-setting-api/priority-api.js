@@ -3,7 +3,7 @@ import {http, loading, toast} from '@/utils'
 export default {
     getList(projectId, callback) {
         loading.start();
-        http.getRequest(`/api/projects/${projectId}/priorities`, {},
+        http.getRequest(`/api/projects/${projectId}/settings/priorities`, {},
             result => {
                 if (callback) {
                     callback(result.data);
@@ -18,7 +18,7 @@ export default {
     },
     create(projectId,priority, callback) {
         loading.start();
-        http.postRequest(`/api/projects/${projectId}/priorities`, priority,
+        http.postRequest(`/api/projects/${projectId}/settings/priorities`, priority,
             result => {
                 if (callback) {
                     callback(result.data);
@@ -32,7 +32,7 @@ export default {
     },
     update(priority, callback) {
         loading.start();
-        http.patchRequest(`/api/projects/${priority.project_id}/priorities/${priority.id}`,
+        http.patchRequest(`/api/projects/${priority.project_id}/settings/priorities/${priority.id}`,
             priority,result => {
                 if (callback) {
                     callback(result.data);
@@ -47,7 +47,7 @@ export default {
     },
     delete(priority, callback) {
         loading.start();
-        http.deleteRequest(`/api/projects/${priority.project_id}/priorities/${priority.id}`, {},
+        http.deleteRequest(`/api/projects/${priority.project_id}/settings/priorities/${priority.id}`, {},
             result => {
                 if (callback) {
                     callback(result.data);
@@ -59,5 +59,21 @@ export default {
                 loading.error();
             });
     },
-
+    updateIndex(projectId, param, callback){
+        http.patchRequest(
+            `/api/projects/${projectId}/settings/priorities/sequence`,
+            param,
+            result=>{
+                if(callback){
+                    callback(result.data);
+                }
+            },
+            ()=>{
+                if(callback){
+                    callback();
+                }
+                toast.error('顺序修改失败，请稍后重试')
+            }
+        )
+    }
 }

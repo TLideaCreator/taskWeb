@@ -3,7 +3,7 @@ import {http, loading, toast} from '@/utils'
 export default {
     getList(projectId, callback) {
         loading.start();
-        http.getRequest(`/api/projects/${projectId}/status`, {},
+        http.getRequest(`/api/projects/${projectId}/settings/status`, {},
             result => {
                 if (callback) {
                     callback(result.data);
@@ -17,7 +17,7 @@ export default {
     },
     create(projectId, status, callback) {
         loading.start();
-        http.postRequest(`/api/projects/${projectId}/status`, status,
+        http.postRequest(`/api/projects/${projectId}/settings/status`, status,
             result => {
                 if (callback) {
                     callback(result.data);
@@ -31,7 +31,7 @@ export default {
     },
     update(status, callback) {
         loading.start();
-        http.patchRequest(`/api/projects/${status.project_id}/status/${status.id}`, status,
+        http.patchRequest(`/api/projects/${status.project_id}/settings/status/${status.id}`, status,
             result => {
                 if (callback) {
                     callback(result.data);
@@ -45,7 +45,7 @@ export default {
     },
     delete(status, callback) {
         loading.start();
-        http.deleteRequest(`/api/projects/${status.project_id}/status/${status.id}`, {},
+        http.deleteRequest(`/api/projects/${status.project_id}/settings/status/${status.id}`, {},
             result => {
                 if (callback) {
                     callback(result.data);
@@ -57,4 +57,18 @@ export default {
                 loading.error();
             })
     },
+
+    updateIndex(projectId, params, callback) {
+        http.patchRequest(`/api/projects/${projectId}/settings/status/sequence`, params,
+            result => {
+                if(callback){
+                    callback(result.data);
+                }
+            }, () => {
+                if(callback){
+                    callback();
+                }
+                toast.error('顺序修改失败，请稍后重试')
+            })
+    }
 }

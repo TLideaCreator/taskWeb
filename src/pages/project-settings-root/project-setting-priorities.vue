@@ -2,32 +2,44 @@
     <v-container fluid>
         <v-list style="background: transparent">
             <template v-for="(priority,index) in prioritiesList">
-                <v-list-item :key="priority.id">
-                    <v-list-item-icon>
-                        <v-avatar :color="priority.color" :size="32">
-                        </v-avatar>
-                    </v-list-item-icon>
-                    <v-list-item-content>
-                        <v-list-item-title>{{priority.name}}</v-list-item-title>
-                    </v-list-item-content>
-                    <v-spacer></v-spacer>
-                    <v-spacer></v-spacer>
-                    <v-spacer></v-spacer>
-                    <v-list-item-action>
-                        {{priority.is_default?'默认优先级': ''}}
-                    </v-list-item-action>
-                    <v-spacer></v-spacer>
-                    <v-list-item-action>
-                        <v-btn icon text small color="info" @click="showEditPriorityDialog(priority)">
-                            <v-icon>edit</v-icon>
-                        </v-btn>
-                    </v-list-item-action>
-                    <v-list-item-action v-show="prioritiesList.length > 1">
-                        <v-btn icon text small color="error" @click="showDelPriorityDialog(priority)">
-                            <v-icon>delete</v-icon>
-                        </v-btn>
-                    </v-list-item-action>
-                </v-list-item>
+                <drop :key="priority.id"
+                      @drop="updatePrioritySequence({$event,index})"
+                >
+                    <drag
+                            :draggable="draggable"
+                            :transfer-data="{priority, index}"
+                    >
+                        <v-list-item >
+                            <v-list-item-icon>
+                                <v-icon>{{index|statusMoveIcon(prioritiesList.length)}}</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-avatar
+                                    :style="{background: priority.color}"
+                                    class="mr-5"
+                            >
+                            </v-list-item-avatar>
+                            <v-list-item-content style="width: 300px">
+                                <v-list-item-title>{{priority.name}}</v-list-item-title>
+                            </v-list-item-content>
+
+                            <v-spacer></v-spacer>
+                            <v-list-item-action>
+                                {{priority.is_default?'默认优先级': ''}}
+                            </v-list-item-action>
+                            <v-spacer></v-spacer>
+                            <v-list-item-action>
+                                <v-btn icon text small color="info" @click="showEditPriorityDialog(priority)">
+                                    <v-icon>edit</v-icon>
+                                </v-btn>
+                            </v-list-item-action>
+                            <v-list-item-action v-show="prioritiesList.length > 1">
+                                <v-btn icon text small color="error" @click="showDelPriorityDialog(priority)">
+                                    <v-icon>delete</v-icon>
+                                </v-btn>
+                            </v-list-item-action>
+                        </v-list-item>
+                    </drag>
+                </drop>
                 <v-divider :key="'divider:'+index"></v-divider>
             </template>
         </v-list>
@@ -111,7 +123,7 @@
     import {consts,modal} from "@/utils";
 
     export default {
-        name: "project-settings-priorities",
+        name: "project-setting-priority",
         props: {
             projectId: {
                 type: String,
@@ -129,10 +141,26 @@
                     is_default: 0,
                 },
                 newPriorityDialog: false,
+                draggable: true
             }
         },
         created() {
             this.getSystemTemplatePriorityList();
+        },
+        filters: {
+            statusMoveIcon(index, listLength) {
+                if (listLength === 0) {
+                    return '';
+                } else {
+                    if (index === 0) {
+                        return 'expand_more';
+                    } else if (index === (listLength - 1)) {
+                        return 'expand_less';
+                    } else {
+                        return 'unfold_more';
+                    }
+                }
+            }
         },
         methods: {
             getSystemTemplatePriorityList() {
@@ -145,7 +173,7 @@
                 this.editPriorityDialog = true;
             },
             savePriorityChange() {
-                api.template.priority.update(this.editPriority, list => {
+                api.projectSetting.priority.update(this.editPriority, list => {
                     this.prioritiesList = list;
                     this.editPriorityDialog = false;
                 })
@@ -159,18 +187,15 @@
                 modal.confirm({
                     content: content,
                     callback: ()=>{
-                        api.template.priority.delete(priority, list=>{
+                        api.projectSetting.priority.delete(priority, list=>{
                             this.prioritiesList = list;
                             modal.dismiss();
                         })
                     }
                 })
             },
-            deletePriorityItem(){
-
-            },
             createNewPriority(){
-                api.template.priority.create(this.projectId, this.newPriority, list=>{
+                api.projectSetting.priority.create(this.projectId, this.newPriority, list=>{
                     this.prioritiesList = list ;
                     this.newPriority = {
                         name: '',
@@ -178,6 +203,24 @@
                         is_default: 0
                     };
                     this.newPriorityDialog = false;
+                })
+            },
+            updatePrioritySequence(event){
+                this.draggable = false;
+                let fromIndex = event.$event.index+1;
+                let toIndex = event.index+1;
+
+                if (fromIndex === toIndex) {
+                    this.draggable = true;
+                    return;
+                }
+                api.projectSetting.priority.updateIndex(this.projectId, {from: fromIndex, to: toIndex}, list => {
+                    if (list) {
+                        this.prioritiesList = [...list].sort((a, b) => {
+                            return a.indexes - b.indexes
+                        });
+                    }
+                    this.draggable = true;
                 })
             }
         }
