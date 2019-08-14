@@ -27,6 +27,7 @@
                          :open-delay="800"
                 >
                     <v-card
+                            @click="$emit('taskItemClick', task)"
                             max-width="320"
                     >
                         <v-card-title style="font-size: medium">{{task.title}}</v-card-title>

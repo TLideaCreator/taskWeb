@@ -23,6 +23,7 @@
                 :statusIndex="index"
                 :dragPosition="dragPosition"
                 :taskList="taskList(status.id)"
+                @taskItemClick="showTaskDetail"
                 @taskInDrag="updateDragPosition"
                 @updateTaskStatus="updateTaskStatus"
             >
@@ -39,6 +40,17 @@
         >
             完成冲刺
         </v-btn>
+        <v-dialog v-model="showTaskDetailFlag"
+                  width="800"
+                  persistent
+
+        >
+            <TaskDetail
+                    :task-id="currentTask.id"
+                    @cancel="showTaskDetailFlag=false"
+                    @taskUpdata="updateTaskStatus"
+            ></TaskDetail>
+        </v-dialog>
     </v-container>
 </template>
 
@@ -48,9 +60,10 @@
     import {mapGetters,mapActions,mapMutations} from 'vuex';
     import NameFilterLine from "../../components/NameFilterLine";
     import StatusTasks from "./components/StatusTasks";
+    import TaskDetail from "./components/TaskDetail";
 
     export default {
-        components: {StatusTasks, NameFilterLine},
+        components: {TaskDetail, StatusTasks, NameFilterLine},
         props: {
             projectId: {
                 type: String,
@@ -59,7 +72,9 @@
         },
         data() {
             return {
-                dragPosition: -1
+                dragPosition: -1,
+                showTaskDetailFlag: false,
+                currentTask: {}
             };
         },
         mounted() {
@@ -99,6 +114,10 @@
             }
         },
         methods: {
+            showTaskDetail(task){
+                this.showTaskDetailFlag = true;
+                this.currentTask = task;
+            },
             updateDragPosition(position){
                 this.dragPosition = position
             },
