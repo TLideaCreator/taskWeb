@@ -27,6 +27,7 @@
                 :class="{'inSprintAction':activeSprint && index === 0}"
                 @startSprint="startSprint"
                 @taskActions="updateTaskChanged"
+                @clickItem="showTaskDetail"
         >
         </SprintItem>
         <v-btn
@@ -42,6 +43,18 @@
             </v-icon>
             创建新冲刺
         </v-btn>
+        <v-dialog
+                persistent
+                v-model="showTaskDetailFlag"
+                width="800"
+        >
+            <TaskDetail
+                    :taskId="currentTask.id"
+                    @cancel="showTaskDetailFlag= false"
+                    @taskUpdate="updateTaskChanged"
+            ></TaskDetail>
+
+        </v-dialog>
     </v-container>
 </template>
 
@@ -50,15 +63,22 @@
     import NameFilterLine from '@/components/NameFilterLine';
     import SprintItem from "./components/SprintItem";
     import {mapActions, mapGetters, mapMutations} from 'vuex';
+    import TaskDetail from "./components/TaskDetail";
 
     export default {
         name: "project-detail-block.vue",
-        components: {SprintItem, NameFilterLine},
+        components: {TaskDetail, SprintItem, NameFilterLine},
         props: {
             projectId: {
                 type: String,
                 default: ''
             }
+        },
+        data(){
+          return {
+              showTaskDetailFlag: false,
+              currentTask: {},
+          }
         },
         created() {
             this.getProjectSprintList(this.projectId);
@@ -89,6 +109,11 @@
             ...mapMutations([
                 'updateSelectedMembers'
             ]),
+
+            showTaskDetail(task){
+                this.showTaskDetailFlag = true;
+                this.currentTask = task;
+            },
             startSprint(sprintId) {
                 this.$store.dispatch('startSprint', {projectId: this.projectId, sprintId: sprintId})
             },
