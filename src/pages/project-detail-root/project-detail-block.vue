@@ -4,16 +4,15 @@
             <v-flex xs12 md4>
                 <v-text-field
                         v-model="searchKey"
-                    prepend-icon="search"
+                        prepend-icon="search"
                         placeholder="输入任务标题或任务描述"
                 ></v-text-field>
             </v-flex>
-            <v-flex xs12 md4>
-                <NameFilterLine
-                        :members="members"
-                        @updateChecked="updateSelectedMembers"
-                ></NameFilterLine>
-            </v-flex>
+            <v-spacer></v-spacer>
+            <NameFilterLine
+                    :members="members"
+                    @updateChecked="updateSelectedMembers"
+            ></NameFilterLine>
         </v-layout>
         <v-divider></v-divider>
 
@@ -50,7 +49,8 @@
     import api from '@/api';
     import NameFilterLine from '@/components/NameFilterLine';
     import SprintItem from "./components/SprintItem";
-    import {mapGetters, mapActions, mapMutations} from 'vuex';
+    import {mapActions, mapGetters, mapMutations} from 'vuex';
+
     export default {
         name: "project-detail-block.vue",
         components: {SprintItem, NameFilterLine},
@@ -63,13 +63,13 @@
         created() {
             this.getProjectSprintList(this.projectId);
         },
-        computed:{
-            searchKey:{
-                get(){
+        computed: {
+            searchKey: {
+                get() {
                     return this.$store.state.block.searchKey
                 },
-                set(val){
-                    this.$store.commit('updateSearchKey',val);
+                set(val) {
+                    this.$store.commit('updateSearchKey', val);
                 }
             },
             ...mapGetters({
@@ -84,17 +84,17 @@
         methods: {
             ...mapActions([
                 'getProjectSprintList',
+                'updateTaskChanged'
             ]),
             ...mapMutations([
-                'updateTaskChanged',
                 'updateSelectedMembers'
             ]),
-            startSprint(sprintId){
+            startSprint(sprintId) {
                 this.$store.dispatch('startSprint', {projectId: this.projectId, sprintId: sprintId})
             },
-            createNewSprint(){
-                api.sprint.createSprint(this.projectId,item=>{
-                    this.$store.commit('addSprintItem',item)
+            createNewSprint() {
+                api.sprint.createSprint(this.projectId, item => {
+                    this.$store.commit('addSprintItem', item)
                 })
             },
         }
@@ -102,7 +102,7 @@
 </script>
 
 <style scoped lang="less">
-    .inSprintAction{
+    .inSprintAction {
         background: lightgoldenrodyellow;
     }
 </style>

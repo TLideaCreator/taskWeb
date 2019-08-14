@@ -1,70 +1,33 @@
 <template>
     <v-container fluid>
-        <div :style="fullHeight" style="overflow-y: auto">
-            <div style="display: flex ; min-width: 360px ">
-                <v-card class="ma-2"
-                        min-width="350"
-                        v-for="(status, index) in statusList"
-                        :key="index+'_'+status.id"
+        <v-layout justify-space-between align-center>
+            <v-flex md3>
+                <v-text-field
+                        v-model="searchKey"
+                        placeholder="任务标题/任务描述"
+                        prepend-inner-icon="search"
                 >
-                    <v-card-title>{{status.name}}</v-card-title>
-                    <v-divider :color="status.color" style="height: 5px"></v-divider>
-                </v-card>
-            </div>
-            <div style="display: flex; margin-top: 10px ;" :style="blockHeight">
-                <drop
-                        v-for="(status, index) in statusList"
-                        :key="index+'_'+status.id"
-                        class="ma-1"
-                        style="border-radius: 5px;overflow-x: auto; min-width: 360px"
-                        tag="div"
-                >
-                    <drag
-                            v-for="task in getTaskStateList(status.id)"
-                            :key="task.id"
-                            class="ma-2"
-                    >
-                        <v-hover v-slot:default="{ hover }"
-                            :open-delay="800"
-                        >
-                            <v-card
-                                    min-width="320"
-                            >
-                                <v-card-title style="font-size: medium">{{task.title}}</v-card-title>
-                                <v-expand-transition>
-                                    <v-card-text v-if="hover">
-                                        <div
-                                                v-if="hover"
-                                                style="min-height: 88px;"
-                                        >
-                                            {{task.desc}}
-                                        </div>
-                                    </v-card-text>
-                                    <v-card-text v-else>
-                                        <v-layout align-center>
-                                            <v-avatar>
-                                                <v-img
-                                                        v-if="task.executor&& task.executor.data"
-                                                        :src="loadAvatarImg(task.executor.data)"
-                                                ></v-img>
-                                            </v-avatar>
-                                            {{task|loadTaskExecutorName}}
-                                        </v-layout>
-                                        <v-layout>
-                                            <v-icon :color="prioritiesList(task.priority).color">
-                                                {{typeList(task.type)}}
-                                            </v-icon>
-                                            <span>{{prioritiesList(task.priority).name}}</span>
-                                        </v-layout>
-                                    </v-card-text>
-                                </v-expand-transition>
-                            </v-card>
+                </v-text-field>
+            </v-flex>
 
-                        </v-hover>
-                    </drag>
+            <name-filter-line
+                :members="members"
+                @updateChecked="updateSelectedMembersList"
+            ></name-filter-line>
+        </v-layout>
+        <div :style="fullHeight" style="overflow-y: auto; display: flex">
+            <StatusTasks
+                v-for="(status ,index) in statusList"
+                :key="status.id"
+                :statusItem="status"
+                :statusIndex="index"
+                :dragPosition="dragPosition"
+                :taskList="taskList(status.id)"
+                @taskInDrag="updateDragPosition"
+                @updateTaskStatus="updateTaskStatus"
+            >
 
-                </drop>
-            </div>
+            </StatusTasks>
         </div>
         <v-btn
                 absolute
@@ -82,9 +45,12 @@
 <script>
     import api from '@/api';
     import {modal} from '@/utils';
-    import {mapGetters,mapActions} from 'vuex';
+    import {mapGetters,mapActions,mapMutations} from 'vuex';
+    import NameFilterLine from "../../components/NameFilterLine";
+    import StatusTasks from "./components/StatusTasks";
 
     export default {
+        components: {StatusTasks, NameFilterLine},
         props: {
             projectId: {
                 type: String,
@@ -93,43 +59,48 @@
         },
         data() {
             return {
+                dragPosition: -1
             };
         },
-        created() {
+        mounted() {
             this.getProjectActiveSprint(this.projectId);
         },
-        filters: {
-            loadTaskExecutorName(task) {
-                if (task.executor && task.executor.data) {
-                    return task.executor.data.name
-                } else {
-                    return '未指派'
-                }
-            }
-        },
+
         computed: {
             ...mapGetters({
                 'loadAvatarImg': 'avatarUrl',
                 'statusList': 'getStatusList',
                 'typeList': 'getTypeList',
                 'sprint': 'getSprintItem',
+                'taskList': 'getStatusTaskList',
+                'members': 'getMembersList',
                 'prioritiesList': 'getPrioritiesList',
             }),
+
+            searchKey:{
+                get(){
+                    return this.$store.state.sprint.searchKey;
+                },
+                set(val){
+                    this.$store.commit('updateSearchKey',val)
+                }
+            },
             blockHeight() {
                 let height = this.$store.state.contentFullHeight;
                 return {
-                    height: (height - 88) + 'px'
+                    height: (height - 150) + 'px'
                 }
             },
             fullHeight() {
-                return this.$store.getters.fullHeight;
+                let height = this.$store.state.contentFullHeight;
+                return {
+                    height: (height- 88)+'px'
+                }
             }
         },
         methods: {
-            getTaskStateList(key) {
-                return this.sprint.tasks.data.filter(item => {
-                    return item.status === key;
-                });
+            updateDragPosition(position){
+                this.dragPosition = position
             },
             finishAlert() {
                 modal.confirm({
@@ -145,8 +116,12 @@
                     }
                 });
             },
+            ...mapMutations([
+                'updateSelectedMembersList'
+            ]),
             ...mapActions([
-                'getProjectActiveSprint'
+                'getProjectActiveSprint',
+                'updateTaskStatus'
             ])
         }
     }

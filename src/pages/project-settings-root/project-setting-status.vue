@@ -54,8 +54,11 @@
                 <v-card-title>修改状态</v-card-title>
                 <v-card-text>
                     <v-text-field v-model="editStatus.name"></v-text-field>
-                    <v-color-picker v-model="editStatus.color"
-                                    mode="hexa" hide-mode-switch
+                    <v-color-picker
+                            v-model="editStatus.color"
+                                    mode="hexa"
+                            hide-alpha
+                                    hide-mode-switch
                     ></v-color-picker>
                 </v-card-text>
                 <v-card-actions>
@@ -77,8 +80,10 @@
                 <v-card-title>新建状态</v-card-title>
                 <v-card-text>
                     <v-text-field v-model="newStatus.name"></v-text-field>
-                    <v-color-picker v-model="newStatus.color"
-                                    mode="hexa" hide-mode-switch
+                    <v-color-picker
+                            v-model="newStatus.color"
+                            hide-mode-switch
+                            mode="hexa"
                     ></v-color-picker>
                 </v-card-text>
                 <v-card-actions>

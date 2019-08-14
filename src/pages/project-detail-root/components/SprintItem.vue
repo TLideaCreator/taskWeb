@@ -51,7 +51,7 @@
             <v-divider></v-divider>
         </drop>
 
-        <v-list-item v-if="!showCreateTask">
+        <v-list-item v-show="!showCreateTask">
             <v-list-item-action>
                 <v-btn small icon @click="showNewTaskCreateLine">
                     <v-icon :size="18">
@@ -60,7 +60,7 @@
                 </v-btn>
             </v-list-item-action>
         </v-list-item>
-        <v-list-item v-else>
+        <v-list-item v-show="showCreateTask">
             <v-list-item-content style="max-width: 120px;" class="mr-4">
                 <v-select
                         v-model="taskTypeId"
@@ -143,6 +143,7 @@
                 showCreateTask: false,
                 taskTypeId: '',
                 taskTitle: '',
+                sprintActive: this.active,
                 taskList: this.tasks,
                 sprint: this.sprintItem,
                 title: this.sprintItem.name
@@ -150,7 +151,7 @@
         },
         watch: {
             active(val) {
-                this.startSprint = val
+                this.sprintActive = val
             },
             sprintItem(val) {
                 this.sprint = val;
@@ -171,7 +172,7 @@
         },
         computed: {
             startSprint() {
-                return !this.active && this.sprint.name + '' !== '0'
+                return !this.sprintActive && this.sprint.name + '' !== '0'
             },
             sprintName() {
                 if (!this.title || this.title + '' === '0') {

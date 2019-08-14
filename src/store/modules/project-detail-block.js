@@ -1,34 +1,7 @@
 import api from '@/api';
 import {consts} from '@/utils';
 
-function reloadMembers(taskList, userId) {
-    let memberRow = {};
-    taskList.forEach((item) => {
-        if (item && item.executor && item.executor.data) {
-            let memberId = item.executor.data.id;
-            if (!memberRow[memberId]) {
-                if (userId === memberId) {
-                    memberRow[memberId] =
-                        {id: memberId, name: '我的', checked: false};
-                } else {
-                    if (consts.stringIsEmptyWithTrim(memberId)) {
-                        memberRow[''] =
-                            {id: '', name: '未指派', checked: false};
-                    } else {
-                        memberRow[memberId] =
-                            {id: item.executor.data.id, name: item.executor.data.name, checked: false}
-                    }
-                }
 
-            }
-        } else {
-            memberRow[''] =
-                {id: '', name: '未指派', checked: false};
-        }
-
-    });
-    return memberRow;
-}
 
 export default {
     state: {
@@ -55,7 +28,7 @@ export default {
                     taskList.push(...sprints[i].tasks.data);
                 }
                 commit('updateSprintTaskList', taskList);
-                commit('updateMembers', reloadMembers(taskList, rootState.userInfo.id))
+                commit('updateMembers', consts.reloadTaskListMembers(taskList, rootState.userInfo.id))
             });
         },
         startSprint({commit},{projectId,sprintId}){
@@ -63,7 +36,12 @@ export default {
                 commit('updateActiveSprint', true);
                 commit('updateSprintListStatus',sprintId)
             })
-        }
+        },
+
+        updateTaskChanged({state, commit, rootState}, task) {
+            commit('updateTaskListChange', task);
+            commit('updateMembers', consts.reloadTaskListMembers(state.taskList, rootState.userInfo.id))
+        },
     },
     mutations: {
         updateTaskTypeList(state, taskTypes) {
@@ -98,7 +76,7 @@ export default {
         updateSearchKey(state, searchKey){
             state.searchKey = searchKey
         },
-        updateTaskChanged(state, task) {
+        updateTaskListChange(state, task){
             let index = -1;
             for (let i = 0; i < state.taskList.length; i++) {
                 if (state.taskList[i].id === task.id) {
@@ -111,8 +89,6 @@ export default {
             } else {
                 state.taskList.push(task);
             }
-
-            state.members = reloadMembers(state.taskList);
         },
         updateSelectedMembers(state, memberId){
             state.members[memberId].checked = !state.members[memberId].checked;

@@ -1,30 +1,11 @@
 import {consts, http, storage} from "./index";
-import {colorToHex} from "vuetify/lib/util/colorUtils";
+import {RGBAtoCSS,HexToRGBA} from "vuetify/lib/util/colorUtils";
 
 let height = 0;
 let userInfo = {};
 
-let hexToDec={
-    '0': 0,
-    '1': 1,
-    '2': 2,
-    '3': 3,
-    '4': 4,
-    '5': 5,
-    '6': 6,
-    '7': 7,
-    '8': 8,
-    '9': 9,
-    'a': 10,
-    'b': 11,
-    'c': 12,
-    'd': 13,
-    'e': 14,
-    'f': 15,
-};
-
 export default {
-    init(){
+    init() {
         userInfo = storage.get('userInfo');
     },
 
@@ -48,9 +29,9 @@ export default {
 
     set userInfo(val) {
         userInfo = val;
-        if(val){
+        if (val) {
             storage.save('userInfo', val);
-        }else{
+        } else {
             storage.remove('userInfo')
         }
     },
@@ -99,20 +80,47 @@ export default {
             return content.replace(key, "<span class='highLight'>" + key + "</span>")
         }
     },
-    formatAvatarSrc(user){
-        if (user && user.data && user.data.avatar ) {
+    formatAvatarSrc(user) {
+        if (user && user.data && user.data.avatar) {
             return require('../assets/images/avatar/' + user.data.avatar + '.png');
         } else {
             return '';
         }
     },
-    colorStringToColor(colorString, alpha){
-        if(!alpha){
-            alpha =1
+    colorStringToColor(colorString, algha) {
+        let color = HexToRGBA(colorString);
+        if(algha){
+            color.a = algha
         }
-        let rDec = hexToDec[colorString[1]] * 16 + hexToDec[colorString[2]];
-        let gDec = hexToDec[colorString[3]] * 16 + hexToDec[colorString[4]];
-        let bDec = hexToDec[colorString[5]] * 16 + hexToDec[colorString[6]];
-        return colorToHex(rDec, gDec, bDec, alpha)
+        return RGBAtoCSS(color)
+    },
+    reloadTaskListMembers(taskList, userId) {
+        let memberRow = {};
+        taskList.forEach((item) => {
+            if (item && item.executor && item.executor.data) {
+                let memberId = item.executor.data.id;
+                if (!memberRow[memberId]) {
+                    if (userId === memberId) {
+                        memberRow[memberId] =
+                            {id: memberId, name: '我的', checked: false};
+                    } else {
+                        if (consts.stringIsEmptyWithTrim(memberId)) {
+                            memberRow[''] =
+                                {id: '', name: '未指派', checked: false};
+                        } else {
+                            memberRow[memberId] =
+                                {id: item.executor.data.id, name: item.executor.data.name, checked: false}
+                        }
+                    }
+
+                }
+            } else {
+                memberRow[''] =
+                    {id: '', name: '未指派', checked: false};
+            }
+
+        });
+        return memberRow;
     }
+
 }

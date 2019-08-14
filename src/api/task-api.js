@@ -54,7 +54,7 @@ export default {
         http.patchRequest(url, task,
             result => {
                 if(callback){
-                    callback(result);
+                    callback(result.data);
                 }
             },
             error => {

@@ -1,4 +1,5 @@
 import api from '@/api';
+import {consts} from "@/utils";
 export default {
     state:{
         sprint: {},
@@ -6,25 +7,56 @@ export default {
         typeList: [],
         prioritiesList: [],
         statusList: [],
+        members: {},
+        selectedMembers: [],
+        searchKey: ''
     },
     actions:{
-        getProjectActiveSprint({commit},projectId){
+        getProjectActiveSprint({state,commit,rootState},projectId){
             api.sprint.getSprintList(projectId, 'active', (sprints, meta) => {
                 if (sprints && sprints.length > 0) {
                     commit('updateSprint',sprints[0]);
-                    commit('updateStatusList', meta.status);
-                    commit('updatePrioritiesList', meta.priorities);
-                    commit('updateTypesList', meta.types);
                 }
+                commit('updateTaskMembers',consts.reloadTaskListMembers(state.taskList,rootState.userInfo.id));
+                commit('updateStatusList', meta.status);
+                commit('updatePrioritiesList', meta.priorities);
+                commit('updateTypesList', meta.types);
             })
+        },
+        updateTaskStatus({commit},{task, statusId}){
+            let taskItem = consts.objectCopy(task);
+            if(taskItem.status === statusId){
+                return;
+            }
+            taskItem.status = statusId;
+            api.task.updateTaskInfo(taskItem, item=>{
+                commit('updateTaskListChange', item);
+            });
         }
     },
     mutations:{
+        updateTaskListChange(state, task){
+            let index = -1;
+            for (let i = 0; i < state.taskList.length; i++) {
+                if (state.taskList[i].id === task.id) {
+                    index = i;
+                }
+            }
+            if (index !== -1) {
+                state.taskList.splice(index, 1);
+                state.taskList.splice(index, 0, task);
+            } else {
+                state.taskList.push(task);
+            }
+        },
         updateSprint(state, sprint){
             state.sprint = sprint;
             if(sprint.tasks && sprint.tasks.data){
                 state.taskList = sprint.tasks.data;
             }
+        },
+        updateTaskMembers(state, members){
+            state.members = members;
         },
         updateStatusList(state, status){
             state.statusList = status;
@@ -35,11 +67,27 @@ export default {
         updateTypesList(state, types){
             state.typeList = types;
         },
+        updateSelectedMembersList(state, memberId){
+            state.members[memberId].checked = !state.members[memberId].checked;
+            if (!state.members[memberId].checked) {
+                let index = state.selectedMembers.indexOf(memberId);
+                state.selectedMembers.splice(index, 1);
+            } else {
+                state.selectedMembers.push(memberId);
+            }
+        },
+        updateSearchKey(state, key){
+            state.searchKey = key ;
+        }
     },
     getters:{
         getStatusTaskList:(state)=>(statusId)=>{
             return state.taskList.filter(item => {
-                return item.status = statusId
+                let exeId = item.executor && item.executor.data && item.executor.data.id ? item.executor.data.id :'';
+                let search = consts.stringIsEmptyWithTrim(state.searchKey)? true :
+                    (item.title.indexOf(state.searchKey) >=0 || item.desc.indexOf(state.searchKey) >= 0);
+                let memberIn = state.selectedMembers.length > 0 ? state.selectedMembers.indexOf(exeId)>=0 : true;
+                return search && memberIn && item.status === statusId
             });
         },
         getSprintItem(state){
@@ -56,6 +104,9 @@ export default {
         },
         getStatusList(state){
             return  state.statusList;
+        },
+        getMembersList(state){
+            return Object.values(state.members);
         },
         getTypeList:(state)=>(type)=>{
             let types = state.typeList.filter(item=>{
