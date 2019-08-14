@@ -31,6 +31,7 @@
                             :key="'drag:'+tindex">
                         <v-list-item
                                 :key="task.id"
+                                @click="showTaskDetail(task)"
                         >
                             <v-list-item-icon>
                                 <v-icon :color="loadPriority(task.priority)">{{loadTypeIcon(task.type)}}</v-icon>
@@ -90,6 +91,17 @@
                 </v-btn>
             </v-list-item-action>
         </v-list-item>
+        <v-dialog
+                persistent
+                v-model="showTaskDetailFlag"
+                width="800"
+        >
+            <TaskDetail
+                :taskItem="currentTask"
+                @cancel="showTaskDetailFlag= false"
+            ></TaskDetail>
+
+        </v-dialog>
     </v-list>
 
 </template>
@@ -97,9 +109,11 @@
 <script>
     import api from '@/api';
     import {consts, toast} from "@/utils";
+    import TaskDetail from "./TaskDetail";
 
     export default {
         name: "SprintItem",
+        components: {TaskDetail},
         props: {
             sprintItem: {
                 type: Object,
@@ -146,7 +160,9 @@
                 sprintActive: this.active,
                 taskList: this.tasks,
                 sprint: this.sprintItem,
-                title: this.sprintItem.name
+                title: this.sprintItem.name,
+                showTaskDetailFlag: false,
+                currentTask: {}
             }
         },
         watch: {
@@ -192,6 +208,10 @@
             }
         },
         methods: {
+            showTaskDetail(task){
+                this.showTaskDetailFlag = true;
+                this.currentTask = task;
+            },
             loadPriority(priorityId) {
                 let priority = this.taskPriorities.filter(item => {
                     return item.id === priorityId
