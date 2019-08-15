@@ -40,30 +40,18 @@
         >
             完成冲刺
         </v-btn>
-        <v-dialog v-model="showTaskDetailFlag"
-                  width="800"
-                  persistent
-
-        >
-            <TaskDetail
-                    :task-id="currentTask.id"
-                    @cancel="showTaskDetailFlag=false"
-                    @taskUpdata="updateTaskStatus"
-            ></TaskDetail>
-        </v-dialog>
     </v-container>
 </template>
 
 <script>
     import api from '@/api';
-    import {modal} from '@/utils';
+    import {modal, router} from '@/utils';
     import {mapGetters,mapActions,mapMutations} from 'vuex';
     import NameFilterLine from "../../components/NameFilterLine";
     import StatusTasks from "./components/StatusTasks";
-    import TaskDetail from "./components/TaskDetail";
 
     export default {
-        components: {TaskDetail, StatusTasks, NameFilterLine},
+        components: {StatusTasks, NameFilterLine},
         props: {
             projectId: {
                 type: String,
@@ -73,8 +61,6 @@
         data() {
             return {
                 dragPosition: -1,
-                showTaskDetailFlag: false,
-                currentTask: {}
             };
         },
         mounted() {
@@ -115,8 +101,13 @@
         },
         methods: {
             showTaskDetail(task){
-                this.showTaskDetailFlag = true;
-                this.currentTask = task;
+                router.replace({
+                    'name': 'projectDetailTaskDetailPage',
+                    params: {
+                        projectId: this.projectId,
+                        taskId: task.id
+                    }
+                });
             },
             updateDragPosition(position){
                 this.dragPosition = position

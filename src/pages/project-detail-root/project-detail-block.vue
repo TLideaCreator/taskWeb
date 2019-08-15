@@ -47,6 +47,7 @@
                 persistent
                 v-model="showTaskDetailFlag"
                 width="800"
+                height="75%"
         >
             <TaskDetail
                     :taskId="currentTask.id"
@@ -109,7 +110,6 @@
             ...mapMutations([
                 'updateSelectedMembers'
             ]),
-
             showTaskDetail(task){
                 this.showTaskDetailFlag = true;
                 this.currentTask = task;

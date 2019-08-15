@@ -143,6 +143,13 @@ export default new Router({
                     meta: {root: 'projectDetail'},
                     component: () => import('@/pages/project-detail-root/project-detail-root.vue'),
                     props: true,
+                },
+                {
+                    path: 'tasks/:taskId',
+                    name: 'projectDetailTaskDetailPage',
+                    meta: {root: 'projectDetail'},
+                    component: () => import('@/pages/project-detail-root/project-task-detail.vue'),
+                    props: true,
                 }
             ]
         },

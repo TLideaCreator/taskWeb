@@ -87,7 +87,7 @@
                 </v-btn>
             </v-list-item-action>
             <v-list-item-action>
-                <v-btn icon small class="smallerFont">
+                <v-btn icon small class="smallerFont" @click="$emit('createNewTask',title)">
                     <v-icon :size="24">more_horiz</v-icon>
                 </v-btn>
             </v-list-item-action>

@@ -7,7 +7,7 @@
     import {menus, router} from '@/utils';
 
     export default {
-        name: "admin-template-root.vue",
+        name: "project-settings-root.vue",
         props: {
             projectId: {
                 type: String,
@@ -31,48 +31,53 @@
             routerName(val){
                 let items = [
                     {
-                        text: '项目设置',
+                        text: '我的项目',
                         disabled: false,
-                        href: '/project/:projectId/settings/detail',
+                        href: '/projects',
                     },
                     {
                         text: this.projectInfo.name,
+                        disabled: false,
+                        href: `/project/${this.projectId}/block`,
+                    },
+                    {
+                        text: '项目设置',
                         disabled: true,
-                        href: '',
+                        href: ''
                     }
                 ];
                 switch (val) {
                     case 'systemTempDetailPage':
                         items.push({
-                            text: '详情',
+                            text: '项目详情',
                             disabled: true,
                             href: '',
                         });
                         break;
                     case 'systemTempRolePage':
                         items.push({
-                            text: '角色',
+                            text: '项目角色',
                             disabled: true,
                             href: '',
                         });
                         break;
                     case 'systemTempStatusPage':
                         items.push({
-                            text: '状态',
+                            text: '任务状态',
                             disabled: true,
                             href: '',
                         });
                         break;
                     case 'systemTempTypePage':
                         items.push({
-                            text: '类型',
+                            text: '任务类型',
                             disabled: true,
                             href: '',
                         });
                         break;
                     case 'systemTempPriorityPage':
                         items.push({
-                            text: '优先级',
+                            text: '任务优先级',
                             disabled: true,
                             href: '',
                         });
