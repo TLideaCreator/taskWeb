@@ -5,11 +5,25 @@
                 <v-text-field
                         v-model="task.title"
                         label="标题"
+                        single-line
                         placeholder="请输入任务标题"
                         counter="40"
                         @keydown="updateTaskInput"
                 ></v-text-field>
+                <v-select
+                        v-model="task.exe_id"
+                        label="指派给"
+                        width="100px"
+                        outlined
+                        item-value="user_id"
+                        item-text="username"
+                        :items="members"
+                        @change="updateTaskInfo"
+                >
+
+                </v-select>
                 <v-textarea
+                        class="mt-4"
                         v-model="task.desc"
                         counter="512"
                         label="任务描述"
@@ -17,7 +31,6 @@
                         @keydown="updateTaskInput"
                 >
                 </v-textarea>
-                <v-divider></v-divider>
                 <v-list style="background: transparent">
                     <v-list-item-subtitle
                         v-for="history of histories"
@@ -27,17 +40,7 @@
 
             </v-flex>
             <v-flex md4>
-                <v-select
-                        v-model="task.exe_id"
-                        label="指派给"
-                        outlined
-                        item-value="user_id"
-                        item-text="username"
-                        :items="members"
-                        @change="updateTaskInfo"
-                >
 
-                </v-select>
                 <v-select
                         v-model="task.report_id"
                         label="观察者"

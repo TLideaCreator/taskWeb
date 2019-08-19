@@ -43,7 +43,7 @@
                                          style="min-height: 88px;"
                             >
                                 <v-layout align-center>
-                                    <v-avatar>
+                                    <v-avatar class="mr-4">
                                         <v-img
                                                 v-if="task.executor&& task.executor.data"
                                                 :src="loadAvatarImg(task.executor.data)"
@@ -51,8 +51,8 @@
                                     </v-avatar>
                                     {{task|loadTaskExecutorName}}
                                 </v-layout>
-                                <v-layout>
-                                    <v-icon :color="prioritiesList(task.priority).color">
+                                <v-layout class="mt-2">
+                                    <v-icon :color="prioritiesList(task.priority).color" class="mr-2">
                                         {{typeList(task.type)}}
                                     </v-icon>
                                     <span>{{prioritiesList(task.priority).name}}</span>

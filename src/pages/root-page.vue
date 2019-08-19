@@ -1,15 +1,5 @@
 <template>
     <v-app>
-        <v-progress-linear
-                :color="loading.color"
-                striped
-                :height="8"
-                v-show="loadingFlag"
-                v-model="loading.value"
-                :indeterminate="loading.query"
-                :query="loading.query"
-                class="progressStyle"
-        ></v-progress-linear>
         <v-alert
                 v-model="alertFlag"
                 dismissible
@@ -89,6 +79,16 @@
                     </v-list-item>
                 </v-list>
             </v-menu>
+            <v-progress-linear
+                    :color="loading.color"
+                    striped
+                    :height="8"
+                    v-show="loadingFlag"
+                    v-model="loading.value"
+                    :indeterminate="loading.query"
+                    :query="loading.query"
+                    class="progressStyle"
+            ></v-progress-linear>
         </v-app-bar>
         <v-navigation-drawer
                 :app="menus.length > 0"
@@ -333,7 +333,8 @@
         position: absolute;
         z-index: 99;
         margin: 0;
-        top: 56px
+        top: 56px;
+        left: 0
     }
 
     .noticeStyle {
