@@ -16,6 +16,8 @@ Vue.use(Vuetify);
 Vue.use(VueDragDrop);
 Vue.component('HeaderLine', HeaderLine);
 
+Vue.config.silent = process.env.NODE_ENV === 'production';
+
 Object.keys(filters).forEach((key)=>{
   Vue.filter(key, filters[key]);
 });

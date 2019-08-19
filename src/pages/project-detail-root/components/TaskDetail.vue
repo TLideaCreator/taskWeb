@@ -1,8 +1,8 @@
 <template>
     <v-card>
         <v-card-text>
-            <v-layout class="pt-5">
-                <h3>任务详情</h3>
+            <v-layout class="pt-5" align-center>
+                <h3>{{project.name}}-{{task.indexes}}</h3>
                 <v-spacer></v-spacer>
                 <v-btn icon @click="changeSize">
                     <v-icon>{{fullFlag ? 'fullscreen_exit': 'fullscreen'}}</v-icon>
@@ -92,7 +92,7 @@
 
 <script>
     import api from '@/api';
-    import {consts, toast} from "../../../utils";
+    import {consts, toast} from "@/utils";
     export default {
         name: "TaskDetail",
         props: {
@@ -104,6 +104,12 @@
                 type: Array,
                 default: ()=>{
                     return []
+                }
+            },
+            project: {
+                type: Object,
+                default: ()=>{
+                    return {}
                 }
             }
         },

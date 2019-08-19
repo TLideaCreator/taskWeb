@@ -33,6 +33,9 @@
                                 :key="task.id"
                                 @click="$emit('clickItem',task)"
                         >
+                            <v-list-item-action-text>
+                                <span class="mr-5">{{task.indexes|taskIndexes(project.name)}}</span>
+                            </v-list-item-action-text>
                             <v-list-item-icon>
                                 <v-icon :color="loadPriority(task.priority)">{{loadTypeIcon(task.type)}}</v-icon>
                             </v-list-item-icon>
@@ -41,6 +44,7 @@
                                     {{task.title}}
                                 </v-list-item-title>
                             </v-list-item-content>
+
                             <v-list-item-action-text>
                                 {{task|exeName}}
                             </v-list-item-action-text>
@@ -138,6 +142,12 @@
             active: {
                 type: Boolean,
                 default: false
+            },
+            project: {
+                type: Object,
+                default: ()=>{
+                    return {}
+                }
             }
         },
         data() {
@@ -173,6 +183,9 @@
                     return '未指派'
                 }
             },
+            taskIndexes(indexes, projectName){
+                return (projectName?projectName[0]: '') + '-' + indexes;
+            }
         },
         computed: {
             startSprint() {

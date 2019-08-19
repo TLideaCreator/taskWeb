@@ -19,6 +19,7 @@
         <SprintItem
                 v-for="(sprint,index) in sprints"
                 :key="sprint.id"
+                :project="$parent.projectInfo"
                 :tasks="sprintTasks(sprint.id)"
                 :taskTypes="taskTypes"
                 :taskPriorities="taskPriorities"
@@ -51,6 +52,7 @@
         >
             <TaskDetail
                     :taskId="currentTask.id"
+                    :project="$parent.projectInfo"
                     @cancel="showTaskDetailFlag= false"
                     @taskUpdate="updateTaskChanged"
             ></TaskDetail>
