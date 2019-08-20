@@ -1,5 +1,5 @@
 import axios from "axios";
-import {toast, loading, storage, stringIsEmpty, router, consts, events} from './index'
+import {toast, storage, stringIsEmpty, router, consts, events} from './index'
 
 function dataFromTransfer(param) {
     let fromParam = new FormData();
@@ -20,7 +20,6 @@ function errorResult(fault, error) {
         let status = fault && fault.response && fault.response.status ? fault.response.status : 500;
         error(status);
     }
-    loading.error();
 }
 
 function checkResult(request, success, error) {
@@ -28,7 +27,6 @@ function checkResult(request, success, error) {
         if (success) {
             success(request.data);
         }
-        loading.finish()
     } else {
         if(request.status === 203){
             consts.cleanLoginUserInfo();
@@ -39,7 +37,6 @@ function checkResult(request, success, error) {
         if(error){
             error(request.status);
         }
-        loading.error();
     }
 
 }
@@ -48,6 +45,7 @@ export default {
 
     set apiHost(host) {
         axios.defaults.baseURL = host;
+        axios.defaults.timeout = 5000;
         let token = storage.get('auth-key');
         if (!stringIsEmpty(token)) {
             axios.defaults.headers.common['auth-key'] = token;
@@ -75,8 +73,6 @@ export default {
         if (paramString.length > 0) {
             url = url + "?" + paramString.join("&")
         }
-        loading.start();
-
         axios.get(url).then(request => {
             checkResult(request, success, error);
         }).catch((fault) => {
@@ -85,7 +81,6 @@ export default {
     },
 
     postRequest(url, param, success, error) {
-        loading.start();
         axios.post(url, dataFromTransfer(param)).then(request => {
             checkResult(request, success, error);
         }).catch((fault) => {
@@ -94,7 +89,6 @@ export default {
     },
 
     patchRequest(url, param, success, error) {
-        loading.start();
         axios.patch(url, (param)).then(request => {
             checkResult(request, success, error);
         }).catch((fault) => {
@@ -103,7 +97,6 @@ export default {
     },
 
     deleteRequest(url, param, success, error) {
-        loading.start();
         axios.delete(url).then(request => {
             checkResult(request, success, error);
         }).catch((fault) => {
