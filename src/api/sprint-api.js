@@ -58,7 +58,7 @@ export default {
     sprintFinish(sprint, callback){
         sprint.status = 2;
         http.patchRequest(
-            `/api/projects/sprints/${sprint.id}`, sprint, ()=>{
+            `/api/projects/sprints/${sprint.id}/finish`, sprint, ()=>{
             if(callback){
                 callback();
             }
