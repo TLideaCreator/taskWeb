@@ -44,7 +44,6 @@
 </template>
 
 <script>
-    import api from '@/api';
     import {modal, router} from '@/utils';
     import {mapGetters,mapActions,mapMutations} from 'vuex';
     import NameFilterLine from "../../components/NameFilterLine";
@@ -120,8 +119,8 @@
                         text: '完成',
                     },
                     callback: () => {
-                        api.sprint.sprintFinish(this.sprint.id, () => {
-                            this.sprint = {}
+                        this.sprintFinish(()=>{
+                            modal.dismiss();
                         })
                     }
                 });
@@ -131,6 +130,7 @@
             ]),
             ...mapActions([
                 'getProjectActiveSprint',
+                'sprintFinish',
                 'updateTaskStatus'
             ])
         }

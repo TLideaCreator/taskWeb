@@ -22,36 +22,33 @@
                         </v-list-item-subtitle>
                     </v-list-item-content>
                 </v-list-item>
-                <template
+                <drag
                         v-for="(task, tindex) in taskList"
-                >
+                        :transfer-data="task"
+                        tag="div"
+                        :key="'drag:'+tindex">
                     <v-divider :key="tindex"></v-divider>
-                    <drag
-                            :transfer-data="task"
-                            :key="'drag:'+tindex">
-                        <v-list-item
-                                :key="task.id"
-                                @click="$emit('clickItem',task)"
-                        >
-                            <v-list-item-action-text>
-                                <span class="mr-5">{{task.indexes|taskIndexes(project.name)}}</span>
-                            </v-list-item-action-text>
-                            <v-list-item-icon>
-                                <v-icon :color="loadPriority(task.priority)">{{loadTypeIcon(task.type)}}</v-icon>
-                            </v-list-item-icon>
-                            <v-list-item-content>
-                                <v-list-item-title>
-                                    {{task.title}}
-                                </v-list-item-title>
-                            </v-list-item-content>
+                    <v-list-item
+                            :key="task.id"
+                            @click="$emit('clickItem',task)"
+                    >
+                        <v-list-item-action-text>
+                            <span class="mr-5">{{task.indexes|taskIndexes(project.name)}}</span>
+                        </v-list-item-action-text>
+                        <v-list-item-icon>
+                            <v-icon :color="loadPriority(task.priority)">{{loadTypeIcon(task.type)}}</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                {{task.title}}
+                            </v-list-item-title>
+                        </v-list-item-content>
 
-                            <v-list-item-action-text>
-                                {{task|exeName}}
-                            </v-list-item-action-text>
-                        </v-list-item>
-                    </drag>
-
-                </template>
+                        <v-list-item-action-text>
+                            {{task|exeName}}
+                        </v-list-item-action-text>
+                    </v-list-item>
+                </drag>
             </v-list-group>
             <v-divider></v-divider>
         </drop>
@@ -145,7 +142,7 @@
             },
             project: {
                 type: Object,
-                default: ()=>{
+                default: () => {
                     return {}
                 }
             }
@@ -183,8 +180,8 @@
                     return '未指派'
                 }
             },
-            taskIndexes(indexes, projectName){
-                return (projectName?projectName[0]: '') + '-' + indexes;
+            taskIndexes(indexes, projectName) {
+                return (projectName ? projectName[0] : '') + '-' + indexes;
             }
         },
         computed: {

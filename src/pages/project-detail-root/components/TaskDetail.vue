@@ -5,7 +5,7 @@
                 <h3>{{project.name}}-{{task.indexes}}</h3>
                 <v-spacer></v-spacer>
                 <v-btn icon @click="changeSize">
-                    <v-icon>{{fullFlag ? 'fullscreen_exit': 'fullscreen'}}</v-icon>
+                    <v-icon>fullscreen</v-icon>
                 </v-btn>
                 <v-btn icon @click="$emit('cancel')">
                     <v-icon>close</v-icon>
@@ -92,7 +92,7 @@
 
 <script>
     import api from '@/api';
-    import {consts, toast} from "@/utils";
+    import {consts, toast, router} from "@/utils";
     export default {
         name: "TaskDetail",
         props: {
@@ -116,7 +116,6 @@
         data() {
             return {
                 currentId: this.taskId,
-                fullFlag: false,
                 task: {},
                 priorities: [],
                 types: [],
@@ -135,6 +134,13 @@
         },
         methods:{
             changeSize(){
+                router.replace({
+                    'name': 'projectDetailTaskDetailPage',
+                    params: {
+                        projectId: this.task.project_id,
+                        taskId: this.task.id
+                    }
+                });
             },
             updateTaskInput(event){
                 if(event.key === 'Enter'){

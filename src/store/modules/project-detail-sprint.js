@@ -23,6 +23,15 @@ export default {
                 commit('updateTypesList', meta.types);
             })
         },
+        sprintFinish({state,commit}, callback){
+            let sprint = consts.objectCopy(state.sprint);
+            api.sprint.sprintFinish(sprint, () => {
+                commit('updateSprint',{});
+                if(callback){
+                    callback();
+                }
+            })
+        },
         updateTaskStatus({commit},{task, statusId}){
             let taskItem = consts.objectCopy(task);
             if(taskItem.status === statusId){
@@ -53,6 +62,8 @@ export default {
             state.sprint = sprint;
             if(sprint.tasks && sprint.tasks.data){
                 state.taskList = sprint.tasks.data;
+            }else{
+                state.taskList = [];
             }
         },
         updateTaskMembers(state, members){
