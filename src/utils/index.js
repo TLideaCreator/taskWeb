@@ -1,7 +1,6 @@
 import router from './router';
 
 import Vue from 'vue';
-import http from './http-client';
 import Storage from './storage';
 import consts from './constants';
 import date from './date';
@@ -46,7 +45,6 @@ export {
     loading,
     events,
     base64,
-    http,
     consts,
     date,
     notice,

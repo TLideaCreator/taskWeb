@@ -1,5 +1,6 @@
 import users from './user-api.js'
-import {http, toast, loading} from '@/utils';
+import {toast, loading} from '@/utils';
+import http from '../http'
 
 function getSystemStatics(callback){
     loading.start();

@@ -2,7 +2,8 @@ import priority from './priority-api'
 import status from './status-api'
 import type from './type-api'
 import role from './role-api'
-import {http, loading, toast} from '@/utils'
+import {loading, toast} from '@/utils'
+import http from '../http'
 
 function getDetail(templateId, callback) {
     loading.start();

@@ -1,4 +1,5 @@
-import {http, toast, loading} from '@/utils'
+import {toast, loading} from '@/utils'
+import http from '../http'
 
 export default {
     getList(params, callback) {

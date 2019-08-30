@@ -1,5 +1,5 @@
 import axios from "axios";
-import {toast, storage, stringIsEmpty, router, consts, events} from './index'
+import {toast, storage, stringIsEmpty, router, consts, events} from '@/utils'
 
 function dataFromTransfer(param) {
     let fromParam = new FormData();
@@ -45,12 +45,11 @@ export default {
 
     set apiHost(host) {
         axios.defaults.baseURL = host;
-        axios.defaults.timeout = 5000;
-        let token = storage.get('auth-key');
-        if (!stringIsEmpty(token)) {
-            axios.defaults.headers.common['auth-key'] = token;
-        }
         axios.defaults.headers.common['Accept'] = 'application/prs.task_board.v1+json'
+    },
+
+    set timeout(timeout){
+        axios.defaults.timeout = 5000;
     },
 
     set token(webToken) {

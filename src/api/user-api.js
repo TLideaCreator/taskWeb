@@ -1,4 +1,5 @@
-import {http, toast, consts, loading} from '../utils';
+import {toast, consts, loading} from '../utils';
+import http from './http'
 
 
 export default {

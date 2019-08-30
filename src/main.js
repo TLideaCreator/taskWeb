@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import App from './pages/root-page.vue';
-import {http,router} from './utils';
+import {router} from './utils';
+import api from './api'
 import HeaderLine from "@/components/HeaderLine";
 import * as filters from './filters/filters'
 import Vuetify from 'vuetify';
@@ -12,6 +13,8 @@ import VueDragDrop from 'vue-drag-drop';
 
 Vue.config.productionTip = false;
 
+api.init();
+
 Vue.use(Vuetify);
 Vue.use(VueDragDrop);
 Vue.component('HeaderLine', HeaderLine);
@@ -22,7 +25,6 @@ Object.keys(filters).forEach((key)=>{
   Vue.filter(key, filters[key]);
 });
 
-http.apiHost = process.env.VUE_APP_API_HOST;
 
 new Vue({
   router,
