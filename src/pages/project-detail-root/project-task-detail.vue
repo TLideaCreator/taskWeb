@@ -22,15 +22,16 @@
                 >
 
                 </v-select>
-                <v-textarea
-                        class="mt-4"
+                <h5>任务描述</h5>
+                <RichEditor
                         v-model="task.desc"
-                        counter="512"
-                        label="任务描述"
-                        outlined
-                        @keydown="updateTaskInput"
-                >
-                </v-textarea>
+                        :editable="editable"
+                        @addImg="uploadFileForTask"
+                        style="height: 300px"
+                        @save="updateTaskInfo"
+                        @click.native = "editable = true"
+                ></RichEditor>
+
                 <v-list style="background: transparent">
                     <v-list-item-subtitle
                         v-for="history of histories"
@@ -83,7 +84,6 @@
         <v-divider></v-divider>
         <v-layout>
             <v-flex md6>
-
             </v-flex>
         </v-layout>
     </v-container>
@@ -92,8 +92,10 @@
 <script>
     import api from '@/api';
     import {consts, toast} from '@/utils';
+    import RichEditor from "../../components/RichEditor";
     export default {
         name: "project-task-detail.vue",
+        components: {RichEditor},
         props:{
             projectId:{
                 type:String,
@@ -111,7 +113,8 @@
                 members: [],
                 status: [],
                 types: [],
-                histories: []
+                histories: [],
+                editable:false
             }
         },
         created() {
@@ -143,6 +146,12 @@
             updateTaskInfo(){
                 api.task.updateTaskInfo(this.task, task=>{
                     this.task = task;
+                    this.editable = false
+                })
+            },
+            uploadFileForTask(file, callback){
+                api.task.updateTaskFile(this.task.project_id,this.taskId,file, (url)=>{
+                    callback(url);
                 })
             }
         }

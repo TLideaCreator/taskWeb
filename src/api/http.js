@@ -1,5 +1,5 @@
 import axios from "axios";
-import {toast, storage, stringIsEmpty, router, consts, events} from '@/utils'
+import {consts, events, router, storage, stringIsEmpty, toast} from '@/utils'
 
 function dataFromTransfer(param) {
     let fromParam = new FormData();
@@ -28,13 +28,13 @@ function checkResult(request, success, error) {
             success(request.data);
         }
     } else {
-        if(request.status === 203){
+        if (request.status === 203) {
             consts.cleanLoginUserInfo();
             toast.error('登录过期,请重新登录');
             events.$emit('user-logout');
             router.replace({name: 'userLoginPage'});
         }
-        if(error){
+        if (error) {
             error(request.status);
         }
     }
@@ -48,15 +48,15 @@ export default {
         axios.defaults.headers.common['Accept'] = 'application/prs.task_board.v1+json'
     },
 
-    set timeout(timeout){
+    set timeout(timeout) {
         axios.defaults.timeout = 5000;
     },
 
     set token(webToken) {
-        if(stringIsEmpty(webToken)){
+        if (stringIsEmpty(webToken)) {
             delete axios.defaults.headers.common['auth-key'];
             storage.remove('auth-key');
-        }else{
+        } else {
             axios.defaults.headers.common['auth-key'] = webToken;
             storage.save('auth-key', webToken);
         }
@@ -99,6 +99,21 @@ export default {
         axios.delete(url).then(request => {
             checkResult(request, success, error);
         }).catch((fault) => {
+            errorResult(fault, error)
+        })
+    },
+
+    updateFile(url, file, success, error) {
+        let formData = new FormData();
+        formData.append('file', file);
+        axios({
+            url: url,
+            method: 'post',
+            data: formData,
+            headers: {'Content-Type': 'multipart/form-data'}
+        }).then(request => {
+            checkResult(request, success, error);
+        }).catch(fault => {
             errorResult(fault, error)
         })
     }

@@ -16,8 +16,13 @@ function init() {
     }
 }
 
+function setToken(token) {
+    http.token = token;
+}
+
 export default {
     init,
+    setToken,
     user,
     task,
     sprint,

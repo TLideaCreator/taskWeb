@@ -10,12 +10,14 @@ import 'material-design-icons-iconfont';
 import store from './store/store'
 import vuetify from './plugins/vuetify';
 import VueDragDrop from 'vue-drag-drop';
-
+import mavonEditor from 'mavon-editor';
+import 'mavon-editor/dist/css/index.css';
 Vue.config.productionTip = false;
 
 api.init();
 
 Vue.use(Vuetify);
+Vue.use(mavonEditor);
 Vue.use(VueDragDrop);
 Vue.component('HeaderLine', HeaderLine);
 

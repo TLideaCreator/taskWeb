@@ -4,7 +4,7 @@ let sprintName = (sprintName)=>{
     } else {
         return '冲刺S' + sprintName
     }
-}
+};
 
 
 export {

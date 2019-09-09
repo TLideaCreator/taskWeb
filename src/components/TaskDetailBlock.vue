@@ -31,11 +31,7 @@
             </p>
         </div>
         <div v-else>
-            <Input
-                    v-model="currentTask.desc"
-                    type="textarea"
-                    :autosize="{minRows:4, maxRows:6}"
-            />
+            <RichEditor v-model="currentTask.desc"></RichEditor>
             <Row class="mt-10">
                 <Button type="primary" @click="updateTaskInfo(currentTask)">保存</Button>
                 <Button type="text" @click="editDesc = false">取消</Button>
@@ -80,8 +76,12 @@
 <script>
     import {consts} from '@/utils'
     import api from '@/api';
+    import RichEditor from './RichEditor'
     export default {
         name: "TaskDetailBlock",
+        components:{
+            RichEditor
+        },
         props: {
             taskId: {
                 type: String,

@@ -1,4 +1,5 @@
-import {consts, http, storage} from "./index";
+import {consts, storage} from "./index";
+import api from '@/api';
 import {RGBAtoCSS,HexToRGBA} from "vuetify/lib/util/colorUtils";
 
 let height = 0;
@@ -42,7 +43,7 @@ export default {
 
     cleanLoginUserInfo() {
         userInfo = {};
-        http.token = undefined;
+        api.setToken();
         storage.remove('userInfo');
     },
 

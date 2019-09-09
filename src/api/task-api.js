@@ -6,7 +6,7 @@ export default {
         let url = `/api/projects/sprints/tasks/${taskId}/movement/sprints/${sprintId}`;
         http.patchRequest(url, {},
             result => {
-                if(callback){
+                if (callback) {
                     callback(result.data);
                 }
             })
@@ -39,10 +39,10 @@ export default {
             });
     },
 
-    getTaskDetail(taskId, callback){
+    getTaskDetail(taskId, callback) {
         let url = `/api/projects/sprints/tasks/${taskId}`;
         http.getRequest(url, {}, result => {
-            if(callback){
+            if (callback) {
                 callback(result.data, result.meta);
             }
         }, () => {
@@ -50,16 +50,26 @@ export default {
         });
     },
 
-    updateTaskInfo(task , callback) {
+    updateTaskInfo(task, callback) {
         let url = `/api/projects/sprints/tasks/${task.id}`;
         http.patchRequest(url, task,
             result => {
-                if(callback){
+                if (callback) {
                     callback(result.data);
                 }
             },
             error => {
                 toast.error(error.msg);
             });
+    },
+    updateTaskFile(projectId, taskId, file, callback) {
+        http.updateFile(`/api/projects/${projectId}/tasks/${taskId}`, file,
+            result => {
+                if(callback){
+                    callback(result.data);
+                }
+            }, error => {
+                toast.error(error.msg);
+            })
     }
 }
