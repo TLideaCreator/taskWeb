@@ -23,14 +23,12 @@
                             counter="40"
                             @keydown="updateTaskInput"
                     ></v-text-field>
-                    <v-textarea
-                            v-model="task.desc"
-                            counter="512"
-                            label="任务描述"
-                            outlined
-                            @keydown="updateTaskInput"
-                    >
-                    </v-textarea>
+                    <RichEditor
+                        v-model="task.desc"
+                        :editable="editable"
+                        @click.native="editable = true"
+                        @save="updateTaskInfo"
+                    ></RichEditor>
                     <v-divider></v-divider>
 
                 </v-flex>
@@ -93,8 +91,10 @@
 <script>
     import api from '@/api';
     import {consts, toast, router} from "@/utils";
+    import RichEditor from "../../../components/RichEditor";
     export default {
         name: "TaskDetail",
+        components: {RichEditor},
         props: {
             taskId: {
                 type: String,
@@ -116,6 +116,7 @@
         data() {
             return {
                 currentId: this.taskId,
+                editable: false,
                 task: {},
                 priorities: [],
                 types: [],
@@ -167,6 +168,7 @@
             updateTaskInfo(){
                 api.task.updateTaskInfo(this.task, task=>{
                     this.task = task;
+                    this.editable = false;
                     this.$emit('taskUpdate', task);
                 })
             }

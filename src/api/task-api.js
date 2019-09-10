@@ -71,5 +71,15 @@ export default {
             }, error => {
                 toast.error(error.msg);
             })
+    },
+    delTaskFile(url, callback) {
+        http.deleteRequest(url, {},
+            result => {
+                if(callback){
+                    callback(result.data);
+                }
+            }, error => {
+                toast.error(error.msg);
+            })
     }
 }

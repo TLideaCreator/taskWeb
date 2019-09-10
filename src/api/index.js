@@ -1,5 +1,6 @@
 import user from './user-api';
 import task from './task-api';
+import taskComment from './task-comment-api';
 import sprint from './sprint-api';
 import project from './project-api';
 import template from './template-api/index';
@@ -25,6 +26,7 @@ export default {
     setToken,
     user,
     task,
+    taskComment,
     sprint,
     system,
     project,

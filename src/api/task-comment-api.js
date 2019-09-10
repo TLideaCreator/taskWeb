@@ -1,11 +1,11 @@
 import http from './http'
 import {toast} from '@/utils';
 export default {
-    getTaskComments(taskId, callback) {
-        http.getRequest(`/api/projects/sprints/tasks/${taskId}/comments`, {},
+    getTaskComments(taskId,params, callback) {
+        http.getRequest(`/api/projects/sprints/tasks/${taskId}/comments`, params,
             result => {
                 if(callback){
-                    callback(result.data);
+                    callback(result.data, result.meta);
                 }
             }, () => {
                 toast.error('获取评论失败');
