@@ -1,6 +1,7 @@
 <template>
     <mavon-editor
             ref="md"
+            v-model="mdContent"
             :style="markDowStyle"
             @fullScreen="fullScreenMark = $event"
             :defaultOpen="defaultOpen"
@@ -13,7 +14,6 @@
             @save="$emit('save')"
             @imgAdd="addImgListener"
             @imgDel="delImgListener"
-            v-model="content"
             :fontSize="fontSize+'px'"
             :toolbars="markdownOption">
     </mavon-editor>
@@ -54,7 +54,13 @@
         },
         data() {
             return {
-                fullScreenMark: false
+                fullScreenMark: false,
+                mdContent: this.content
+            }
+        },
+        watch: {
+            content(val) {
+                this.mdContent = val
             }
         },
         computed: {
@@ -94,7 +100,8 @@
                 })
             },
             delImgListener(pos) {
-                api.task.delTaskFile(pos[0],()=>{});
+                api.task.delTaskFile(pos[0], () => {
+                });
             }
         }
     }

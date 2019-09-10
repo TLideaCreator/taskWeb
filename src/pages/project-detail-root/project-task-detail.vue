@@ -225,8 +225,9 @@
                 modal.confirm({
                     content: `确认删除当前评论？`,
                     callback: () => {
-                        api.taskComment.delTaskComments(comment.id, list => {
-                            this.commentList = list
+                        api.taskComment.delTaskComments(comment.task_id,comment.id, list => {
+                            this.commentList = list;
+                            modal.dismiss();
                         })
                     }
                 })

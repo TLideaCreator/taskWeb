@@ -9,15 +9,19 @@
                 <span class="timeSpan ml-2">创建于:{{comment.created_at|timeFormat}}</span>
                 <span v-show="comment.created_at !== comment.updated_at" class="timeSpan ml-2">更新于:{{comment.updated_at|timeFormat}}</span>
             </v-col>
-            <v-col cols="3">
-                <v-btn v-show="showAction" text small color="primary" @click="editable = true">
-                    <v-icon>edit</v-icon>
-                    编辑
-                </v-btn>
-                <v-btn v-show="showAction" text small color="error" @click="$emit('delComment')">
-                    <v-icon>delete</v-icon>
-                    删除
-                </v-btn>
+            <v-col cols="2" style="display:flex; justify-content: flex-end">
+
+                <v-hover v-slot:default="{hover}">
+                        <v-icon v-if="!hover">more_vert</v-icon>
+                    <div v-else>
+                        <v-btn v-show="showAction" text small color="primary" @click="editable = true">
+                            <v-icon>edit</v-icon>
+                        </v-btn>
+                        <v-btn v-show="showAction" text small color="error" @click="$emit('delComment',comment)">
+                            <v-icon>delete</v-icon>
+                        </v-btn>
+                    </div>
+                </v-hover>
             </v-col>
         </v-row>
         <RichEditor
@@ -34,6 +38,7 @@
     import {mapGetters} from 'vuex';
     import RichEditor from "../../../components/RichEditor";
     import api from '@/api';
+
     export default {
         components: {RichEditor},
         props: {
@@ -64,13 +69,13 @@
                 'avatarUrl',
                 'isUserLogin'
             ]),
-            showAction(){
-                return this.isUserLogin.id  === this.comment.creator_id && !this.editable;
+            showAction() {
+                return this.isUserLogin.id === this.comment.creator_id && !this.editable;
             }
         },
-        methods:{
-            updateComment(){
-                api.taskComment.updateTaskComments(this.comment, item=>{
+        methods: {
+            updateComment() {
+                api.taskComment.updateTaskComments(this.comment, item => {
                     this.comment = item;
                     this.editable = false;
                 })
@@ -81,7 +86,7 @@
 </script>
 
 <style scoped lang="less">
-    .timeSpan{
+    .timeSpan {
         font-size: 12px
     }
 </style>
