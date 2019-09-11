@@ -1,6 +1,4 @@
 # 有序
-[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg?style=flat-square)](https://www.apache.org/licenses/LICENSE-2.0.html)
-
 有序任务看板由前端web和后端api两部分组成，此项目为前端Web项目
 
 ### 前端web
