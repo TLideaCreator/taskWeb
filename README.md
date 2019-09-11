@@ -1,29 +1,17 @@
-# taskweb
+# 有序
+[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg?style=flat-square)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
-## Project setup
-```
-yarn install
-```
+有序任务看板由前端web和后端api两部分组成，此项目为前端Web项目
 
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
+###前端web
+是基于[VUE](https://vuejs.org/)框架，[Vuetify](https://vuetifyjs.com)组件库构建web项目，
 
-### Compiles and minifies for production
+#####安装
+check代码后，执行如下命令安装库依赖
 ```
-yarn run build
+npm i
 ```
 
-### Run your tests
-```
-yarn run test
-```
+#####修改后台服务地址
+.env.development和.env.production中的VUE_APP_API_HOST变量为后台服务地址，请将VUE_APP_API_HOST改为[后台API](https://github.com/TLideaCreator/taskApi)地址
 
-### Lints and fixes files
-```
-yarn run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
