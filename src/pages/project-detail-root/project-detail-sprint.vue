@@ -69,12 +69,12 @@
         computed: {
             ...mapGetters({
                 'loadAvatarImg': 'avatarUrl',
-                'statusList': 'getStatusList',
-                'typeList': 'getTypeList',
-                'sprint': 'getSprintItem',
-                'taskList': 'getStatusTaskList',
-                'members': 'getMembersList',
-                'prioritiesList': 'getPrioritiesList',
+                'statusList': 'sprint/getStatusList',
+                'typeList': 'sprint/getTypeList',
+                'sprint': 'sprint/getSprintItem',
+                'taskList': 'sprint/getStatusTaskList',
+                'members': 'sprint/getMembersList',
+                'prioritiesList': 'sprint/getPrioritiesList',
             }),
 
             searchKey:{
@@ -82,7 +82,7 @@
                     return this.$store.state.sprint.searchKey;
                 },
                 set(val){
-                    this.$store.commit('updateSearchKey',val)
+                    this.$store.commit('sprint/updateSearchKey',val)
                 }
             },
             blockHeight() {
@@ -125,14 +125,14 @@
                     }
                 });
             },
-            ...mapMutations([
-                'updateSelectedMembersList'
-            ]),
-            ...mapActions([
-                'getProjectActiveSprint',
-                'sprintFinish',
-                'updateTaskStatus'
-            ])
+            ...mapMutations({
+                'updateSelectedMembersList': 'sprint/updateSelectedMembersList'
+            }),
+            ...mapActions({
+                'getProjectActiveSprint': 'sprint/getProjectActiveSprint',
+                'sprintFinish': 'sprint/sprintFinish',
+                'updateTaskStatus': 'sprint/updateTaskStatus'
+            })
         }
     }
 </script>

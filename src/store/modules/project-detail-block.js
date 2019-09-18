@@ -4,6 +4,7 @@ import {consts} from '@/utils';
 
 
 export default {
+    namespaced: true,
     state: {
         taskList: [],
         members: {},

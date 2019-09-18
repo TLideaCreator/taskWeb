@@ -10,10 +10,10 @@ export default{
     isAdmin(state){
         return state.userInfo.admin === 'Yes'
     },
-    avatarUrl : (state) => (userInfo)=>{
+    avatarUrl : () => (userInfo)=>{
         let url = '';
         if (userInfo && userInfo.avatar) {
-            url = require('../assets/images/avatar/' + state.userInfo.avatar + '.png')
+            url = require('../assets/images/avatar/' + userInfo.avatar + '.png')
         }
         return url;
     },

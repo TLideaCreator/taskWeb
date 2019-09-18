@@ -1,6 +1,7 @@
 import api from '@/api';
 import {consts} from "@/utils";
 export default {
+    namespaced:true,
     state:{
         sprint: {},
         taskList:[],

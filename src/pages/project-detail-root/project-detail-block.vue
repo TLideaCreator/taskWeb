@@ -92,36 +92,36 @@
                     return this.$store.state.block.searchKey
                 },
                 set(val) {
-                    this.$store.commit('updateSearchKey', val);
+                    this.$store.commit('block/updateSearchKey', val);
                 }
             },
             ...mapGetters({
-                'sprintTasks': 'getSprintTaskList',
-                'members': 'getMemberList',
-                'sprints': 'getSprintList',
-                'activeSprint': 'getActiveSprint',
-                'taskTypes': 'getTaskTypes',
-                'taskPriorities': 'getTaskPriorities',
+                'sprintTasks': 'block/getSprintTaskList',
+                'members': 'block/getMemberList',
+                'sprints': 'block/getSprintList',
+                'activeSprint': 'block/getActiveSprint',
+                'taskTypes': 'block/getTaskTypes',
+                'taskPriorities': 'block/getTaskPriorities',
             })
         },
         methods: {
-            ...mapActions([
-                'getProjectSprintList',
-                'updateTaskChanged'
-            ]),
-            ...mapMutations([
-                'updateSelectedMembers'
-            ]),
+            ...mapActions({
+                'getProjectSprintList': 'block/getProjectSprintList',
+                'updateTaskChanged': 'block/updateTaskChanged'
+            }),
+            ...mapMutations({
+                'updateSelectedMembers':'block/updateSelectedMembers'
+            }),
             showTaskDetail(task){
                 this.showTaskDetailFlag = true;
                 this.currentTask = task;
             },
             startSprint(sprintId) {
-                this.$store.dispatch('startSprint', {projectId: this.projectId, sprintId: sprintId})
+                this.$store.dispatch('block/startSprint', {projectId: this.projectId, sprintId: sprintId})
             },
             createNewSprint() {
                 api.sprint.createSprint(this.projectId, item => {
-                    this.$store.commit('addSprintItem', item)
+                    this.$store.commit('block/addSprintItem', item)
                 })
             },
         }

@@ -122,7 +122,18 @@ export default new Router({
                     meta: {root: 'projectDetail'},
                     component: () => import('@/pages/project-detail-root/project-detail-doc.vue'),
                     props: true,
+                    children:[
+                        {
+                            path: ':filePath',
+                            name: 'projectDetailDocFilePage',
+                            meta: {root: 'projectDetail'},
+                            component: () => import('@/pages/project-detail-root/project-detail-doc.vue'),
+                            props: true,
+                        },
+                    ]
                 },
+
+
                 {
                     path: 'report',
                     name: 'projectDetailReportPage',
