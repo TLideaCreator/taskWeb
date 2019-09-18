@@ -138,8 +138,8 @@
             },
             ...mapGetters({
                 'loadAvatarImg': 'avatarUrl',
-                'typeList': 'getTypeList',
-                'prioritiesList': 'getPrioritiesList',
+                'typeList': 'sprint/getTypeList',
+                'prioritiesList': 'sprint/getPrioritiesList',
             }),
         },
         methods:{
