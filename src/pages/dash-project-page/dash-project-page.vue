@@ -21,7 +21,7 @@
                         @click="goToProject(project.id)"
                 >
                     <v-list-item-avatar>
-                        <v-img :src="getProjectIcon(project)"></v-img>
+                        <v-img :src="(project)|projectIcon"></v-img>
                     </v-list-item-avatar>
                     <v-list-item-content>
                         <v-list-item-title>
@@ -35,7 +35,7 @@
                         {{project.mgr.data.name}}
                     </v-list-item-action-text>
                     <v-list-item-avatar>
-                        <v-img :src="getProjectMgrIcon(project.mgr.data)"></v-img>
+                        <v-img :src="(project.mgr.data)|userAvatar"></v-img>
                     </v-list-item-avatar>
                 </v-list-item>
                 <v-divider
@@ -102,20 +102,6 @@
                     this.totalCount = meta.total;
                     this.pageLength = Math.ceil(meta.total / this.pageCount)
                 });
-            },
-            getProjectIcon(project) {
-                if (project.icon.startsWith('http')) {
-                    return project.icon
-                } else {
-                    return require('../../assets/images/project/' + project.icon + '.png')
-                }
-            },
-            getProjectMgrIcon(mgr) {
-                if (mgr.avatar.startsWith('http')) {
-                    return mgr.avatar
-                } else {
-                    return require('../../assets/images/avatar/' + mgr.avatar + '.png')
-                }
             },
             goToProject(projectId) {
                 router.push({name: 'projectDetailBlockPage', params: {projectId: projectId}})

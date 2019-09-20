@@ -1,4 +1,6 @@
 import {events,router,storage, notice,toast,loading, modal} from '@/utils';
+import api from '@/api';
+
 export default{
     init({commit}) {
         commit('updateUserInfo', storage.get('userInfo'));
@@ -32,6 +34,12 @@ export default{
                 commit('updateModal',modal);
             }
         });
+    },
+    cleanUserInfo({commit}){
+        storage.remove('userInfo');
+        storage.remove('auth-key');
+        commit('updateUserInfo',null);
+        api.setToken('');
+        router.replace({name: 'userLoginPage'})
     }
-
 }

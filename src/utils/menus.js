@@ -158,6 +158,9 @@ export default {
         return projectMenu;
     },
     getDrawerMenuList(routerName){
+        if(!routerName){
+            return [];
+        }
         if(routerName.startsWith('projectDetail')) {
             return this.menus;
         }else if(routerName.startsWith('projectSettings')){

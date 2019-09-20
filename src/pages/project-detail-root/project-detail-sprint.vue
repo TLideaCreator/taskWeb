@@ -68,7 +68,6 @@
 
         computed: {
             ...mapGetters({
-                'loadAvatarImg': 'avatarUrl',
                 'statusList': 'sprint/getStatusList',
                 'typeList': 'sprint/getTypeList',
                 'sprint': 'sprint/getSprintItem',

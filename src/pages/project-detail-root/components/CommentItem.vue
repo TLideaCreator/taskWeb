@@ -3,7 +3,7 @@
         <v-row justify="space-between" align="center">
             <v-col cols="5">
                 <v-avatar :size="32">
-                    <img :src="avatarUrl(userInfo)"/>
+                    <img :src="(userInfo)|userAvatar"/>
                 </v-avatar>
                 <span class="ml-2">{{userInfo.name}}</span>
                 <span class="timeSpan ml-2">创建于:{{comment.created_at|timeFormat}}</span>
@@ -66,7 +66,6 @@
                 return this.commentItem.creator && this.commentItem.creator.data ? this.commentItem.creator.data : {}
             },
             ...mapGetters([
-                'avatarUrl',
                 'isUserLogin'
             ]),
             showAction() {

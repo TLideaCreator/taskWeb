@@ -46,7 +46,7 @@
                                     <v-avatar class="mr-4">
                                         <v-img
                                                 v-if="task.executor&& task.executor.data"
-                                                :src="loadAvatarImg(task.executor.data)"
+                                                :src="(task.executor.data)|userAvatar"
                                         ></v-img>
                                     </v-avatar>
                                     {{task|loadTaskExecutorName}}
@@ -137,7 +137,6 @@
                 }
             },
             ...mapGetters({
-                'loadAvatarImg': 'avatarUrl',
                 'typeList': 'sprint/getTypeList',
                 'prioritiesList': 'sprint/getPrioritiesList',
             }),

@@ -56,7 +56,7 @@
                     <v-avatar :size="36"
                               v-on="on"
                     >
-                        <img :src="avatarUrl(userInfo)"/>
+                        <img :src="(userInfo)|userAvatar"/>
                     </v-avatar>
                 </template>
                 <v-list>
@@ -124,7 +124,7 @@
                     align-start
                     ref="contentLayout"
             >
-                <v-layout column >
+                <v-layout column>
                     <v-layout ref="breadLine" style="max-height: 54px">
                         <v-btn
                                 text icon
@@ -137,14 +137,15 @@
                                 style="height: 80px;"
                                 vertical
                                 v-show="!miniMenuBlock && menus.length>0">
-                        ></v-divider>
-                        <v-breadcrumbs :items="pathItems">
+                            >
+                        </v-divider>
+                        <v-breadcrumbs v-show="isUserLogin && pathItems.length>0" :items="pathItems">
                             <template v-slot:divider>
                                 <v-icon>chevron_right</v-icon>
                             </template>
                         </v-breadcrumbs>
                     </v-layout>
-                    <v-divider></v-divider>
+                    <v-divider v-show="isUserLogin"></v-divider>
                     <router-view></router-view>
                 </v-layout>
             </v-container>
@@ -186,13 +187,11 @@
         created() {
             this.init();
         },
-        mounted(){
-            let contentHeight = this.$refs.contentLayout.clientHeight -
-                    80 -24;
+        mounted() {
+            let contentHeight = this.$refs.contentLayout.clientHeight - 80 - 24;
             this.$store.commit('updateContentFullHeight', contentHeight);
-            window.addEventListener('resize',()=>{
-                let contentHeight = this.$refs.contentLayout.clientHeight -
-                    80 -24;
+            window.addEventListener('resize', () => {
+                let contentHeight = this.$refs.contentLayout.clientHeight - 80 - 24;
                 this.$store.commit('updateContentFullHeight', contentHeight);
             })
         },
@@ -265,7 +264,6 @@
             ...mapGetters([
                 'isAdmin',
                 'isUserLogin',
-                'avatarUrl',
                 'toast',
                 'notice',
                 'loading',
@@ -316,6 +314,7 @@
                     },
                     callback: () => {
                         modal.dismiss();
+                        this.$store.dispatch('cleanUserInfo');
                     }
                 })
             },

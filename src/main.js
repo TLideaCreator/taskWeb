@@ -4,7 +4,6 @@ import {router} from './utils';
 import api from './api'
 import HeaderLine from "@/components/HeaderLine";
 import * as filters from './filters/filters'
-import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
 import 'material-design-icons-iconfont';
 import store from './store/store'
@@ -16,7 +15,6 @@ Vue.config.productionTip = false;
 
 api.init();
 
-Vue.use(Vuetify);
 Vue.use(mavonEditor);
 Vue.use(VueDragDrop);
 Vue.component('HeaderLine', HeaderLine);

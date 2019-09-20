@@ -20,11 +20,11 @@
                 mini: false,
                 projectInfo: {},
                 menus: menus.templateMenu,
-                routerName:''
+                routerName:{}
             }
         },
         beforeRouteUpdate(to, _, next) {
-            this.routerName = to.name;
+            this.routerName = to;
             next()
         },
         watch:{
@@ -44,45 +44,13 @@
                         text: '项目设置',
                         disabled: true,
                         href: ''
+                    },
+                    {
+                        text: val.meta.tag,
+                        disabled: true,
+                        href: '',
                     }
                 ];
-                switch (val) {
-                    case 'systemTempDetailPage':
-                        items.push({
-                            text: '项目详情',
-                            disabled: true,
-                            href: '',
-                        });
-                        break;
-                    case 'systemTempRolePage':
-                        items.push({
-                            text: '项目角色',
-                            disabled: true,
-                            href: '',
-                        });
-                        break;
-                    case 'systemTempStatusPage':
-                        items.push({
-                            text: '任务状态',
-                            disabled: true,
-                            href: '',
-                        });
-                        break;
-                    case 'systemTempTypePage':
-                        items.push({
-                            text: '任务类型',
-                            disabled: true,
-                            href: '',
-                        });
-                        break;
-                    case 'systemTempPriorityPage':
-                        items.push({
-                            text: '任务优先级',
-                            disabled: true,
-                            href: '',
-                        });
-                        break;
-                }
                 this.$store.commit('updatePathItems', items);
             }
         },
@@ -94,7 +62,7 @@
                 this.$store.commit('updatePathItems', []);
                 api.project.getProjectDetailApi(this.projectId, project => {
                     this.projectInfo = project;
-                    this.routerName =  router.currentRoute.name;
+                    this.routerName =  router.currentRoute;
                 })
             }
         }

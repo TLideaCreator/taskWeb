@@ -6,7 +6,7 @@
             >
                 <v-list-item-avatar>
                     <v-avatar>
-                        <v-img :src="loadUserAvatar(member)"></v-img>
+                        <v-img :src="(member)|userAvatar"></v-img>
                     </v-avatar>
                 </v-list-item-avatar>
                 <v-list-item-content>
@@ -67,10 +67,6 @@
             }
         },
         methods: {
-            loadUserAvatar(userInfo) {
-                return this.$store.getters.avatarUrl(userInfo)
-            },
-
             changeMemberRole(member) {
                 if(member.role_id){
                     api.projectSetting.member.updateMemberRole(this.projectId,member.user_id,member.role_id,(memberList, roleList)=>{

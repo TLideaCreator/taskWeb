@@ -31,7 +31,7 @@
                     <v-list-item :key="user.id">
                         <v-list-item-avatar>
                             <v-avatar>
-                                <v-img :src="loadUserAvatar(user)"></v-img>
+                                <v-img :src="(user)|userAvatar"></v-img>
                             </v-avatar>
                         </v-list-item-avatar>
                         <v-list-item-content>
@@ -97,9 +97,6 @@
             this.getUserList();
         },
         methods: {
-            loadUserAvatar(userInfo) {
-                return this.$store.getters.avatarUrl(userInfo)
-            },
             searchAction() {
                 this.currentPage = 1;
                 this.getUserList();
