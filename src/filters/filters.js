@@ -38,10 +38,14 @@ let projectIcon = (project) => {
     }
 };
 let userAvatar = (user)=>{
-    if(user.avatar.startsWith('http')){
-        return user.avatar
+    if(user && user.avatar ){
+        if(user.avatar.startsWith('http')){
+            return user.avatar
+        }else{
+            return require('../assets/images/avatar/' + user.avatar + '.png')
+        }
     }else{
-        return require('../assets/images/avatar/' + user.avatar + '.png')
+        return '';
     }
 };
 

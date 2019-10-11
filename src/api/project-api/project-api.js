@@ -1,5 +1,5 @@
 import {toast, loading} from '@/utils';
-import http from './http'
+import http from '../http'
 
 let error={
     404: '项目不存在',

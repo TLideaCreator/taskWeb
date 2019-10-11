@@ -1,10 +1,11 @@
 import user from './user-api';
-import task from './task-api';
-import taskComment from './task-comment-api';
-import sprint from './sprint-api';
-import project from './project-api';
+import task from './task-api/task-api';
+import taskComment from './task-api/task-comment-api';
+import sprint from './project-api/sprint-api';
+import project from './project-api/project-api';
 import template from './template-api/index';
 import projectSetting from './project-setting-api/index';
+import projectDoc from './project-api/docs-api';
 import system from './system-api/index';
 import http from './http'
 import {stringIsEmpty, storage} from '@/utils';
@@ -31,5 +32,6 @@ export default {
     system,
     project,
     template,
-    projectSetting
+    projectSetting,
+    projectDoc
 }

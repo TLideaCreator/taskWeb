@@ -1,4 +1,4 @@
-import http from './http'
+import http from '../http'
 import {toast} from '@/utils';
 export default {
     getTaskComments(taskId,params, callback) {

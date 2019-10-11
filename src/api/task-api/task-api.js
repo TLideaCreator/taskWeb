@@ -1,5 +1,5 @@
 import {toast} from '@/utils';
-import http from './http'
+import http from '../http'
 
 export default {
     moveTaskToSprint(taskId, sprintId, callback) {

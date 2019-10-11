@@ -127,13 +127,14 @@
                 <v-layout column>
                     <v-layout ref="breadLine" style="max-height: 54px">
                         <v-btn
+                                style="margin: 9px"
                                 text icon
                                 @click="showMenuBlock = !showMenuBlock"
                                 v-show="!miniMenuBlock && menus.length>0">
                             <v-icon>menu</v-icon>
                         </v-btn>
                         <v-divider
-                                class="mx-4"
+                                class="mx-2"
                                 style="height: 80px;"
                                 vertical
                                 v-show="!miniMenuBlock && menus.length>0">

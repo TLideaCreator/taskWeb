@@ -120,16 +120,23 @@ export default new Router({
                     path: 'doc',
                     name: 'projectDetailDocPage',
                     meta: {root: 'projectDetail', tag: '项目文档'},
-                    component: () => import('@/pages/project-detail-root/project-detail-doc.vue'),
+                    component: () => import('@/pages/project-doc-root/project-doc-root.vue'),
                     props: true,
                     children:[
                         {
-                            path: ':filePath',
+                            path: ':fileId',
                             name: 'projectDetailDocFilePage',
                             meta: {root: 'projectDetail'},
-                            component: () => import('@/pages/project-detail-root/project-detail-doc.vue'),
+                            component: () => import('@/pages/project-doc-root/project-doc-detail.vue'),
                             props: true,
                         },
+                        {
+                            path: ':fileId/edit',
+                            name: 'projectDocEditFilePage',
+                            meta: {root: 'projectDetail'},
+                            component: () => import('@/pages/project-doc-root/project-doc-detail.vue'),
+                            props: true,
+                        }
                     ]
                 },
 
